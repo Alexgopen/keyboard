@@ -495,7 +495,8 @@
 
     #tempo,
     #sequence-select,
-    #sequence-name {
+    #sequence-name,
+    #emoji-import {
       border: 0;
       border-radius: 7px;
       padding: 7px 8px;
@@ -506,6 +507,14 @@
     #tempo { width: 78px; }
     #sequence-select { min-width: 150px; }
     #sequence-name { width: 150px; }
+
+    #emoji-import {
+      width: min(850px, 88vw);
+      min-height: 36px;
+      resize: vertical;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13px;
+    }
 
     .tempo-label {
       display: flex;
@@ -871,7 +880,15 @@
 
           <div class="dialog-group">
             <button id="export-button" class="small-button" type="button">Export WAV</button>
+            <button id="copy-emoji-button" class="small-button" type="button">Copy Emoji</button>
             <button id="close-button" class="small-button" type="button">Done</button>
+          </div>
+        </div>
+
+        <div class="dialog-action-row">
+          <div class="dialog-group">
+            <textarea id="emoji-import" spellcheck="false" aria-label="Emoji transposition to import" placeholder="|1| (❤️x4🔥x2) (~) (🔥x2) (~) |2| (☀️) () () ()"></textarea>
+            <button id="import-emoji-button" class="small-button" type="button">Import Emoji</button>
           </div>
         </div>
       </div>
@@ -879,7 +896,7 @@
     <div id="roll-wrap">
       <div id="piano-roll"></div>
     </div>
-    <p class="dialog-help">Each grid cell is one eighth note. Click once for an eighth note; drag horizontally to sustain across additional eighth-note cells. Measures are 8 cells (4/4). Playback and looping stop at the first completely empty measure.</p>
+    <p class="dialog-help">Each grid cell is one eighth note. Click once for an eighth note; drag horizontally to sustain across additional eighth-note cells. Measures are 8 cells (4/4). Writing into the last measure automatically adds another measure. Emoji notation is step-based: every (...) is exactly one eighth-note step. Notes that begin on a step go inside the parentheses; each note may have its own sustain such as (❤️x4🔥x2). Empty () is a true silent rest. (~) means no new note begins on this step because one or more earlier notes are still sustaining. Export adds readability-only measure markers like |1|, |2|, |3|; import ignores all |#| markers and writes notes strictly in notation order.</p>
     <p id="export-status" aria-live="polite"></p>
   </dialog>
 
@@ -916,6 +933,9 @@
     const sequenceName = document.getElementById("sequence-name");
     const saveButton = document.getElementById("save-button");
     const exportButton = document.getElementById("export-button");
+    const copyEmojiButton = document.getElementById("copy-emoji-button");
+    const importEmojiButton = document.getElementById("import-emoji-button");
+    const emojiImport = document.getElementById("emoji-import");
     const exportStatus = document.getElementById("export-status");
     const deleteSavedButton = document.getElementById("delete-saved-button");
     const dialogPlayButton = document.getElementById("dialog-play-button");
@@ -939,11 +959,50 @@
     let currentStep = 0;
     let sequenceVoices = [];
 
-    const STEPS = 72;
+    const STEPS_PER_MEASURE = 8;
+    const INITIAL_STEPS = 72;
+    let STEPS = INITIAL_STEPS;
     const STORAGE_KEY = "rainbowPianoSequencesV1";
     // Each row stores note duration at the note's START step.
     // 0 = no note starts here; 1 = single step; 4 = four-step sustained note, etc.
     const pattern = Array.from({ length: keys.length }, () => Array(STEPS).fill(0));
+
+    function resizePattern(newSteps) {
+      newSteps = Math.max(STEPS_PER_MEASURE, Math.ceil(newSteps / STEPS_PER_MEASURE) * STEPS_PER_MEASURE);
+      if (newSteps === STEPS) return;
+
+      for (const row of pattern) {
+        if (newSteps > STEPS) {
+          row.push(...Array(newSteps - STEPS).fill(0));
+        } else {
+          row.length = newSteps;
+        }
+      }
+      STEPS = newSteps;
+    }
+
+    function resetPatternLength() {
+      resizePattern(INITIAL_STEPS);
+      for (const row of pattern) row.fill(0);
+    }
+
+    function lastMeasureHasAnyNote() {
+      const start = Math.max(0, STEPS - STEPS_PER_MEASURE);
+      for (let keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+        for (let step = start; step < STEPS; step++) {
+          if (findNoteAtCell(keyIndex, step)) return true;
+        }
+      }
+      return false;
+    }
+
+    function ensureTrailingEmptyMeasure() {
+      if (lastMeasureHasAnyNote()) {
+        resizePattern(STEPS + STEPS_PER_MEASURE);
+        return true;
+      }
+      return false;
+    }
 
     // A compact built-in pop-rock beat sketch, saved under the requested title.
     // It is intentionally a simple playable preset rather than a note-for-note transcription.
@@ -975,9 +1034,14 @@
     function loadSequenceData(data) {
       if (!data || !Array.isArray(data.pattern)) return;
 
-      for (let r = 0; r < keys.length; r++) {
-        pattern[r].fill(0);
+      const sourceSteps = Math.max(
+        0,
+        ...data.pattern.map(row => Array.isArray(row) ? row.length : 0)
+      );
+      resizePattern(Math.max(INITIAL_STEPS, sourceSteps));
+      for (const row of pattern) row.fill(0);
 
+      for (let r = 0; r < keys.length; r++) {
         for (let s = 0; s < STEPS; s++) {
           const value = data.pattern[r]?.[s];
 
@@ -990,9 +1054,10 @@
         }
       }
 
+      ensureTrailingEmptyMeasure();
       tempoInput.value = Math.min(240, Math.max(40, Number(data.bpm) || 240));
       renderRoll();
-    showRestDisplay();
+      showRestDisplay();
     }
 
     function refreshSequenceSelect(selectedName) {
@@ -2461,6 +2526,7 @@
 
       startsToClear.forEach(step => pattern[keyIndex][step] = 0);
       pattern[keyIndex][startStep] = duration;
+      ensureTrailingEmptyMeasure();
     }
 
     function renderRoll() {
@@ -2629,6 +2695,224 @@
     function hasAnyNotes() {
       return pattern.some(row => row.some(duration => Number(duration) > 0));
     }
+
+    function getLastSoundingStepExclusive() {
+      let end = 0;
+      for (let keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+        for (let start = 0; start < STEPS; start++) {
+          const duration = Number(pattern[keyIndex][start]) || 0;
+          if (duration > 0) end = Math.max(end, start + duration);
+        }
+      }
+      return end;
+    }
+
+    function soundingKeyIndexesAtStep(step) {
+      const indexes = [];
+      for (let keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+        if (findNoteAtCell(keyIndex, step)) indexes.push(keyIndex);
+      }
+      return indexes;
+    }
+
+    function hasExplicitNoteStartAtStep(step) {
+      return pattern.some(row => Number(row[step]) > 0);
+    }
+
+    function makeEmojiTransposition() {
+      const end = getLastSoundingStepExclusive();
+      if (end <= 0) return "";
+
+      const tokens = [];
+
+      for (let step = 0; step < end; step++) {
+        // Measure markers are readability-only annotations. Every parenthesized
+        // group below consumes exactly one eighth-note sequencer step.
+        if (step % STEPS_PER_MEASURE === 0) {
+          tokens.push(`|${Math.floor(step / STEPS_PER_MEASURE) + 1}|`);
+        }
+
+        const noteParts = [];
+        for (let keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+          const duration = Number(pattern[keyIndex][step]) || 0;
+          if (duration <= 0) continue;
+
+          const symbol = NOTE_SYMBOLS[keys[keyIndex].dataset.name];
+          if (!symbol) continue;
+          noteParts.push(`${symbol}${duration > 1 ? `x${duration}` : ""}`);
+        }
+
+        if (noteParts.length) {
+          tokens.push(`(${noteParts.join("")})`);
+        } else if (soundingKeyIndexesAtStep(step).length) {
+          // Nothing begins here, but one or more earlier notes are still held.
+          // Keep this distinct from (), which is reserved for a true audible rest.
+          tokens.push("(~)");
+        } else {
+          tokens.push("()");
+        }
+      }
+
+      // Put each measure on its own line for easier direct human editing.
+      // Measure markers remain readability-only and are ignored by import.
+      const lines = [];
+      for (let i = 0; i < tokens.length; ) {
+        if (/^\|\d+\|$/.test(tokens[i])) {
+          const lineTokens = [tokens[i++]];
+          while (i < tokens.length && !/^\|\d+\|$/.test(tokens[i])) {
+            lineTokens.push(tokens[i++]);
+          }
+          lines.push(lineTokens.join(" "));
+        } else {
+          lines.push(tokens[i++]);
+        }
+      }
+      return lines.join("\n");
+    }
+
+    async function copyTextToClipboard(text) {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        return;
+      }
+
+      const fallback = document.createElement("textarea");
+      fallback.value = text;
+      fallback.style.position = "fixed";
+      fallback.style.opacity = "0";
+      document.body.appendChild(fallback);
+      fallback.select();
+      const copied = document.execCommand("copy");
+      fallback.remove();
+      if (!copied) throw new Error("Clipboard copy unavailable");
+    }
+
+    async function copyEmojiTransposition() {
+      const text = makeEmojiTransposition();
+      if (!text) {
+        exportStatus.textContent = "Draw at least one note before copying emoji notation.";
+        return;
+      }
+
+      try {
+        await copyTextToClipboard(text);
+        exportStatus.textContent = "Emoji transposition copied to clipboard.";
+      } catch (error) {
+        console.error(error);
+        emojiImport.value = text;
+        emojiImport.focus();
+        emojiImport.select();
+        exportStatus.textContent = "Clipboard access was blocked; the transposition is selected in the text box instead.";
+      }
+    }
+
+    function getEmojiSymbolEntries() {
+      return keys
+        .map((key, keyIndex) => ({ keyIndex, symbol: NOTE_SYMBOLS[key.dataset.name] }))
+        .filter(entry => entry.symbol)
+        .sort((a, b) => b.symbol.length - a.symbol.length);
+    }
+
+    function parseStepNotes(contents) {
+      if (contents === "") return { notes: [], continuationOnly: false };
+      if (contents.trim() === "~") return { notes: [], continuationOnly: true };
+
+      const symbolEntries = getEmojiSymbolEntries();
+      const notes = [];
+      let position = 0;
+
+      while (position < contents.length) {
+        const match = symbolEntries.find(entry => contents.startsWith(entry.symbol, position));
+        if (!match) throw new Error(`Unknown note symbol near “${contents.slice(position)}”`);
+        if (notes.some(note => note.keyIndex === match.keyIndex)) {
+          throw new Error(`Duplicate symbol “${match.symbol}” in one step`);
+        }
+
+        position += match.symbol.length;
+        let duration = 1;
+
+        if (contents[position] === "x" || contents[position] === "X") {
+          position++;
+          const durationMatch = contents.slice(position).match(/^\d+/);
+          if (!durationMatch) throw new Error(`Expected a duration number after x near “${contents.slice(position)}”`);
+          duration = Number(durationMatch[0]);
+          if (!Number.isSafeInteger(duration) || duration < 2) {
+            throw new Error("Sustain multipliers must be x2 or greater.");
+          }
+          position += durationMatch[0].length;
+        }
+
+        notes.push({ keyIndex: match.keyIndex, duration });
+      }
+
+      return { notes: notes.sort((a, b) => a.keyIndex - b.keyIndex), continuationOnly: false };
+    }
+
+    function parseEmojiTransposition(text) {
+      // |1|, |2|, ... are readability-only measure labels. Strip them before
+      // parsing so their numbering, placement, duplication, or omission can
+      // never affect the imported music.
+      const source = String(text || "").replace(/\|\s*\d+\s*\|/g, " ");
+      const tokens = [];
+      let position = 0;
+
+      while (position < source.length) {
+        while (position < source.length && /\s/.test(source[position])) position++;
+        if (position >= source.length) break;
+        if (source[position] !== "(") throw new Error(`Expected “(” at character ${position + 1}`);
+
+        const close = source.indexOf(")", position + 1);
+        if (close < 0) throw new Error(`Missing “)” after character ${position + 1}`);
+
+        const contents = source.slice(position + 1, close);
+        const parsedStep = parseStepNotes(contents);
+        tokens.push(parsedStep);
+        position = close + 1;
+      }
+
+      if (!tokens.length) throw new Error("No emoji notation found.");
+      return tokens;
+    }
+
+    function importEmojiTransposition() {
+      try {
+        const tokens = parseEmojiTransposition(emojiImport.value);
+        const totalSteps = tokens.length;
+        let lastSoundingStepExclusive = totalSteps;
+
+        tokens.forEach((token, step) => {
+          for (const note of token.notes) {
+            lastSoundingStepExclusive = Math.max(lastSoundingStepExclusive, step + note.duration);
+          }
+        });
+
+        const required = Math.max(
+          INITIAL_STEPS,
+          Math.ceil(lastSoundingStepExclusive / STEPS_PER_MEASURE) * STEPS_PER_MEASURE + STEPS_PER_MEASURE
+        );
+
+        resizePattern(required);
+        for (const row of pattern) row.fill(0);
+
+        tokens.forEach((token, step) => {
+          for (const note of token.notes) {
+            pattern[note.keyIndex][step] = note.duration;
+          }
+        });
+
+        ensureTrailingEmptyMeasure();
+        stopSequence();
+        renderRoll();
+        exportStatus.textContent = `Imported ${tokens.length} sequencer step${tokens.length === 1 ? "" : "s"}.`;
+      } catch (error) {
+        console.error(error);
+        exportStatus.textContent = `Import failed: ${error.message}`;
+        emojiImport.focus();
+      }
+    }
+
+    copyEmojiButton.addEventListener("click", copyEmojiTransposition);
+    importEmojiButton.addEventListener("click", importEmojiTransposition);
 
     function offlineAddVoice(ctx, destination, frequency, sound, start, duration) {
       const master = ctx.createGain();
@@ -3453,7 +3737,7 @@
       refreshSequenceSelect();
       sequenceName.value = "Untitled";
 
-      for (const row of pattern) row.fill(0);
+      resetPatternLength();
       tempoInput.value = 240;
       renderRoll();
       exportStatus.textContent = "All saved tracks deleted.";
@@ -3476,8 +3760,9 @@
     });
 
     clearButton.addEventListener("click", () => {
-      for (const row of pattern) row.fill(0);
+      resetPatternLength();
       renderRoll();
+      exportStatus.textContent = "Notes cleared.";
     });
 
     sequencerDialog.addEventListener("click", event => {
@@ -3487,8 +3772,6 @@
     function getNoteLengthSteps(keyIndex, startStep) {
       return Math.max(1, Number(pattern[keyIndex][startStep]) || 1);
     }
-
-    const STEPS_PER_MEASURE = 8;
 
     function measureHasAnyNote(measureStart) {
       const measureEnd = Math.min(STEPS, measureStart + STEPS_PER_MEASURE);
@@ -3503,15 +3786,10 @@
     }
 
     function getPlaybackEndStep() {
-      // Play consecutive populated measures from the beginning.
-      // The first completely empty measure is the loop/end boundary.
-      for (let measureStart = 0; measureStart < STEPS; measureStart += STEPS_PER_MEASURE) {
-        if (!measureHasAnyNote(measureStart)) {
-          return Math.max(STEPS_PER_MEASURE, measureStart);
-        }
-      }
-
-      return STEPS;
+      // Play through the final populated measure, preserving empty measures/rests in between.
+      const lastSoundingStep = getLastSoundingStepExclusive();
+      if (lastSoundingStep <= 0) return STEPS_PER_MEASURE;
+      return Math.min(STEPS, Math.ceil(lastSoundingStep / STEPS_PER_MEASURE) * STEPS_PER_MEASURE);
     }
 
     function getStepDurationMs() {
