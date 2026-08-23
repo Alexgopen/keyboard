@@ -366,8 +366,14 @@
     #save-random-sound-button.show { display: inline-block; }
 
     #reroll-sound-button:hover,
-    #save-random-sound-button:hover { background: white; }
+    #save-random-sound-button:hover,
+    #export-random-sounds-button:hover,
+    #import-random-sounds-button:hover,
+    #delete-random-sound-button:hover { background: white; }
 
+    #export-random-sounds-button,
+    #import-random-sounds-button,
+    #delete-random-sound-button,
     #save-random-sound-button {
       display: none;
       border: 0;
@@ -378,6 +384,20 @@
       cursor: pointer;
       font-weight: 700;
       line-height: 1;
+    }
+
+
+    #export-random-sounds-button,
+    #import-random-sounds-button {
+      display: inline-block;
+    }
+
+    #delete-random-sound-button {
+      display: none;
+    }
+
+    #delete-random-sound-button.show {
+      display: inline-block;
     }
 
     #sound-save-dialog {
@@ -412,6 +432,46 @@
     }
 
     #sound-save-status {
+      min-height: 18px;
+      margin: 0;
+      font-size: 12px;
+      color: #ddd;
+    }
+
+    #sound-import-dialog {
+      width: min(560px, calc(100vw - 28px));
+      padding: 18px;
+    }
+
+    #sound-import-dialog form {
+      display: grid;
+      gap: 12px;
+    }
+
+    #sound-import-dialog h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    #sound-import-text,
+    #sound-import-name {
+      width: 100%;
+      border: 0;
+      border-radius: 7px;
+      padding: 9px 10px;
+      background: #f5f5f5;
+      color: #111;
+      font: inherit;
+    }
+
+    #sound-import-text {
+      min-height: 180px;
+      resize: vertical;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13px;
+    }
+
+    #sound-import-status {
       min-height: 18px;
       margin: 0;
       font-size: 12px;
@@ -789,7 +849,8 @@
         
         
         
-        <option value="random">RANDOM</option>
+        <option value="random">🎲 RANDOM</option>
+        <option value="gbc">GBC</option>
         <option value="pluck">Pluck</option>
         <option value="pluckystrings">Plucky Strings</option>
         <option value="gbbass">8-Bit Bass</option>
@@ -878,6 +939,9 @@
       </select>
       <button id="reroll-sound-button" type="button" title="Reroll random synth" aria-label="Reroll random synth">🎲</button>
       <button id="save-random-sound-button" type="button" title="Save random synth" aria-label="Save random synth">💾</button>
+      <button id="export-random-sounds-button" type="button" title="Copy selected synth" aria-label="Copy selected synth">📋</button>
+      <button id="import-random-sounds-button" type="button" title="Import synth from text" aria-label="Import synth from text">📥</button>
+      <button id="delete-random-sound-button" type="button" title="Delete selected saved synth" aria-label="Delete selected saved synth">🗑️</button>
     </div>
 
     <div id="transport">
@@ -930,6 +994,19 @@
       <div id="sound-save-actions">
         <button id="cancel-sound-save-button" class="small-button" type="button">Cancel</button>
         <button id="confirm-sound-save-button" class="small-button" type="submit">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="sound-import-dialog">
+    <form method="dialog" id="sound-import-form">
+      <h3>Import Sound Preset</h3>
+      <textarea id="sound-import-text" spellcheck="false" placeholder='Paste a synth JSON object here'></textarea>
+      <input id="sound-import-name" type="text" maxlength="40" placeholder="Preset name">
+      <p id="sound-import-status" aria-live="polite"></p>
+      <div id="sound-save-actions">
+        <button id="cancel-sound-import-button" class="small-button" type="button">Cancel</button>
+        <button id="confirm-sound-import-button" class="small-button" type="submit">Import</button>
       </div>
     </form>
   </dialog>
@@ -1005,7 +1082,16 @@
     const soundSelect = document.getElementById("sound-select");
     const rerollSoundButton = document.getElementById("reroll-sound-button");
     const saveRandomSoundButton = document.getElementById("save-random-sound-button");
+    const exportRandomSoundsButton = document.getElementById("export-random-sounds-button");
+    const importRandomSoundsButton = document.getElementById("import-random-sounds-button");
+    const deleteRandomSoundButton = document.getElementById("delete-random-sound-button");
     const soundSaveDialog = document.getElementById("sound-save-dialog");
+    const soundImportDialog = document.getElementById("sound-import-dialog");
+    const soundImportForm = document.getElementById("sound-import-form");
+    const soundImportText = document.getElementById("sound-import-text");
+    const soundImportName = document.getElementById("sound-import-name");
+    const soundImportStatus = document.getElementById("sound-import-status");
+    const cancelSoundImportButton = document.getElementById("cancel-sound-import-button");
     const soundSaveForm = document.getElementById("sound-save-form");
     const soundPresetName = document.getElementById("sound-preset-name");
     const soundSaveStatus = document.getElementById("sound-save-status");
@@ -1552,10 +1638,30 @@
       }, durationMs);
     }
 
+    const GBC_SYNTH_RECIPE = {
+      oscillators: [
+        { type: "square", ratio: 1.5, detune: 15.688641401098415, volume: 0.16708504398497553 },
+        { type: "sine", ratio: 1, detune: 11.180279472240038, volume: 0.21413518206263454 },
+        { type: "square", ratio: 2, detune: 1.532376490556043, volume: 0.19790949945801473 },
+        { type: "triangle", ratio: 4, detune: -7.262097251501645, volume: 0.21004998296627897 }
+      ],
+      filterType: "highpass",
+      filterStart: 766.40962165993,
+      filterEnd: 1472.8711307644026,
+      filterQ: 4.027486495150307,
+      attack: 0.02603526771231068,
+      peak: 0.3648005782927053,
+      decay: 0.7350454895135025,
+      sustain: 0.205584779251372,
+      release: 0.7741676959502835
+    };
+
     const RANDOM_WAVES = ["sine", "triangle", "square", "sawtooth"];
     const SOUND_PRESET_STORAGE_KEY = "rainbowPianoRandomSoundPresetsV1";
+    const CUSTOM_SOURCE_PRESET_STORAGE_KEY = "rainbowPianoCustomSourcePresetsV1";
     let randomSynthRecipe = null;
     let savedRandomSoundPresets = {};
+    let savedCustomSourcePresets = {};
 
     function cloneRandomSynthRecipe(recipe) {
       return JSON.parse(JSON.stringify(recipe));
@@ -1576,15 +1682,234 @@
       } catch {}
     }
 
+    function readCustomSourcePresets() {
+      try {
+        const raw = localStorage.getItem(CUSTOM_SOURCE_PRESET_STORAGE_KEY);
+        savedCustomSourcePresets = raw ? JSON.parse(raw) : {};
+      } catch {
+        savedCustomSourcePresets = {};
+      }
+    }
+
+    function writeCustomSourcePresets() {
+      try {
+        localStorage.setItem(CUSTOM_SOURCE_PRESET_STORAGE_KEY, JSON.stringify(savedCustomSourcePresets));
+      } catch {}
+    }
+
+    function isValidRandomSynthRecipe(recipe) {
+      if (!recipe || typeof recipe !== "object" || !Array.isArray(recipe.oscillators)) return false;
+      if (!recipe.oscillators.length) return false;
+
+      const validWave = new Set(["sine", "triangle", "square", "sawtooth"]);
+      for (const osc of recipe.oscillators) {
+        if (!osc || typeof osc !== "object") return false;
+        if (!validWave.has(osc.type)) return false;
+        if (![osc.ratio, osc.detune, osc.volume].every(Number.isFinite)) return false;
+      }
+
+      if (!["lowpass", "bandpass", "highpass"].includes(recipe.filterType)) return false;
+      return [
+        recipe.filterStart,
+        recipe.filterEnd,
+        recipe.filterQ,
+        recipe.attack,
+        recipe.peak,
+        recipe.decay,
+        recipe.sustain,
+        recipe.release
+      ].every(Number.isFinite);
+    }
+
+    function extractBuiltInSoundSource(soundId) {
+      const source = buildVoice.toString();
+      const escaped = String(soundId).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const headerPattern = new RegExp(
+        `(?:if|else\\s+if)\\s*\\(sound\\s*===\\s*["']${escaped}["']\\)\\s*\\{`,
+        "m"
+      );
+      const match = headerPattern.exec(source);
+      if (!match) return null;
+
+      const openBrace = source.indexOf("{", match.index);
+      if (openBrace < 0) return null;
+
+      let depth = 0;
+      let quote = null;
+      let escapedChar = false;
+
+      for (let i = openBrace; i < source.length; i++) {
+        const ch = source[i];
+
+        if (quote) {
+          if (escapedChar) {
+            escapedChar = false;
+          } else if (ch === "\\") {
+            escapedChar = true;
+          } else if (ch === quote) {
+            quote = null;
+          }
+          continue;
+        }
+
+        if (ch === '"' || ch === "'" || ch === "`") {
+          quote = ch;
+          continue;
+        }
+
+        if (ch === "{") depth++;
+        else if (ch === "}") {
+          depth--;
+          if (depth === 0) {
+            return source.slice(match.index, i + 1);
+          }
+        }
+      }
+
+      return null;
+    }
+
+    function getSelectedShareableSound() {
+      if (soundSelect.value === "gbc") {
+        return {
+          name: "GBC",
+          kind: "recipe",
+          recipe: cloneRandomSynthRecipe(GBC_SYNTH_RECIPE)
+        };
+      }
+
+      if (soundSelect.value === "random") {
+        return {
+          name: "RANDOM",
+          kind: "recipe",
+          recipe: cloneRandomSynthRecipe(ensureRandomSynthRecipe())
+        };
+      }
+
+      if (soundSelect.value.startsWith("saved-random:")) {
+        const name = soundSelect.value.slice("saved-random:".length);
+        const recipe = savedRandomSoundPresets[name];
+        if (!recipe) return null;
+        return {
+          name,
+          kind: "recipe",
+          recipe: cloneRandomSynthRecipe(recipe)
+        };
+      }
+
+      if (soundSelect.value.startsWith("saved-source:")) {
+        const name = soundSelect.value.slice("saved-source:".length);
+        const source = savedCustomSourcePresets[name];
+        if (!source) return null;
+        return {
+          name,
+          kind: "builtin-source",
+          soundId: `saved-source:${name}`,
+          source
+        };
+      }
+
+      const selectedOption = soundSelect.options[soundSelect.selectedIndex];
+      const builtinSource = extractBuiltInSoundSource(soundSelect.value);
+      if (builtinSource) {
+        return {
+          name: selectedOption?.textContent?.trim() || soundSelect.value,
+          kind: "builtin-source",
+          soundId: soundSelect.value,
+          source: builtinSource
+        };
+      }
+
+      return null;
+    }
+
+    async function copySelectedRandomSoundPreset() {
+      const selected = getSelectedShareableSound();
+      if (!selected) {
+        alert("The selected sound could not be exported.");
+        return;
+      }
+
+      const payload = selected.kind === "builtin-source"
+        ? JSON.stringify({
+            name: selected.name,
+            kind: "builtin-source",
+            soundId: selected.soundId,
+            source: selected.source
+          }, null, 2)
+        : JSON.stringify({
+            name: selected.name,
+            kind: "recipe",
+            recipe: selected.recipe
+          }, null, 2);
+
+      try {
+        await copyTextToClipboard(payload);
+        alert(`Copied synth preset "${selected.name}" to clipboard.`);
+      } catch (error) {
+        console.error(error);
+        alert("Clipboard copy failed.");
+      }
+    }
+
+    function parseImportedRandomSoundPreset(text) {
+      const parsed = JSON.parse(String(text || "").trim());
+
+      if (parsed && typeof parsed === "object" && !Array.isArray(parsed) && parsed.kind === "builtin-source") {
+        if (typeof parsed.source !== "string" || !parsed.source.trim()) {
+          throw new Error("Built-in source export is missing source code.");
+        }
+        return {
+          suggestedName: typeof parsed.name === "string" ? parsed.name.trim() : "",
+          kind: "builtin-source",
+          source: parsed.source
+        };
+      }
+
+      // Accept either the share envelope {name, recipe} or a raw recipe object.
+      if (parsed && typeof parsed === "object" && !Array.isArray(parsed) && parsed.recipe) {
+        if (!isValidRandomSynthRecipe(parsed.recipe)) {
+          throw new Error("Invalid synth recipe.");
+        }
+        return {
+          suggestedName: typeof parsed.name === "string" ? parsed.name.trim() : "",
+          kind: "recipe",
+          recipe: cloneRandomSynthRecipe(parsed.recipe)
+        };
+      }
+
+      if (!isValidRandomSynthRecipe(parsed)) {
+        throw new Error("Invalid synth recipe.");
+      }
+
+      return {
+        suggestedName: "",
+        kind: "recipe",
+        recipe: cloneRandomSynthRecipe(parsed)
+      };
+    }
+
     function rebuildSavedSoundOptions(selectedValue = soundSelect.value) {
-      for (const option of [...soundSelect.querySelectorAll("option[data-random-saved='true']")]) {
+      for (const option of [...soundSelect.querySelectorAll("option[data-user-saved='true']")]) {
         option.remove();
       }
 
       for (const name of Object.keys(savedRandomSoundPresets).sort((a, b) => a.localeCompare(b))) {
         const option = document.createElement("option");
         option.value = `saved-random:${name}`;
-        option.dataset.randomSaved = "true";
+        option.dataset.userSaved = "true";
+        option.dataset.savedType = "recipe";
+        option.dataset.savedName = name;
+        option.textContent = `(S) ${name}`;
+        soundSelect.appendChild(option);
+      }
+
+      for (const name of Object.keys(savedCustomSourcePresets).sort((a, b) => a.localeCompare(b))) {
+        const option = document.createElement("option");
+        option.value = `saved-source:${name}`;
+        option.dataset.userSaved = "true";
+        option.dataset.savedType = "source";
+        option.dataset.savedName = name;
         option.textContent = `(S) ${name}`;
         soundSelect.appendChild(option);
       }
@@ -1595,6 +1920,7 @@
     }
 
     function selectedRandomRecipe() {
+      if (soundSelect.value === "gbc") return GBC_SYNTH_RECIPE;
       if (soundSelect.value === "random") return ensureRandomSynthRecipe();
       if (soundSelect.value.startsWith("saved-random:")) {
         const name = soundSelect.value.slice("saved-random:".length);
@@ -1666,8 +1992,20 @@
 
     function updateRandomSoundControls() {
       const isRandom = soundSelect.value === "random";
+      const selectedOption = soundSelect.options[soundSelect.selectedIndex];
+      const isUserSaved = selectedOption?.dataset?.userSaved === "true";
       rerollSoundButton.classList.toggle("show", isRandom);
       saveRandomSoundButton.classList.toggle("show", isRandom);
+      deleteRandomSoundButton.classList.toggle("show", isUserSaved);
+    }
+
+    function runSavedSourcePreset(source, ctx, now, master, addOsc, frequency, swell) {
+      const open = source.indexOf("{");
+      const close = source.lastIndexOf("}");
+      if (open < 0 || close <= open) throw new Error("Invalid saved synth source.");
+      const body = source.slice(open + 1, close);
+      const fn = new Function("ctx", "now", "master", "addOsc", "frequency", "swell", body);
+      fn(ctx, now, master, addOsc, frequency, swell);
     }
 
     function buildVoice(frequency, sound = soundSelect.value, swell = true) {
@@ -1694,8 +2032,17 @@
         oscillators.push(osc);
       }
 
-      if (sound === "random" || sound.startsWith("saved-random:")) {
-        const recipe = sound === "random" ? ensureRandomSynthRecipe() : (savedRandomSoundPresets[sound.slice("saved-random:".length)] || ensureRandomSynthRecipe());
+      if (sound.startsWith("saved-source:")) {
+        const name = sound.slice("saved-source:".length);
+        const source = savedCustomSourcePresets[name];
+        if (!source) throw new Error(`Missing saved synth source: ${name}`);
+        runSavedSourcePreset(source, ctx, now, master, addOsc, frequency, swell);
+      } else if (sound === "gbc" || sound === "random" || sound.startsWith("saved-random:")) {
+        const recipe = sound === "gbc"
+          ? GBC_SYNTH_RECIPE
+          : sound === "random"
+            ? ensureRandomSynthRecipe()
+            : (savedRandomSoundPresets[sound.slice("saved-random:".length)] || ensureRandomSynthRecipe());
         const filter = ctx.createBiquadFilter();
         filter.type = recipe.filterType;
         filter.frequency.setValueAtTime(Math.max(20, recipe.filterStart), now);
@@ -2747,7 +3094,116 @@
       updateRandomSoundControls();
     });
 
+    exportRandomSoundsButton.addEventListener("click", async () => {
+      await copySelectedRandomSoundPreset();
+    });
+
+    importRandomSoundsButton.addEventListener("click", () => {
+      soundImportText.value = "";
+      soundImportName.value = "";
+      soundImportStatus.textContent = "";
+      soundImportDialog.showModal();
+      queueMicrotask(() => soundImportText.focus());
+    });
+
+    cancelSoundImportButton.addEventListener("click", () => {
+      soundImportDialog.close();
+    });
+
+    soundImportText.addEventListener("input", () => {
+      try {
+        const parsed = parseImportedRandomSoundPreset(soundImportText.value);
+        if (!soundImportName.value.trim() && parsed.suggestedName && parsed.suggestedName !== "RANDOM") {
+          soundImportName.value = parsed.suggestedName;
+        }
+        soundImportStatus.textContent = "Valid synth data.";
+      } catch {
+        soundImportStatus.textContent = "";
+      }
+    });
+
+    soundImportForm.addEventListener("submit", event => {
+      event.preventDefault();
+
+      try {
+        const imported = parseImportedRandomSoundPreset(soundImportText.value);
+        const name = soundImportName.value.trim();
+
+        if (!name) {
+          soundImportStatus.textContent = "Enter a preset name.";
+          soundImportName.focus();
+          return;
+        }
+
+        if (name.toUpperCase() === "RANDOM") {
+          soundImportStatus.textContent = "Choose a name other than RANDOM.";
+          soundImportName.focus();
+          return;
+        }
+
+        if (imported.kind === "builtin-source") {
+          savedCustomSourcePresets[name] = imported.source;
+          writeCustomSourcePresets();
+          rebuildSavedSoundOptions(`saved-source:${name}`);
+        } else {
+          savedRandomSoundPresets[name] = imported.recipe;
+          writeRandomSoundPresets();
+          rebuildSavedSoundOptions(`saved-random:${name}`);
+        }
+        soundImportDialog.close();
+        updateRandomSoundControls();
+      } catch (error) {
+        console.error(error);
+        soundImportStatus.textContent = `Import failed: ${error.message}`;
+        soundImportText.focus();
+      }
+    });
+
+    function deleteSelectedUserSound() {
+      const value = String(soundSelect.value || "");
+      let name = "";
+      let deleted = false;
+
+      if (value.startsWith("saved-random:")) {
+        name = value.slice("saved-random:".length);
+        if (Object.prototype.hasOwnProperty.call(savedRandomSoundPresets, name)) {
+          delete savedRandomSoundPresets[name];
+          writeRandomSoundPresets();
+          deleted = true;
+        }
+      } else if (value.startsWith("saved-source:")) {
+        name = value.slice("saved-source:".length);
+        if (Object.prototype.hasOwnProperty.call(savedCustomSourcePresets, name)) {
+          delete savedCustomSourcePresets[name];
+          writeCustomSourcePresets();
+          deleted = true;
+        }
+      }
+
+      if (!deleted) {
+        console.warn("No user-saved synth matched the selected value:", value);
+        return;
+      }
+
+      // Rebuild from the now-updated persisted collections.
+      soundSelect.value = "random";
+      rebuildSavedSoundOptions("random");
+      soundSelect.value = "random";
+      ensureRandomSynthRecipe();
+      updateRandomSoundControls();
+    }
+
+    // Use pointerdown so deletion does not depend on a later synthesized click
+    // event. This also avoids browser-dialog/confirmation behavior interfering
+    // with the control.
+    deleteRandomSoundButton.addEventListener("pointerdown", event => {
+      event.preventDefault();
+      event.stopPropagation();
+      deleteSelectedUserSound();
+    });
+
     readRandomSoundPresets();
+    readCustomSourcePresets();
     rebuildSavedSoundOptions();
     updateRandomSoundControls();
 
@@ -3201,10 +3657,25 @@
     copyEmojiButton.addEventListener("click", copyEmojiTransposition);
     importEmojiButton.addEventListener("click", importEmojiTransposition);
 
+    function runOfflineSavedSourcePreset(source, ctx, start, master, addOsc, frequency) {
+      const open = source.indexOf("{");
+      const close = source.lastIndexOf("}");
+      if (open < 0 || close <= open) throw new Error("Invalid saved synth source.");
+      const body = source.slice(open + 1, close).replace(/\bnow\b/g, "start");
+      const fn = new Function("ctx", "start", "master", "addOsc", "frequency", "swell", body);
+      fn(ctx, start, master, addOsc, frequency, false);
+    }
+
     function offlineAddVoice(ctx, destination, frequency, sound, start, duration) {
       const master = ctx.createGain();
       const end = start + duration;
-      const offlineRandomRecipe = (sound === "random" || sound.startsWith("saved-random:")) ? (sound === "random" ? ensureRandomSynthRecipe() : (savedRandomSoundPresets[sound.slice("saved-random:".length)] || ensureRandomSynthRecipe())) : null;
+      const offlineRandomRecipe = sound === "gbc"
+        ? GBC_SYNTH_RECIPE
+        : (sound === "random" || sound.startsWith("saved-random:"))
+          ? (sound === "random"
+              ? ensureRandomSynthRecipe()
+              : (savedRandomSoundPresets[sound.slice("saved-random:".length)] || ensureRandomSynthRecipe()))
+          : null;
       const releaseEnd = end + (offlineRandomRecipe ? offlineRandomRecipe.release : 0.45);
 
       master.gain.setValueAtTime(0.0001, start);
@@ -3226,7 +3697,12 @@
         oscillators.push(osc);
       }
 
-      if (sound === "random" || sound.startsWith("saved-random:")) {
+      if (sound.startsWith("saved-source:")) {
+        const name = sound.slice("saved-source:".length);
+        const source = savedCustomSourcePresets[name];
+        if (!source) throw new Error(`Missing saved synth source: ${name}`);
+        runOfflineSavedSourcePreset(source, ctx, start, master, addOsc, frequency);
+      } else if (sound === "gbc" || sound === "random" || sound.startsWith("saved-random:")) {
         const recipe = offlineRandomRecipe;
         const filter = ctx.createBiquadFilter();
         filter.type = recipe.filterType;
