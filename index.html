@@ -851,6 +851,7 @@
         
         <option value="random">🎲 RANDOM</option>
         <option value="gbc">GBC</option>
+        <option value="wander">Wander</option>
         <option value="pluck">Pluck</option>
         <option value="pluckystrings">Plucky Strings</option>
         <option value="gbbass">8-Bit Bass</option>
@@ -1656,6 +1657,28 @@
       release: 0.7741676959502835
     };
 
+    const WANDER_SYNTH_RECIPE = {
+      family: "bass",
+      oscillators: [
+        { type: "square", ratio: 0.5, detune: -3.1499191743134, volume: 0.1694515339512805 },
+        { type: "triangle", ratio: 0.25, detune: 3.566449571533015, volume: 0.12402402261954268 },
+        { type: "sawtooth", ratio: 2, detune: -11.853366813387202, volume: 0.05224746014020762 }
+      ],
+      filterType: "lowpass",
+      filterStart: 670.7570982331824,
+      filterEnd: 426.104560593301,
+      filterQ: 6.567938220749042,
+      attack: 0.042586887801469304,
+      peak: 0.8111105446959532,
+      decay: 0.5480704652388505,
+      sustain: 0.1726281984326632,
+      release: 0.42117748170774144,
+      pitchSweep: -1104.0604872034792,
+      pitchSweepTime: 0.35604205771433345,
+      tremoloDepth: 0,
+      tremoloRate: 14.625940726812045
+    };
+
     const RANDOM_WAVES = ["sine", "triangle", "square", "sawtooth"];
     const SOUND_PRESET_STORAGE_KEY = "rainbowPianoRandomSoundPresetsV1";
     const CUSTOM_SOURCE_PRESET_STORAGE_KEY = "rainbowPianoCustomSourcePresetsV1";
@@ -1709,7 +1732,7 @@
       }
 
       if (!["lowpass", "bandpass", "highpass"].includes(recipe.filterType)) return false;
-      return [
+      if (![
         recipe.filterStart,
         recipe.filterEnd,
         recipe.filterQ,
@@ -1718,7 +1741,12 @@
         recipe.decay,
         recipe.sustain,
         recipe.release
-      ].every(Number.isFinite);
+      ].every(Number.isFinite)) return false;
+
+      for (const key of ["pitchSweep", "pitchSweepTime", "tremoloDepth", "tremoloRate"]) {
+        if (recipe[key] != null && !Number.isFinite(recipe[key])) return false;
+      }
+      return true;
     }
 
     function extractBuiltInSoundSource(soundId) {
@@ -1770,6 +1798,14 @@
     }
 
     function getSelectedShareableSound() {
+      if (soundSelect.value === "wander") {
+        return {
+          name: "Wander",
+          kind: "recipe",
+          recipe: cloneRandomSynthRecipe(WANDER_SYNTH_RECIPE)
+        };
+      }
+
       if (soundSelect.value === "gbc") {
         return {
           name: "GBC",
@@ -1920,6 +1956,7 @@
     }
 
     function selectedRandomRecipe() {
+      if (soundSelect.value === "wander") return WANDER_SYNTH_RECIPE;
       if (soundSelect.value === "gbc") return GBC_SYNTH_RECIPE;
       if (soundSelect.value === "random") return ensureRandomSynthRecipe();
       if (soundSelect.value.startsWith("saved-random:")) {
@@ -1938,43 +1975,158 @@
     }
 
     function makeRandomSynthRecipe() {
-      const oscillatorCount = 2 + Math.floor(Math.random() * 4);
+      // RANDOM intentionally spans several synthesis families rather than only
+      // varying one subtractive oscillator stack. This lets rolls reach basses,
+      // bells, organs, chip sounds, noisy/percussive timbres, detuned leads, etc.
+      const family = randomChoice([
+        "subtractive", "subtractive", "subtractive",
+        "bass", "bass",
+        "chip",
+        "organ",
+        "metallic",
+        "hollow",
+        "detuned",
+        "percussive"
+      ]);
+
       const oscillators = [];
+      const add = (type, ratio, detune, volume) => oscillators.push({
+        type, ratio, detune, volume
+      });
 
-      for (let i = 0; i < oscillatorCount; i++) {
-        let ratio;
-        const mode = Math.random();
-        if (mode < 0.58) ratio = randomChoice([0.5, 1, 1, 1, 2, 2, 3]);
-        else if (mode < 0.82) ratio = randomChoice([0.25, 0.75, 1.5, 2.5, 4]);
-        else ratio = randomBetween(0.45, 3.4);
+      if (family === "bass") {
+        const rootWave = randomChoice(["sawtooth", "square", "triangle"]);
+        add(rootWave, randomChoice([0.25, 0.5, 0.5, 1]), randomBetween(-8, 8), randomBetween(0.16, 0.34));
+        add(randomChoice(["sine", "triangle"]), randomChoice([0.25, 0.5, 1]), randomBetween(-5, 5), randomBetween(0.12, 0.30));
+        if (Math.random() < 0.7) {
+          add(randomChoice(["square", "sawtooth"]), randomChoice([1, 2]), randomBetween(-14, 14), randomBetween(0.04, 0.15));
+        }
+      } else if (family === "chip") {
+        const count = 1 + Math.floor(Math.random() * 4);
+        for (let i = 0; i < count; i++) {
+          add(
+            randomChoice(["square", "square", "triangle"]),
+            randomChoice([0.5, 1, 1, 1.5, 2, 3, 4]),
+            randomBetween(-20, 20),
+            randomBetween(0.06, 0.24)
+          );
+        }
+      } else if (family === "organ") {
+        const partials = [0.5, 1, 2, 3, 4, 5, 6, 8];
+        const count = 3 + Math.floor(Math.random() * 5);
+        for (let i = 0; i < count; i++) {
+          add(
+            randomChoice(["sine", "triangle", "square"]),
+            randomChoice(partials),
+            randomBetween(-5, 5),
+            randomBetween(0.035, 0.17)
+          );
+        }
+      } else if (family === "metallic") {
+        const count = 2 + Math.floor(Math.random() * 5);
+        for (let i = 0; i < count; i++) {
+          add(
+            randomChoice(["sine", "triangle", "square"]),
+            randomChoice([1, 1.414, 1.5, 2, 2.414, 2.718, 3.1416, 3.5, 4.25, 5.7]),
+            randomBetween(-25, 25),
+            randomBetween(0.035, 0.19)
+          );
+        }
+      } else if (family === "hollow") {
+        add(randomChoice(["sine", "triangle"]), randomChoice([0.5, 1]), randomBetween(-7, 7), randomBetween(0.15, 0.30));
+        add(randomChoice(["sine", "triangle"]), randomChoice([2, 3, 4]), randomBetween(-10, 10), randomBetween(0.04, 0.15));
+      } else if (family === "detuned") {
+        const wave = randomChoice(["sawtooth", "square", "triangle"]);
+        const ratio = randomChoice([0.5, 1, 1, 2]);
+        const spread = randomBetween(5, 35);
+        add(wave, ratio, -spread, randomBetween(0.09, 0.20));
+        add(wave, ratio, spread, randomBetween(0.09, 0.20));
+        add(randomChoice(["sine", "triangle"]), randomChoice([0.5, 1, 2]), 0, randomBetween(0.04, 0.16));
+        if (Math.random() < 0.5) add(wave, ratio, 0, randomBetween(0.05, 0.14));
+      } else if (family === "percussive") {
+        add(randomChoice(["square", "sawtooth", "triangle"]), randomChoice([0.5, 1, 2]), randomBetween(-20, 20), randomBetween(0.12, 0.28));
+        if (Math.random() < 0.75) add("sine", randomChoice([0.25, 0.5, 1, 2, 3]), randomBetween(-8, 8), randomBetween(0.08, 0.22));
+      } else {
+        const oscillatorCount = 1 + Math.floor(Math.random() * 7);
+        for (let i = 0; i < oscillatorCount; i++) {
+          let ratio;
+          const ratioMode = Math.random();
+          if (ratioMode < 0.48) ratio = randomChoice([0.25, 0.5, 1, 1, 1, 2, 2, 3, 4, 5, 6, 8]);
+          else if (ratioMode < 0.75) ratio = randomChoice([0.375, 0.75, 1.25, 1.5, 2.5, 3.5, 4.5]);
+          else ratio = randomBetween(0.18, 8);
 
-        oscillators.push({
-          type: randomChoice(RANDOM_WAVES),
-          ratio,
-          detune: randomBetween(-18, 18),
-          volume: randomBetween(0.045, 0.22)
-        });
+          add(
+            randomChoice(RANDOM_WAVES),
+            ratio,
+            randomBetween(-35, 35),
+            randomBetween(0.025, 0.28)
+          );
+        }
       }
 
-      const filterType = randomChoice(["lowpass", "lowpass", "lowpass", "bandpass", "highpass"]);
-      const filterStart = filterType === "highpass"
-        ? randomBetween(80, 900)
-        : randomBetween(900, 9000);
-      const filterEnd = filterType === "highpass"
-        ? randomBetween(filterStart, 2200)
-        : randomBetween(350, Math.max(500, filterStart));
+      let filterType;
+      let filterStart;
+      let filterEnd;
+      let filterQ;
+
+      if (family === "bass") {
+        filterType = randomChoice(["lowpass", "lowpass", "lowpass", "bandpass"]);
+        filterStart = randomBetween(180, 2600);
+        filterEnd = randomBetween(60, Math.max(100, filterStart));
+        filterQ = randomBetween(0.1, 14);
+      } else if (family === "metallic") {
+        filterType = randomChoice(["bandpass", "highpass", "lowpass"]);
+        filterStart = randomBetween(1200, 12000);
+        filterEnd = randomBetween(500, 10000);
+        filterQ = randomBetween(1, 18);
+      } else {
+        filterType = randomChoice(["lowpass", "lowpass", "bandpass", "highpass"]);
+        filterStart = filterType === "highpass" ? randomBetween(30, 2400) : randomBetween(180, 14000);
+        filterEnd = filterType === "highpass" ? randomBetween(80, 7000) : randomBetween(80, 12000);
+        filterQ = randomBetween(0.05, 16);
+      }
+
+      let attack = randomBetween(0.002, 0.45);
+      let decay = randomBetween(0.025, 1.4);
+      let sustain = randomBetween(0.04, 0.88);
+      let release = randomBetween(0.035, 1.8);
+
+      if (family === "organ") {
+        attack = randomBetween(0.005, 0.10);
+        decay = randomBetween(0.08, 0.5);
+        sustain = randomBetween(0.62, 0.98);
+        release = randomBetween(0.08, 0.7);
+      } else if (family === "percussive") {
+        attack = randomBetween(0.001, 0.025);
+        decay = randomBetween(0.025, 0.35);
+        sustain = randomBetween(0.015, 0.20);
+        release = randomBetween(0.025, 0.30);
+      } else if (family === "bass") {
+        attack = randomBetween(0.002, 0.09);
+        decay = randomBetween(0.05, 0.7);
+        sustain = randomBetween(0.12, 0.75);
+        release = randomBetween(0.04, 0.8);
+      }
 
       return {
+        family,
         oscillators,
         filterType,
         filterStart,
         filterEnd,
-        filterQ: randomBetween(0.15, 7.5),
-        attack: randomBetween(0.004, 0.22),
-        peak: randomBetween(0.35, 0.95),
-        decay: randomBetween(0.05, 0.75),
-        sustain: randomBetween(0.18, 0.72),
-        release: randomBetween(0.18, 0.9)
+        filterQ,
+        attack,
+        peak: randomBetween(0.28, 0.98),
+        decay,
+        sustain,
+        release,
+
+        // Additional modulation possibilities. Older saved recipes simply omit
+        // these fields and remain fully compatible.
+        pitchSweep: Math.random() < 0.32 ? randomBetween(-1200, 1200) : 0,
+        pitchSweepTime: randomBetween(0.015, 0.65),
+        tremoloDepth: Math.random() < 0.24 ? randomBetween(0.08, 0.65) : 0,
+        tremoloRate: randomBetween(2, 18)
       };
     }
 
@@ -2037,10 +2189,12 @@
         const source = savedCustomSourcePresets[name];
         if (!source) throw new Error(`Missing saved synth source: ${name}`);
         runSavedSourcePreset(source, ctx, now, master, addOsc, frequency, swell);
-      } else if (sound === "gbc" || sound === "random" || sound.startsWith("saved-random:")) {
-        const recipe = sound === "gbc"
-          ? GBC_SYNTH_RECIPE
-          : sound === "random"
+      } else if (sound === "wander" || sound === "gbc" || sound === "random" || sound.startsWith("saved-random:")) {
+        const recipe = sound === "wander"
+          ? WANDER_SYNTH_RECIPE
+          : sound === "gbc"
+            ? GBC_SYNTH_RECIPE
+            : sound === "random"
             ? ensureRandomSynthRecipe()
             : (savedRandomSoundPresets[sound.slice("saved-random:".length)] || ensureRandomSynthRecipe());
         const filter = ctx.createBiquadFilter();
@@ -2054,8 +2208,27 @@
         filter.connect(master);
 
         recipe.oscillators.forEach(spec => {
-          addOsc(spec.type, Math.max(20, frequency * spec.ratio), spec.detune, spec.volume, filter);
+          const osc = addOsc(spec.type, Math.max(20, frequency * spec.ratio), spec.detune, spec.volume, filter);
+          if (recipe.pitchSweep && osc?.frequency) {
+            const base = Math.max(20, frequency * spec.ratio);
+            const startFreq = Math.max(20, base * Math.pow(2, recipe.pitchSweep / 1200));
+            osc.frequency.cancelScheduledValues(now);
+            osc.frequency.setValueAtTime(startFreq, now);
+            osc.frequency.exponentialRampToValueAtTime(base, now + recipe.pitchSweepTime);
+          }
         });
+
+        if (recipe.tremoloDepth > 0) {
+          const tremolo = ctx.createOscillator();
+          const tremoloGain = ctx.createGain();
+          tremolo.type = "sine";
+          tremolo.frequency.setValueAtTime(recipe.tremoloRate, now);
+          tremoloGain.gain.setValueAtTime(recipe.tremoloDepth * 0.22, now);
+          tremolo.connect(tremoloGain);
+          tremoloGain.connect(master.gain);
+          tremolo.start(now);
+          oscillators.push(tremolo);
+        }
 
         const attackEnd = now + recipe.attack;
         const decayEnd = attackEnd + recipe.decay;
@@ -3669,9 +3842,11 @@
     function offlineAddVoice(ctx, destination, frequency, sound, start, duration) {
       const master = ctx.createGain();
       const end = start + duration;
-      const offlineRandomRecipe = sound === "gbc"
-        ? GBC_SYNTH_RECIPE
-        : (sound === "random" || sound.startsWith("saved-random:"))
+      const offlineRandomRecipe = sound === "wander"
+        ? WANDER_SYNTH_RECIPE
+        : sound === "gbc"
+          ? GBC_SYNTH_RECIPE
+          : (sound === "random" || sound.startsWith("saved-random:"))
           ? (sound === "random"
               ? ensureRandomSynthRecipe()
               : (savedRandomSoundPresets[sound.slice("saved-random:".length)] || ensureRandomSynthRecipe()))
@@ -3702,7 +3877,7 @@
         const source = savedCustomSourcePresets[name];
         if (!source) throw new Error(`Missing saved synth source: ${name}`);
         runOfflineSavedSourcePreset(source, ctx, start, master, addOsc, frequency);
-      } else if (sound === "gbc" || sound === "random" || sound.startsWith("saved-random:")) {
+      } else if (sound === "wander" || sound === "gbc" || sound === "random" || sound.startsWith("saved-random:")) {
         const recipe = offlineRandomRecipe;
         const filter = ctx.createBiquadFilter();
         filter.type = recipe.filterType;
@@ -3715,7 +3890,17 @@
         filter.connect(master);
 
         recipe.oscillators.forEach(spec => {
-          addOsc(spec.type, Math.max(20, frequency * spec.ratio), spec.detune, spec.volume, filter);
+          const osc = addOsc(spec.type, Math.max(20, frequency * spec.ratio), spec.detune, spec.volume, filter);
+          if (recipe.pitchSweep && osc?.frequency) {
+            const base = Math.max(20, frequency * spec.ratio);
+            const startFreq = Math.max(20, base * Math.pow(2, recipe.pitchSweep / 1200));
+            osc.frequency.cancelScheduledValues(start);
+            osc.frequency.setValueAtTime(startFreq, start);
+            osc.frequency.exponentialRampToValueAtTime(
+              base,
+              Math.min(end, start + recipe.pitchSweepTime)
+            );
+          }
         });
 
         const attackEnd = Math.min(end, start + recipe.attack);
