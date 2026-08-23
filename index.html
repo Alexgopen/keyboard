@@ -1,3 +1,4 @@
+```
 <!doctype html>
 <html lang="en">
 <head>
@@ -27,8 +28,297 @@
     #light {
       width: 100%;
       height: 100%;
-      background: #222;
+      background: #9bdc28;
       transition: background-color 80ms ease, box-shadow 80ms ease;
+    }
+
+    #brat-text {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+      z-index: 5;
+      color: #000;
+      font-size: clamp(64px, 13vw, 180px);
+      font-family: "Arial Narrow", "Liberation Sans Narrow", "Nimbus Sans Narrow", Arial, sans-serif;
+      font-stretch: condensed;
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      opacity: 0;
+      transform: scale(0.82);
+      transition: opacity 55ms ease, transform 90ms ease;
+    }
+
+    #brat-text.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    #devil-text {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+      z-index: 5;
+      font-size: clamp(72px, 14vw, 190px);
+      line-height: 1;
+      opacity: 0;
+      transform: scale(0.72);
+      transition: opacity 55ms ease, transform 90ms ease;
+    }
+
+    #devil-text.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    #heart-text, #angel-text {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+      z-index: 5;
+      font-size: clamp(72px, 14vw, 190px);
+      line-height: 1;
+      opacity: 0;
+      transform: scale(0.72);
+      transition: opacity 55ms ease, transform 90ms ease;
+    }
+
+    #heart-text.show, #angel-text.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    #sun-text {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+      z-index: 5;
+      font-size: clamp(72px, 14vw, 190px);
+      line-height: 1;
+      opacity: 0;
+      transform: scale(0.72);
+      transition: opacity 55ms ease, transform 90ms ease;
+    }
+
+    #sun-text.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    #pumpkin-text {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+      z-index: 5;
+      font-size: clamp(72px, 14vw, 190px);
+      line-height: 1;
+      opacity: 0;
+      transform: scale(0.72);
+      transition: opacity 55ms ease, transform 90ms ease;
+    }
+
+    #pumpkin-text.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    #alien-text {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+      z-index: 5;
+      font-size: clamp(72px, 14vw, 190px);
+      line-height: 1;
+      opacity: 0;
+      transform: scale(0.72);
+      transition: opacity 55ms ease, transform 90ms ease;
+    }
+
+    #alien-text.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    #eggplant-text {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+      z-index: 5;
+      font-size: clamp(72px, 14vw, 190px);
+      line-height: 1;
+      opacity: 0;
+      transform: scale(0.72);
+      transition: opacity 55ms ease, transform 90ms ease;
+    }
+
+    #eggplant-text.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    #cheese-text {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+      z-index: 5;
+      font-size: clamp(72px, 14vw, 190px);
+      line-height: 1;
+      opacity: 0;
+      transform: scale(0.72);
+      transition: opacity 55ms ease, transform 90ms ease;
+    }
+
+    #cheese-text.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    #fire-text {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+      z-index: 5;
+      font-size: clamp(72px, 14vw, 190px);
+      line-height: 1;
+      opacity: 0;
+      transform: scale(0.72);
+      transition: opacity 55ms ease, transform 90ms ease;
+    }
+
+    #fire-text.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    #moon-text {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+      z-index: 5;
+      font-size: clamp(72px, 14vw, 190px);
+      line-height: 1;
+      opacity: 0;
+      transform: scale(0.72);
+      transition: opacity 55ms ease, transform 90ms ease;
+    }
+
+    #moon-text.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    #dolphin-text {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+      z-index: 5;
+      font-size: clamp(72px, 14vw, 190px);
+      line-height: 1;
+      opacity: 0;
+      transform: scale(0.72);
+      transition: opacity 55ms ease, transform 90ms ease;
+    }
+
+    #dolphin-text.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    #island-text {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      pointer-events: none;
+      z-index: 5;
+      font-size: clamp(72px, 14vw, 190px);
+      line-height: 1;
+      opacity: 0;
+      transform: scale(0.72);
+      transition: opacity 55ms ease, transform 90ms ease;
+    }
+
+    #island-text.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Shared note-symbol display.
+       A new note hard-replaces the current contents immediately.
+       Chord symbols are laid out side by side instead of overlapping. */
+    #symbol-row {
+      position: absolute;
+      inset: 0;
+      z-index: 6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(10px, 2.2vw, 34px);
+      padding: 0 5vw;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 55ms ease;
+      white-space: nowrap;
+    }
+
+    #symbol-row.show {
+      opacity: 1;
+    }
+
+    #symbol-row .note-symbol {
+      display: inline-block;
+      font-size: clamp(58px, 11vw, 170px);
+      line-height: 1;
+      flex: 0 1 auto;
+    }
+
+    #symbol-row .note-symbol.brat-symbol {
+      color: #000;
+      font-size: clamp(54px, 10vw, 155px);
+      font-family: "Arial Narrow", "Liberation Sans Narrow", "Nimbus Sans Narrow", Arial, sans-serif;
+      font-stretch: condensed;
+      font-weight: 400;
+      letter-spacing: -0.03em;
+    }
+
+    /* Superseded by #symbol-row. Keep the old nodes inert so their timers cannot
+       visually interfere with the shared/chord-aware display. */
+    #brat-text,
+    #devil-text,
+    #heart-text,
+    #angel-text,
+    #sun-text,
+    #pumpkin-text,
+    #alien-text,
+    #eggplant-text,
+    #cheese-text,
+    #fire-text,
+    #moon-text,
+    #dolphin-text,
+    #island-text {
+      display: none !important;
     }
 
     #sound-select-wrap {
@@ -124,6 +414,7 @@
         0 2px 5px rgba(0,0,0,0.35);
     }
 
+    .black      { background: #050505; }
     .red        { background: #ff3b30; }
     .redorange  { background: #ff5e2b; }
     .orange     { background: #ff8c1a; }
@@ -135,6 +426,7 @@
     .blue       { background: #2f80ed; }
     .indigo     { background: #5856d6; }
     .violet     { background: #af52de; }
+    .white      { background: #f7f7f7; }
 
     dialog {
       width: min(960px, calc(100vw - 28px));
@@ -220,15 +512,17 @@
     }
 
     #roll-wrap {
-      overflow: auto;
+      overflow-x: auto;
+      overflow-y: auto;
       padding: 14px;
+      max-width: 100%;
     }
 
     #piano-roll {
       display: grid;
-      grid-template-columns: 58px repeat(16, minmax(32px, 1fr));
       gap: 3px;
-      min-width: 720px;
+      width: max-content;
+      min-width: max-content;
       touch-action: none;
     }
 
@@ -278,7 +572,12 @@
     }
 
     .roll-cell.beat {
-      border-left-color: #727272;
+      border-left-color: #8d8d8d;
+      border-left-width: 2px;
+    }
+
+    .step-number.measure-start {
+      border-left: 2px solid #666;
     }
 
     .roll-cell.on {
@@ -343,55 +642,113 @@
 <body>
   <div id="light-wrap">
     <div id="light"></div>
+    <div id="brat-text" aria-hidden="true">brat</div>
+    <div id="devil-text" aria-hidden="true">🐈‍⬛</div>
+    <div id="heart-text" aria-hidden="true">❤️</div>
+    <div id="angel-text" aria-hidden="true">😇</div>
+    <div id="sun-text" aria-hidden="true">☀️</div>
+    <div id="pumpkin-text" aria-hidden="true">🎃</div>
+    <div id="alien-text" aria-hidden="true">👽</div>
+    <div id="eggplant-text" aria-hidden="true">🍆</div>
+    <div id="cheese-text" aria-hidden="true">🧀</div>
+    <div id="fire-text" aria-hidden="true">🔥</div>
+    <div id="moon-text" aria-hidden="true">🌑</div>
+    <div id="dolphin-text" aria-hidden="true">🐬</div>
+    <div id="island-text" aria-hidden="true">🏝️</div>
+    <div id="symbol-row" aria-hidden="true"></div>
 
     <div id="sound-select-wrap">
       <label for="sound-select">Sound</label>
       <select id="sound-select">
-        <option value="electric">Electric Piano</option>
-        <option value="pad">Warm Pad</option>
-        <option value="bell">Bell</option>
-        <option value="organ">Organ</option>
+        
+        
+        
+        
         <option value="pluck">Pluck</option>
-        <option value="gbpulse">8-Bit Pulse</option>
-        <option value="gbsquare">Game Boy Square</option>
-        <option value="gbsoft">Pocket Lead</option>
+        <option value="pluckystrings">Plucky Strings</option>
         <option value="gbbass">8-Bit Bass</option>
-        <option value="wiipluck">Console Pluck</option>
-        <option value="wiibell">Menu Bell</option>
-        <option value="wiimarimba">Soft Marimba</option>
-        <option value="wiibubble">Bubble Synth</option>
-        <option value="wiiair">Airy Keys</option>
-        <option value="wiichime">Glass Chime</option>
-        <option value="rsflute">Adventure Flute</option>
-        <option value="rslute">Village Lute</option>
-        <option value="rshorn">Quest Horn</option>
-        <option value="rsharps">Castle Harp</option>
-        <option value="rsmystic">Mystic Cave</option>
-        <option value="rswood">Woodland Pipes</option>
-        <option value="spookydrone">Crypt Drone</option>
-        <option value="spookyorgan">Haunted Organ</option>
-        <option value="spookybells">Graveyard Bells</option>
-        <option value="spookylute">Cursed Lute</option>
-        <option value="spookychoir">Monastery Choir</option>
-        <option value="spookyhurdy">Hurdy-Gurdy</option>
-        <option value="spookypipes">Witchwood Pipes</option>
-        <option value="screamghost">Ghost Scream</option>
-        <option value="screamdemon">Demon Shriek</option>
-        <option value="screamchoir">Wailing Choir</option>
-        <option value="screambanshee">Banshee</option>
-        <option value="screammonster" selected>Monster Roar</option>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <option value="screammonster">Monster Roar</option>
         <option value="musicbox">Clockwork Music Box</option>
         <option value="dulcimer">Hammered Dulcimer</option>
         <option value="celesta">Moonlit Celesta</option>
-        <option value="ocarina">Clay Ocarina</option>
-        <option value="reed">Old Reed Organ</option>
-        <option value="crystal">Crystal Resonator</option>
-        <option value="copper">Copper Strings</option>
+        
+        
+        
+        
         <option value="deepbell">Deep Temple Bell</option>
-        <option value="frost">Frost Pad</option>
+        
         <option value="arcade">Arcade Lead</option>
         <option value="machine">Machine Voice</option>
-        <option value="goblin">Goblin Pipe</option>
+        <option value="hellsaw">Hell Saw</option>
+        <option value="doomstack">Doom Stack</option>
+        <option value="ironfang">Iron Fang</option>
+        <option value="voidbass">Void Bass</option>
+        <option value="razorlead">Razor Lead</option>
+        <option value="warengine">War Engine</option>
+        <option value="blackpulse">Black Pulse</option>
+        <option value="velvetpulse">Velvet Pulse</option>
+        <option value="nylonpulse">Nylon Pulse</option>
+        <option value="woodpulse">Wood Pulse</option>
+        <option value="deepulse">Deep Pulse</option>
+        <option value="warmbass">Warm Bass Pulse</option>
+        <option value="softpluck">Soft Pluck</option>
+        <option value="hollowstring">Hollow String</option>
+        <option value="subterror">Sub Terror</option>
+        <option value="warehouse">Warehouse Pulse</option>
+        <option value="darklaser">Dark Laser</option>
+        <option value="voidstab">Void Stab</option>
+        <option value="underground">Underground</option>
+        <option value="ironbass">Iron Bass</option>
+        <option value="nightdrive">Night Drive</option>
+        <option value="blackacid">Black Acid</option>
+        <option value="abysspulse">Abyss Pulse</option>
+        <option value="gravepulse">Grave Pulse</option>
+        <option value="nightbeast">Night Beast</option>
+        <option value="subfang">Sub Fang</option>
+        <option value="doompluck">Doom Pluck</option>
+        <option value="doompluckfull" selected>Doom Pluck Full</option>
+        <option value="doompluckround">Doom Pluck Round</option>
+        <option value="doompluckbass">Doom Pluck Bass</option>
+        <option value="doompluckwide">Doom Pluck Wide</option>
+        <option value="doompluckwarm">Doom Pluck Warm</option>
+        <option value="blackhollow">Black Hollow</option>
+        <option value="cryptbass">Crypt Bass</option>
+        <option value="dreadbass">Dread Bass</option>
+        <option value="beastpulse">Beast Pulse</option>
+        <option value="blackengine">Black Engine</option>
+        <option value="voidgrowl">Void Growl</option>
+        <option value="doompulse">Doom Pulse</option>
+        <option value="deepbeast">Deep Beast</option>
+        <option value="darkthrob">Dark Throb</option>
+        <option value="overlord">Overlord</option>
+        
       </select>
     </div>
 
@@ -417,17 +774,19 @@
   </div>
 
   <div id="piano">
-    <button class="key red"       data-note="196.00" data-name="G3" data-color="#ff3b30" aria-label="G3 red piano key"></button>
-    <button class="key redorange" data-note="220.00" data-name="A3" data-color="#ff5e2b" aria-label="A3 red-orange piano key"></button>
-    <button class="key orange"    data-note="246.94" data-name="B3" data-color="#ff8c1a" aria-label="B3 orange piano key"></button>
-    <button class="key amber"     data-note="261.63" data-name="C4" data-color="#ffb000" aria-label="C4 amber piano key"></button>
-    <button class="key yellow"    data-note="293.66" data-name="D4" data-color="#ffd60a" aria-label="D4 yellow piano key"></button>
-    <button class="key lime"      data-note="329.63" data-name="E4" data-color="#9bdc28" aria-label="E4 lime piano key"></button>
-    <button class="key green"     data-note="349.23" data-name="F4" data-color="#34c759" aria-label="F4 green piano key"></button>
-    <button class="key turquoise" data-note="392.00" data-name="G4" data-color="#20c9b0" aria-label="G4 turquoise piano key"></button>
-    <button class="key blue"      data-note="440.00" data-name="A4" data-color="#2f80ed" aria-label="A4 blue piano key"></button>
-    <button class="key indigo"    data-note="493.88" data-name="B4" data-color="#5856d6" aria-label="B4 indigo piano key"></button>
-    <button class="key violet"    data-note="523.25" data-name="C5" data-color="#af52de" aria-label="C5 violet piano key"></button>
+    <button class="key black"     data-note="329.63"  data-name="E4" data-color="#050505" aria-label="E4 black piano key"></button>
+    <button class="key red"       data-note="349.23"  data-name="F4" data-color="#ff3b30" aria-label="F4 red piano key"></button>
+    <button class="key redorange" data-note="392.00"  data-name="G4" data-color="#ff5e2b" aria-label="G4 red-orange piano key"></button>
+    <button class="key orange"    data-note="440.00"  data-name="A4" data-color="#ff8c1a" aria-label="A4 orange piano key"></button>
+    <button class="key amber"     data-note="493.88"  data-name="B4" data-color="#ffb000" aria-label="B4 amber piano key"></button>
+    <button class="key yellow"    data-note="523.25"  data-name="C5" data-color="#ffd60a" aria-label="C5 yellow piano key"></button>
+    <button class="key lime"      data-note="587.33"  data-name="D5" data-color="#9bdc28" aria-label="D5 lime piano key"></button>
+    <button class="key green"     data-note="659.25"  data-name="E5" data-color="#34c759" aria-label="E5 green piano key"></button>
+    <button class="key turquoise" data-note="698.46"  data-name="F5" data-color="#20c9b0" aria-label="F5 turquoise piano key"></button>
+    <button class="key blue"      data-note="783.99"  data-name="G5" data-color="#2f80ed" aria-label="G5 blue piano key"></button>
+    <button class="key indigo"    data-note="880.00"  data-name="A5" data-color="#5856d6" aria-label="A5 indigo piano key"></button>
+    <button class="key violet"    data-note="987.77"  data-name="B5" data-color="#af52de" aria-label="B5 violet piano key"></button>
+    <button class="key white"     data-note="1046.50" data-name="C6" data-color="#f7f7f7" aria-label="C6 white piano key"></button>
   </div>
 
   <dialog id="sequencer-dialog">
@@ -453,7 +812,7 @@
             <button id="dialog-play-button" class="small-button" type="button">Play</button>
             <button id="dialog-loop-button" class="small-button" type="button" aria-pressed="false">Loop</button>
             <label class="tempo-label">BPM
-              <input id="tempo" type="number" min="40" max="240" value="110">
+              <input id="tempo" type="number" min="40" max="240" value="240">
             </label>
           </div>
 
@@ -467,13 +826,29 @@
     <div id="roll-wrap">
       <div id="piano-roll"></div>
     </div>
-    <p class="dialog-help">Click once for a single-step note. Press and drag horizontally before releasing to stretch that one note into a sustain. Adjacent separately-clicked notes stay separate. Click an existing note block to delete it. Stack notes vertically for chords.</p>
+    <p class="dialog-help">Each grid cell is one eighth note. Click once for an eighth note; drag horizontally to sustain across additional eighth-note cells. Measures are 8 cells (4/4). Playback and looping stop at the first completely empty measure.</p>
     <p id="export-status" aria-live="polite"></p>
   </dialog>
 
   <script>
     const light = document.getElementById("light");
+    const bratText = document.getElementById("brat-text");
+    const devilText = document.getElementById("devil-text");
+    const heartText = document.getElementById("heart-text");
+    const angelText = document.getElementById("angel-text");
+    const sunText = document.getElementById("sun-text");
+    const pumpkinText = document.getElementById("pumpkin-text");
+    const alienText = document.getElementById("alien-text");
+    const eggplantText = document.getElementById("eggplant-text");
+    const cheeseText = document.getElementById("cheese-text");
+    const fireText = document.getElementById("fire-text");
+    const moonText = document.getElementById("moon-text");
+    const dolphinText = document.getElementById("dolphin-text");
+    const islandText = document.getElementById("island-text");
+    const symbolRow = document.getElementById("symbol-row");
     const keys = [...document.querySelectorAll(".key")];
+    const GREEN_NOTE_NAME = "D5";
+    let bratTimer = null;
     const soundSelect = document.getElementById("sound-select");
     const editButton = document.getElementById("edit-button");
     const playButton = document.getElementById("play-button");
@@ -504,12 +879,12 @@
     let rollDragPointerId = null;
 
     let sequencePlaying = false;
-    let loopEnabled = false;
+    let loopEnabled = true;
     let playTimer = null;
     let currentStep = 0;
     let sequenceVoices = [];
 
-    const STEPS = 16;
+    const STEPS = 72;
     const STORAGE_KEY = "rainbowPianoSequencesV1";
     // Each row stores note duration at the note's START step.
     // 0 = no note starts here; 1 = single step; 4 = four-step sustained note, etc.
@@ -517,7 +892,9 @@
 
     // A compact built-in pop-rock beat sketch, saved under the requested title.
     // It is intentionally a simple playable preset rather than a note-for-note transcription.
-    const defaultSequences = {};
+    const defaultSequences = {
+      "360": {"bpm":240,"pattern":[[2,0,2,0,2,0,0,0,0,0,0,0,0,0,0,0,2,0,2,0,2,0,0,0,0,0,0,0,0,0,0,0,2,0,2,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,2,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,2,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,2,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,0,1,3,0,0,0,0,0,0,0,0,0,0,0,0,0],[2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,2,0,2,0,1,2,0,1,4,0,0,0,0,0,0,0,2,0,2,0,1,2,0,1,4,0,0,0,0,0,0,0,2,0,2,0,1,2,0,1,4,0,0,0,0,0,0,0,0,0,2,0,0,2,0,1,3,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0]]}
+    };
 
     let savedSequences = {};
 
@@ -558,8 +935,9 @@
         }
       }
 
-      tempoInput.value = Math.min(240, Math.max(40, Number(data.bpm) || 110));
+      tempoInput.value = Math.min(240, Math.max(40, Number(data.bpm) || 240));
       renderRoll();
+    showRestDisplay();
     }
 
     function refreshSequenceSelect(selectedName) {
@@ -581,7 +959,7 @@
         names.forEach(name => {
           const option = document.createElement("option");
           option.value = name;
-          option.textContent = `${name} • saved`;
+          option.textContent = defaultSequences[name] ? `${name} • preset` : `${name} • saved`;
           sequenceSelect.appendChild(option);
         });
 
@@ -606,6 +984,361 @@
         audioContext.resume();
       }
       return audioContext;
+    }
+
+    let islandTimer = null;
+    const ISLAND_NOTE_NAME = "F5";
+
+    function showIslandForKey(key, durationMs = 500) {
+      if (!key || key.dataset.name !== ISLAND_NOTE_NAME) return;
+
+      if (islandTimer) clearTimeout(islandTimer);
+      islandText.classList.remove("show");
+      void islandText.offsetWidth;
+      islandText.classList.add("show");
+
+      islandTimer = setTimeout(() => {
+        islandText.classList.remove("show");
+        islandTimer = null;
+      }, durationMs);
+    }
+
+    let dolphinTimer = null;
+    const DOLPHIN_NOTE_NAME = "G5";
+
+    function showDolphinForKey(key, durationMs = 500) {
+      if (!key || key.dataset.name !== DOLPHIN_NOTE_NAME) return;
+
+      if (dolphinTimer) clearTimeout(dolphinTimer);
+      dolphinText.classList.remove("show");
+      void dolphinText.offsetWidth;
+      dolphinText.classList.add("show");
+
+      dolphinTimer = setTimeout(() => {
+        dolphinText.classList.remove("show");
+        dolphinTimer = null;
+      }, durationMs);
+    }
+
+    let moonTimer = null;
+    const MOON_NOTE_NAME = "A5";
+
+    function showMoonForKey(key, durationMs = 500) {
+      if (!key || key.dataset.name !== MOON_NOTE_NAME) return;
+
+      if (moonTimer) clearTimeout(moonTimer);
+      moonText.classList.remove("show");
+      void moonText.offsetWidth;
+      moonText.classList.add("show");
+
+      moonTimer = setTimeout(() => {
+        moonText.classList.remove("show");
+        moonTimer = null;
+      }, durationMs);
+    }
+
+    let fireTimer = null;
+    const FIRE_NOTE_NAME = "G4";
+
+    function showFireForKey(key, durationMs = 500) {
+      if (!key || key.dataset.name !== FIRE_NOTE_NAME) return;
+
+      if (fireTimer) clearTimeout(fireTimer);
+      fireText.classList.remove("show");
+      void fireText.offsetWidth;
+      fireText.classList.add("show");
+
+      fireTimer = setTimeout(() => {
+        fireText.classList.remove("show");
+        fireTimer = null;
+      }, durationMs);
+    }
+
+    let cheeseTimer = null;
+    const CHEESE_NOTE_NAME = "B4";
+
+    function showCheeseForKey(key, durationMs = 500) {
+      if (!key || key.dataset.name !== CHEESE_NOTE_NAME) return;
+
+      if (cheeseTimer) clearTimeout(cheeseTimer);
+      cheeseText.classList.remove("show");
+      void cheeseText.offsetWidth;
+      cheeseText.classList.add("show");
+
+      cheeseTimer = setTimeout(() => {
+        cheeseText.classList.remove("show");
+        cheeseTimer = null;
+      }, durationMs);
+    }
+
+    let eggplantTimer = null;
+    const EGGPLANT_NOTE_NAME = "B5";
+
+    function showEggplantForKey(key, durationMs = 500) {
+      if (!key || key.dataset.name !== EGGPLANT_NOTE_NAME) return;
+
+      if (eggplantTimer) clearTimeout(eggplantTimer);
+      eggplantText.classList.remove("show");
+      void eggplantText.offsetWidth;
+      eggplantText.classList.add("show");
+
+      eggplantTimer = setTimeout(() => {
+        eggplantText.classList.remove("show");
+        eggplantTimer = null;
+      }, durationMs);
+    }
+
+    let alienTimer = null;
+    const ALIEN_NOTE_NAME = "E5";
+
+    function showAlienForKey(key, durationMs = 500) {
+      if (!key || key.dataset.name !== ALIEN_NOTE_NAME) return;
+
+      if (alienTimer) clearTimeout(alienTimer);
+      alienText.classList.remove("show");
+      void alienText.offsetWidth;
+      alienText.classList.add("show");
+
+      alienTimer = setTimeout(() => {
+        alienText.classList.remove("show");
+        alienTimer = null;
+      }, durationMs);
+    }
+
+    let pumpkinTimer = null;
+
+    const ORANGE_NOTE_NAME = "A4";
+
+    function showPumpkinForKey(key, durationMs = 500) {
+      if (!key || key.dataset.name !== ORANGE_NOTE_NAME) return;
+
+      if (pumpkinTimer) clearTimeout(pumpkinTimer);
+      pumpkinText.classList.remove("show");
+      void pumpkinText.offsetWidth;
+      pumpkinText.classList.add("show");
+
+      pumpkinTimer = setTimeout(() => {
+        pumpkinText.classList.remove("show");
+        pumpkinTimer = null;
+      }, durationMs);
+    }
+
+    let sunTimer = null;
+
+    function showSunForKey(key, durationMs = 500) {
+      if (!key) return;
+      const color = (key.dataset.color || "").toLowerCase();
+      const isYellow = color === "#ffd60a" || color === "#ffff00" || color === "yellow";
+      if (!isYellow) return;
+
+      if (sunTimer) clearTimeout(sunTimer);
+      sunText.classList.remove("show");
+      void sunText.offsetWidth;
+      sunText.classList.add("show");
+
+      sunTimer = setTimeout(() => {
+        sunText.classList.remove("show");
+        sunTimer = null;
+      }, durationMs);
+    }
+
+    let heartTimer = null;
+    const HEART_NOTE_NAME = "F4";
+
+    function showHeartForKey(key, durationMs = 500) {
+      if (!key || key.dataset.name !== HEART_NOTE_NAME) return;
+      if (heartTimer) clearTimeout(heartTimer);
+      heartText.classList.remove("show");
+      void heartText.offsetWidth;
+      heartText.classList.add("show");
+      heartTimer = setTimeout(() => {
+        heartText.classList.remove("show");
+        heartTimer = null;
+      }, durationMs);
+    }
+
+    let angelTimer = null;
+    const ANGEL_NOTE_NAME = "C6";
+
+    function showAngelForKey(key, durationMs = 500) {
+      if (!key || key.dataset.name !== ANGEL_NOTE_NAME) return;
+      if (angelTimer) clearTimeout(angelTimer);
+      angelText.classList.remove("show");
+      void angelText.offsetWidth;
+      angelText.classList.add("show");
+      angelTimer = setTimeout(() => {
+        angelText.classList.remove("show");
+        angelTimer = null;
+      }, durationMs);
+    }
+
+    let devilTimer = null;
+    const DEVIL_NOTE_NAME = "E4";
+
+    function showDevilForKey(key, durationMs = 500) {
+      if (!key || key.dataset.name !== DEVIL_NOTE_NAME) return;
+
+      if (devilTimer) clearTimeout(devilTimer);
+      devilText.classList.remove("show");
+      void devilText.offsetWidth;
+      devilText.classList.add("show");
+
+      devilTimer = setTimeout(() => {
+        devilText.classList.remove("show");
+        devilTimer = null;
+      }, durationMs);
+    }
+
+    const NOTE_SYMBOLS = {
+      E4: "🐈‍⬛",
+      F4: "❤️",
+      G4: "🔥",
+      A4: "🎃",
+      B4: "🧀",
+      C5: "☀️",
+      D5: "brat",
+      E5: "👽",
+      F5: "🏝️",
+      G5: "🐬",
+      A5: "🌑",
+      B5: "🍆",
+      C6: "😇"
+    };
+
+    let symbolRowTimer = null;
+    let sequencerSymbolSignature = null;
+
+    function hardClearSymbolRow() {
+      if (symbolRowTimer) {
+        clearTimeout(symbolRowTimer);
+        symbolRowTimer = null;
+      }
+
+      // Suppress the CSS fade for interruption: old content vanishes immediately.
+      symbolRow.style.transition = "none";
+      symbolRow.classList.remove("show");
+      symbolRow.replaceChildren();
+
+      // Force the hidden state to apply before restoring normal fade behavior.
+      void symbolRow.offsetWidth;
+      symbolRow.style.transition = "";
+    }
+
+    function displaySymbolsForKeys(displayKeys, durationMs = 500) {
+      hardClearSymbolRow();
+
+      const uniqueNames = [];
+      for (const key of displayKeys) {
+        const name = key?.dataset?.name;
+        if (name && NOTE_SYMBOLS[name] && !uniqueNames.includes(name)) {
+          uniqueNames.push(name);
+        }
+      }
+
+      if (!uniqueNames.length) return;
+
+      for (const name of uniqueNames) {
+        const span = document.createElement("span");
+        span.className = "note-symbol";
+        if (name === GREEN_NOTE_NAME) span.classList.add("brat-symbol");
+        span.textContent = NOTE_SYMBOLS[name];
+        symbolRow.appendChild(span);
+      }
+
+      // New symbol(s) appear immediately after the old content was hard-cleared.
+      symbolRow.classList.add("show");
+
+      // null means "remain visible until explicitly replaced/cleared".
+      if (durationMs != null) {
+        symbolRowTimer = setTimeout(() => {
+          symbolRow.classList.remove("show");
+          symbolRowTimer = null;
+        }, durationMs);
+      }
+    }
+
+    function displaySequencerSymbols(displayKeys) {
+      const names = [];
+      for (const key of displayKeys) {
+        const name = key?.dataset?.name;
+        if (name && NOTE_SYMBOLS[name] && !names.includes(name)) names.push(name);
+      }
+
+      // Pitch-order is already stable because playStep walks keys in order.
+      const signature = names.join("|");
+
+      // A sustained note/chord should not be torn down and rebuilt every step.
+      if (signature === sequencerSymbolSignature) return;
+
+      sequencerSymbolSignature = signature;
+      displaySymbolsForKeys(displayKeys, null);
+    }
+
+    function displaySequencerRest() {
+      const bratKey = keys.find(key => key.dataset.name === GREEN_NOTE_NAME);
+      const signature = "__REST__";
+      if (sequencerSymbolSignature === signature) return;
+
+      sequencerSymbolSignature = signature;
+      light.style.backgroundColor = "#9bdc28";
+      light.style.boxShadow = "0 0 70px #9bdc28";
+      displaySymbolsForKeys(bratKey ? [bratKey] : [], null);
+    }
+
+    function resetSequencerSymbolState() {
+      sequencerSymbolSignature = null;
+    }
+
+    function clearAllVisualSymbols() {
+      hardClearSymbolRow();
+
+      // Also clear the obsolete individual overlays so their existing helper
+      // functions/timers remain harmless.
+      bratText.classList.remove("show");
+      devilText.classList.remove("show");
+      heartText.classList.remove("show");
+      angelText.classList.remove("show");
+      sunText.classList.remove("show");
+      pumpkinText.classList.remove("show");
+      alienText.classList.remove("show");
+      eggplantText.classList.remove("show");
+      cheeseText.classList.remove("show");
+      fireText.classList.remove("show");
+      moonText.classList.remove("show");
+      dolphinText.classList.remove("show");
+      islandText.classList.remove("show");
+    }
+
+    function showRestDisplay(durationMs = 500) {
+      clearAllVisualSymbols();
+      light.style.backgroundColor = "#9bdc28";
+      light.style.boxShadow = "0 0 70px #9bdc28";
+      const bratKey = keys.find(key => key.dataset.name === GREEN_NOTE_NAME);
+      displaySymbolsForKeys(bratKey ? [bratKey] : [], durationMs);
+
+      if (bratTimer) clearTimeout(bratTimer);
+      bratText.classList.remove("show");
+      void bratText.offsetWidth;
+      bratText.classList.add("show");
+
+      bratTimer = setTimeout(() => {
+        bratText.classList.remove("show");
+        bratTimer = null;
+      }, durationMs);
+    }
+
+    function showBratForKey(key, durationMs = 500) {
+      if (!key || key.dataset.name !== GREEN_NOTE_NAME) return;
+
+      if (bratTimer) clearTimeout(bratTimer);
+      bratText.classList.remove("show");
+      void bratText.offsetWidth;
+      bratText.classList.add("show");
+
+      bratTimer = setTimeout(() => {
+        bratText.classList.remove("show");
+        bratTimer = null;
+      }, durationMs);
     }
 
     function buildVoice(frequency, sound = soundSelect.value, swell = true) {
@@ -1158,6 +1891,336 @@
         master.gain.exponentialRampToValueAtTime(0.51, now + 0.025);
         master.gain.exponentialRampToValueAtTime(0.65, now + 1.5);
 
+      } else if (sound === "hellsaw") {
+        const filter = ctx.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.frequency.setValueAtTime(2600, now);
+        filter.Q.setValueAtTime(5.5, now);
+        filter.connect(master);
+        [-24, -12, 0, 12, 24].forEach(detune => addOsc("sawtooth", frequency, detune, 0.105, filter));
+        addOsc("square", frequency / 2, 0, 0.10, filter);
+        master.gain.exponentialRampToValueAtTime(0.92, now + 0.008);
+        master.gain.exponentialRampToValueAtTime(0.70, now + 0.12);
+        master.gain.exponentialRampToValueAtTime(0.88, now + 1.5);
+
+      } else if (sound === "doomstack") {
+        const filter = ctx.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.frequency.setValueAtTime(1850, now);
+        filter.Q.setValueAtTime(3.0, now);
+        filter.connect(master);
+        addOsc("sawtooth", frequency / 2, -15, 0.19, filter);
+        addOsc("sawtooth", frequency / 2, 15, 0.19, filter);
+        addOsc("square", frequency, -8, 0.11, filter);
+        addOsc("square", frequency, 8, 0.11, filter);
+        addOsc("sine", frequency / 4, 0, 0.12, filter);
+        master.gain.exponentialRampToValueAtTime(0.94, now + 0.012);
+        master.gain.exponentialRampToValueAtTime(0.78, now + 0.20);
+        master.gain.exponentialRampToValueAtTime(0.91, now + 1.7);
+
+      } else if (sound === "ironfang") {
+        const filter = ctx.createBiquadFilter();
+        filter.type = "bandpass";
+        filter.frequency.setValueAtTime(1500, now);
+        filter.Q.setValueAtTime(7.0, now);
+        filter.connect(master);
+        addOsc("square", frequency, -18, 0.16, filter);
+        addOsc("sawtooth", frequency, 18, 0.16, filter);
+        addOsc("sawtooth", frequency * 2.01, -7, 0.08, filter);
+        addOsc("square", frequency * 3, 9, 0.045, filter);
+        master.gain.exponentialRampToValueAtTime(0.98, now + 0.005);
+        master.gain.exponentialRampToValueAtTime(0.67, now + 0.09);
+        master.gain.exponentialRampToValueAtTime(0.84, now + 1.2);
+
+      } else if (sound === "voidbass") {
+        const filter = ctx.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.frequency.setValueAtTime(1050, now);
+        filter.Q.setValueAtTime(6.0, now);
+        filter.connect(master);
+        addOsc("sawtooth", frequency / 2, -10, 0.22, filter);
+        addOsc("square", frequency / 2, 10, 0.15, filter);
+        addOsc("sine", frequency / 4, 0, 0.20, filter);
+        addOsc("sawtooth", frequency, 0, 0.08, filter);
+        master.gain.exponentialRampToValueAtTime(0.96, now + 0.01);
+        master.gain.exponentialRampToValueAtTime(0.76, now + 0.16);
+        master.gain.exponentialRampToValueAtTime(0.90, now + 1.9);
+
+      } else if (sound === "razorlead") {
+        const filter = ctx.createBiquadFilter();
+        filter.type = "highpass";
+        filter.frequency.setValueAtTime(650, now);
+        filter.Q.setValueAtTime(2.6, now);
+        filter.connect(master);
+        [-20, -7, 7, 20].forEach(detune => addOsc("sawtooth", frequency * 2, detune, 0.115, filter));
+        addOsc("square", frequency, 0, 0.12, filter);
+        addOsc("sine", frequency * 4.02, 0, 0.035, filter);
+        master.gain.exponentialRampToValueAtTime(0.95, now + 0.004);
+        master.gain.exponentialRampToValueAtTime(0.72, now + 0.10);
+        master.gain.exponentialRampToValueAtTime(0.86, now + 1.3);
+
+      } else if (sound === "warengine") {
+        const filter = ctx.createBiquadFilter();
+        filter.type = "bandpass";
+        filter.frequency.setValueAtTime(920, now);
+        filter.Q.setValueAtTime(4.8, now);
+        filter.connect(master);
+        addOsc("sawtooth", frequency / 2, -30, 0.18, filter);
+        addOsc("sawtooth", frequency / 2, 30, 0.18, filter);
+        addOsc("square", frequency * 0.75, -12, 0.12, filter);
+        addOsc("square", frequency * 1.5, 12, 0.08, filter);
+        addOsc("sine", frequency / 4, 0, 0.13, filter);
+        master.gain.exponentialRampToValueAtTime(0.99, now + 0.007);
+        master.gain.exponentialRampToValueAtTime(0.73, now + 0.14);
+        master.gain.exponentialRampToValueAtTime(0.92, now + 2.0);
+
+      } else if (sound === "velvetpulse") {
+        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(3300, now); filter.Q.setValueAtTime(0.7, now); filter.connect(master);
+        addOsc("triangle", frequency, -5, 0.24, filter); addOsc("triangle", frequency, 5, 0.24, filter); addOsc("sine", frequency / 2, 0, 0.10, filter);
+        master.gain.exponentialRampToValueAtTime(0.58, now + 0.018); master.gain.exponentialRampToValueAtTime(0.31, now + 0.55); master.gain.exponentialRampToValueAtTime(0.38, now + 1.8);
+
+      } else if (sound === "nylonpulse") {
+        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(5200, now); filter.frequency.exponentialRampToValueAtTime(1900, now + 0.65); filter.Q.setValueAtTime(0.9, now); filter.connect(master);
+        addOsc("triangle", frequency, 0, 0.31, filter); addOsc("sine", frequency * 2, 0, 0.09, filter); addOsc("sine", frequency * 3, 0, 0.035, filter);
+        master.gain.exponentialRampToValueAtTime(0.72, now + 0.007); master.gain.exponentialRampToValueAtTime(0.24, now + 0.42); master.gain.exponentialRampToValueAtTime(0.30, now + 1.6);
+
+      } else if (sound === "woodpulse") {
+        const filter = ctx.createBiquadFilter(); filter.type = "bandpass"; filter.frequency.setValueAtTime(1450, now); filter.Q.setValueAtTime(1.15, now); filter.connect(master);
+        addOsc("triangle", frequency, -3, 0.28, filter); addOsc("sine", frequency, 3, 0.18, filter); addOsc("sine", frequency * 2.01, 0, 0.07, filter);
+        master.gain.exponentialRampToValueAtTime(0.76, now + 0.009); master.gain.exponentialRampToValueAtTime(0.27, now + 0.38); master.gain.exponentialRampToValueAtTime(0.34, now + 1.5);
+
+      } else if (sound === "deepulse") {
+        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(2600, now); filter.Q.setValueAtTime(1.3, now); filter.connect(master);
+        addOsc("triangle", frequency / 2, -6, 0.24, filter); addOsc("triangle", frequency / 2, 6, 0.24, filter); addOsc("sawtooth", frequency, 0, 0.09, filter); addOsc("sine", frequency / 4, 0, 0.11, filter);
+        master.gain.exponentialRampToValueAtTime(0.82, now + 0.012); master.gain.exponentialRampToValueAtTime(0.42, now + 0.5); master.gain.exponentialRampToValueAtTime(0.50, now + 1.8);
+
+      } else if (sound === "warmbass") {
+        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(1800, now); filter.Q.setValueAtTime(0.8, now); filter.connect(master);
+        addOsc("sine", frequency / 2, 0, 0.30, filter); addOsc("triangle", frequency / 2, 0, 0.24, filter); addOsc("triangle", frequency, 0, 0.10, filter);
+        master.gain.exponentialRampToValueAtTime(0.88, now + 0.014); master.gain.exponentialRampToValueAtTime(0.48, now + 0.62); master.gain.exponentialRampToValueAtTime(0.56, now + 2.0);
+
+      } else if (sound === "softpluck") {
+        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(4300, now); filter.frequency.exponentialRampToValueAtTime(1300, now + 0.9); filter.connect(master);
+        addOsc("triangle", frequency, -4, 0.24, filter); addOsc("triangle", frequency, 4, 0.24, filter); addOsc("sine", frequency * 2, 0, 0.05, filter);
+        master.gain.exponentialRampToValueAtTime(0.66, now + 0.01); master.gain.exponentialRampToValueAtTime(0.18, now + 0.62); master.gain.exponentialRampToValueAtTime(0.25, now + 1.7);
+
+      } else if (sound === "hollowstring") {
+        const filter = ctx.createBiquadFilter(); filter.type = "bandpass"; filter.frequency.setValueAtTime(2100, now); filter.Q.setValueAtTime(0.75, now); filter.connect(master);
+        addOsc("triangle", frequency, -8, 0.20, filter); addOsc("triangle", frequency, 8, 0.20, filter); addOsc("sine", frequency / 2, 0, 0.12, filter); addOsc("sine", frequency * 2, 0, 0.055, filter);
+        master.gain.exponentialRampToValueAtTime(0.62, now + 0.02); master.gain.exponentialRampToValueAtTime(0.34, now + 0.7); master.gain.exponentialRampToValueAtTime(0.44, now + 2.2);
+
+      } else if (sound === "subterror") {
+        const filter = ctx.createBiquadFilter(); filter.type="lowpass"; filter.frequency.setValueAtTime(1450,now); filter.Q.setValueAtTime(2.4,now); filter.connect(master);
+        addOsc("sine",frequency/2,0,0.34,filter); addOsc("triangle",frequency/2,-9,0.23,filter); addOsc("triangle",frequency/2,9,0.23,filter); addOsc("sawtooth",frequency,0,0.07,filter);
+        master.gain.exponentialRampToValueAtTime(0.98,now+0.012); master.gain.exponentialRampToValueAtTime(0.54,now+0.48); master.gain.exponentialRampToValueAtTime(0.62,now+2.0);
+
+      } else if (sound === "warehouse") {
+        const filter = ctx.createBiquadFilter(); filter.type="lowpass"; filter.frequency.setValueAtTime(3100,now); filter.frequency.exponentialRampToValueAtTime(1050,now+0.55); filter.Q.setValueAtTime(4.8,now); filter.connect(master);
+        [-18,0,18].forEach(d=>addOsc("sawtooth",frequency/2,d,0.17,filter)); addOsc("square",frequency,0,0.075,filter); addOsc("sine",frequency/4,0,0.13,filter);
+        master.gain.exponentialRampToValueAtTime(0.94,now+0.008); master.gain.exponentialRampToValueAtTime(0.43,now+0.32); master.gain.exponentialRampToValueAtTime(0.53,now+1.8);
+
+      } else if (sound === "darklaser") {
+        const filter = ctx.createBiquadFilter(); filter.type="bandpass"; filter.frequency.setValueAtTime(2600,now); filter.frequency.exponentialRampToValueAtTime(620,now+0.38); filter.Q.setValueAtTime(6.0,now); filter.connect(master);
+        addOsc("sawtooth",frequency,-14,0.18,filter); addOsc("sawtooth",frequency,14,0.18,filter); addOsc("square",frequency/2,0,0.13,filter);
+        master.gain.exponentialRampToValueAtTime(0.92,now+0.006); master.gain.exponentialRampToValueAtTime(0.30,now+0.42); master.gain.exponentialRampToValueAtTime(0.37,now+1.5);
+
+      } else if (sound === "voidstab") {
+        const filter = ctx.createBiquadFilter(); filter.type="lowpass"; filter.frequency.setValueAtTime(4800,now); filter.frequency.exponentialRampToValueAtTime(720,now+0.26); filter.Q.setValueAtTime(5.2,now); filter.connect(master);
+        [-23,-7,7,23].forEach(d=>addOsc("sawtooth",frequency/2,d,0.13,filter)); addOsc("sine",frequency/4,0,0.16,filter);
+        master.gain.exponentialRampToValueAtTime(1.0,now+0.004); master.gain.exponentialRampToValueAtTime(0.24,now+0.28); master.gain.exponentialRampToValueAtTime(0.32,now+1.25);
+
+      } else if (sound === "underground") {
+        const filter = ctx.createBiquadFilter(); filter.type="lowpass"; filter.frequency.setValueAtTime(2100,now); filter.Q.setValueAtTime(1.8,now); filter.connect(master);
+        addOsc("triangle",frequency/2,-12,0.22,filter); addOsc("triangle",frequency/2,12,0.22,filter); addOsc("sine",frequency/4,0,0.21,filter); addOsc("sawtooth",frequency,0,0.055,filter);
+        master.gain.exponentialRampToValueAtTime(0.72,now+0.035); master.gain.exponentialRampToValueAtTime(0.48,now+0.75); master.gain.exponentialRampToValueAtTime(0.68,now+2.5);
+
+      } else if (sound === "ironbass") {
+        const filter = ctx.createBiquadFilter(); filter.type="lowpass"; filter.frequency.setValueAtTime(2350,now); filter.Q.setValueAtTime(3.6,now); filter.connect(master);
+        addOsc("square",frequency/2,-6,0.17,filter); addOsc("square",frequency/2,6,0.17,filter); addOsc("sawtooth",frequency/2,0,0.15,filter); addOsc("sine",frequency/4,0,0.19,filter);
+        master.gain.exponentialRampToValueAtTime(0.98,now+0.007); master.gain.exponentialRampToValueAtTime(0.51,now+0.38); master.gain.exponentialRampToValueAtTime(0.58,now+1.8);
+
+      } else if (sound === "nightdrive") {
+        const filter = ctx.createBiquadFilter(); filter.type="lowpass"; filter.frequency.setValueAtTime(3600,now); filter.Q.setValueAtTime(1.2,now); filter.connect(master);
+        addOsc("sawtooth",frequency/2,-16,0.13,filter); addOsc("sawtooth",frequency/2,16,0.13,filter); addOsc("triangle",frequency,0,0.16,filter); addOsc("sine",frequency/4,0,0.12,filter);
+        master.gain.exponentialRampToValueAtTime(0.76,now+0.018); master.gain.exponentialRampToValueAtTime(0.39,now+0.65); master.gain.exponentialRampToValueAtTime(0.54,now+2.2);
+
+      } else if (sound === "blackacid") {
+        const filter = ctx.createBiquadFilter(); filter.type="lowpass"; filter.frequency.setValueAtTime(5200,now); filter.frequency.exponentialRampToValueAtTime(850,now+0.46); filter.Q.setValueAtTime(10.0,now); filter.connect(master);
+        addOsc("sawtooth",frequency/2,-8,0.18,filter); addOsc("sawtooth",frequency/2,8,0.18,filter); addOsc("square",frequency/2,0,0.09,filter); addOsc("sine",frequency/4,0,0.14,filter);
+        master.gain.exponentialRampToValueAtTime(0.94,now+0.006); master.gain.exponentialRampToValueAtTime(0.34,now+0.5); master.gain.exponentialRampToValueAtTime(0.43,now+1.7);
+
+      } else if (sound === "gravepulse") {
+        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(2000,now); f.Q.setValueAtTime(2.2,now); f.connect(master);
+        addOsc("triangle",frequency/2,-8,0.18,f); addOsc("triangle",frequency/2,8,0.18,f); addOsc("sine",frequency/4,0,0.16,f); addOsc("sawtooth",frequency,0,0.045,f);
+        master.gain.exponentialRampToValueAtTime(0.78,now+0.008); master.gain.exponentialRampToValueAtTime(0.42,now+0.40); master.gain.exponentialRampToValueAtTime(0.52,now+1.8);
+
+      } else if (sound === "nightbeast") {
+        const f=ctx.createBiquadFilter(); f.type="bandpass"; f.frequency.setValueAtTime(1200,now); f.Q.setValueAtTime(2.5,now); f.connect(master);
+        addOsc("sawtooth",frequency/2,-16,0.15,f); addOsc("sawtooth",frequency/2,16,0.15,f); addOsc("triangle",frequency/2,0,0.17,f); addOsc("sine",frequency/4,0,0.15,f);
+        master.gain.exponentialRampToValueAtTime(0.84,now+0.006); master.gain.exponentialRampToValueAtTime(0.39,now+0.30); master.gain.exponentialRampToValueAtTime(0.49,now+1.7);
+
+      } else if (sound === "subfang") {
+        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(1550,now); f.Q.setValueAtTime(3.1,now); f.connect(master);
+        addOsc("square",frequency/2,-6,0.12,f); addOsc("square",frequency/2,6,0.12,f); addOsc("sine",frequency/4,0,0.20,f); addOsc("triangle",frequency/2,0,0.14,f);
+        master.gain.exponentialRampToValueAtTime(0.86,now+0.005); master.gain.exponentialRampToValueAtTime(0.44,now+0.34); master.gain.exponentialRampToValueAtTime(0.55,now+1.9);
+
+      } else if (sound === "doompluckfull") {
+        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(3600,now); f.frequency.exponentialRampToValueAtTime(1100,now+0.40); f.Q.setValueAtTime(1.6,now); f.connect(master);
+        addOsc("sawtooth",frequency/2,-4,0.16,f);
+        addOsc("sawtooth",frequency/2,4,0.16,f);
+        addOsc("triangle",frequency/2,0,0.16,f);
+        addOsc("sine",frequency/4,0,0.13,f);
+        addOsc("sine",frequency,0,0.045,f);
+        master.gain.exponentialRampToValueAtTime(0.88,now+0.006);
+        master.gain.exponentialRampToValueAtTime(0.36,now+0.34);
+        master.gain.exponentialRampToValueAtTime(0.44,now+1.6);
+
+      } else if (sound === "doompluckround") {
+        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(2900,now); f.frequency.exponentialRampToValueAtTime(950,now+0.48); f.Q.setValueAtTime(1.1,now); f.connect(master);
+        addOsc("triangle",frequency/2,-3,0.20,f);
+        addOsc("triangle",frequency/2,3,0.20,f);
+        addOsc("sine",frequency/2,0,0.13,f);
+        addOsc("sine",frequency/4,0,0.12,f);
+        addOsc("sawtooth",frequency,0,0.025,f);
+        master.gain.exponentialRampToValueAtTime(0.80,now+0.008);
+        master.gain.exponentialRampToValueAtTime(0.38,now+0.42);
+        master.gain.exponentialRampToValueAtTime(0.46,now+1.8);
+
+      } else if (sound === "doompluckbass") {
+        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(2400,now); f.frequency.exponentialRampToValueAtTime(800,now+0.45); f.Q.setValueAtTime(1.35,now); f.connect(master);
+        addOsc("triangle",frequency/2,-4,0.17,f);
+        addOsc("triangle",frequency/2,4,0.17,f);
+        addOsc("sine",frequency/4,0,0.20,f);
+        addOsc("sine",frequency/8,0,0.08,f);
+        addOsc("sawtooth",frequency,0,0.03,f);
+        master.gain.exponentialRampToValueAtTime(0.84,now+0.007);
+        master.gain.exponentialRampToValueAtTime(0.41,now+0.39);
+        master.gain.exponentialRampToValueAtTime(0.50,now+1.9);
+
+      } else if (sound === "doompluckwide") {
+        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(3400,now); f.frequency.exponentialRampToValueAtTime(1000,now+0.42); f.Q.setValueAtTime(1.4,now); f.connect(master);
+        addOsc("sawtooth",frequency/2,-9,0.12,f);
+        addOsc("sawtooth",frequency/2,9,0.12,f);
+        addOsc("triangle",frequency/2,-2,0.12,f);
+        addOsc("triangle",frequency/2,2,0.12,f);
+        addOsc("sine",frequency/4,0,0.11,f);
+        master.gain.exponentialRampToValueAtTime(0.82,now+0.006);
+        master.gain.exponentialRampToValueAtTime(0.35,now+0.36);
+        master.gain.exponentialRampToValueAtTime(0.43,now+1.7);
+
+      } else if (sound === "doompluckwarm") {
+        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(2700,now); f.frequency.exponentialRampToValueAtTime(900,now+0.55); f.Q.setValueAtTime(0.85,now); f.connect(master);
+        addOsc("triangle",frequency/2,-5,0.18,f);
+        addOsc("triangle",frequency/2,5,0.18,f);
+        addOsc("sine",frequency/2,0,0.12,f);
+        addOsc("sine",frequency/4,0,0.13,f);
+        addOsc("sawtooth",frequency,0,0.02,f);
+        master.gain.exponentialRampToValueAtTime(0.76,now+0.010);
+        master.gain.exponentialRampToValueAtTime(0.40,now+0.50);
+        master.gain.exponentialRampToValueAtTime(0.49,now+2.0);
+
+      } else if (sound === "doompluck") {
+        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(4200,now); f.frequency.exponentialRampToValueAtTime(850,now+0.32); f.Q.setValueAtTime(3.8,now); f.connect(master);
+        addOsc("sawtooth",frequency/2,-10,0.13,f); addOsc("sawtooth",frequency/2,10,0.13,f); addOsc("sine",frequency/4,0,0.15,f);
+        master.gain.exponentialRampToValueAtTime(0.90,now+0.004); master.gain.exponentialRampToValueAtTime(0.25,now+0.28); master.gain.exponentialRampToValueAtTime(0.32,now+1.3);
+
+      } else if (sound === "blackhollow") {
+        const f=ctx.createBiquadFilter(); f.type="bandpass"; f.frequency.setValueAtTime(1750,now); f.Q.setValueAtTime(0.9,now); f.connect(master);
+        addOsc("triangle",frequency/2,-12,0.16,f); addOsc("triangle",frequency/2,12,0.16,f); addOsc("sine",frequency/2,0,0.12,f); addOsc("sine",frequency/4,0,0.11,f);
+        master.gain.exponentialRampToValueAtTime(0.70,now+0.015); master.gain.exponentialRampToValueAtTime(0.40,now+0.65); master.gain.exponentialRampToValueAtTime(0.51,now+2.0);
+
+      } else if (sound === "cryptbass") {
+        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(1350,now); f.Q.setValueAtTime(1.4,now); f.connect(master);
+        addOsc("sine",frequency/4,0,0.24,f); addOsc("triangle",frequency/2,-5,0.17,f); addOsc("triangle",frequency/2,5,0.17,f); addOsc("sawtooth",frequency,0,0.035,f);
+        master.gain.exponentialRampToValueAtTime(0.80,now+0.010); master.gain.exponentialRampToValueAtTime(0.47,now+0.50); master.gain.exponentialRampToValueAtTime(0.58,now+2.1);
+
+      } else if (sound === "abysspulse") {
+        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(1850,now); f.Q.setValueAtTime(2.8,now); f.connect(master);
+        addOsc("triangle",frequency/2,-7,0.25,f); addOsc("triangle",frequency/2,7,0.25,f); addOsc("sawtooth",frequency,0,0.10,f); addOsc("sine",frequency/4,0,0.18,f);
+        master.gain.exponentialRampToValueAtTime(0.98,now+0.006); master.gain.exponentialRampToValueAtTime(0.47,now+0.38); master.gain.exponentialRampToValueAtTime(0.57,now+1.9);
+
+      } else if (sound === "dreadbass") {
+        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(2400,now); f.frequency.exponentialRampToValueAtTime(1050,now+0.48); f.Q.setValueAtTime(3.5,now); f.connect(master);
+        addOsc("sawtooth",frequency/2,-11,0.19,f); addOsc("sawtooth",frequency/2,11,0.19,f); addOsc("square",frequency/2,0,0.11,f); addOsc("sine",frequency/4,0,0.20,f);
+        master.gain.exponentialRampToValueAtTime(1.0,now+0.005); master.gain.exponentialRampToValueAtTime(0.49,now+0.34); master.gain.exponentialRampToValueAtTime(0.60,now+1.8);
+
+      } else if (sound === "beastpulse") {
+        const f=ctx.createBiquadFilter(); f.type="bandpass"; f.frequency.setValueAtTime(1350,now); f.Q.setValueAtTime(2.1,now); f.connect(master);
+        addOsc("sawtooth",frequency/2,-18,0.20,f); addOsc("sawtooth",frequency/2,18,0.20,f); addOsc("triangle",frequency/2,0,0.20,f); addOsc("sine",frequency/4,0,0.17,f);
+        master.gain.exponentialRampToValueAtTime(0.99,now+0.004); master.gain.exponentialRampToValueAtTime(0.43,now+0.28); master.gain.exponentialRampToValueAtTime(0.55,now+1.7);
+
+      } else if (sound === "blackengine") {
+        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(2900,now); f.Q.setValueAtTime(4.2,now); f.connect(master);
+        addOsc("square",frequency/2,-5,0.14,f); addOsc("square",frequency/2,5,0.14,f); addOsc("sawtooth",frequency/2,0,0.18,f); addOsc("sine",frequency/4,0,0.19,f);
+        master.gain.exponentialRampToValueAtTime(1.0,now+0.003); master.gain.exponentialRampToValueAtTime(0.52,now+0.24); master.gain.exponentialRampToValueAtTime(0.61,now+1.8);
+
+      } else if (sound === "voidgrowl") {
+        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(3200,now); f.frequency.exponentialRampToValueAtTime(760,now+0.62); f.Q.setValueAtTime(6.5,now); f.connect(master);
+        addOsc("sawtooth",frequency/2,-15,0.18,f); addOsc("sawtooth",frequency/2,15,0.18,f); addOsc("triangle",frequency,0,0.10,f); addOsc("sine",frequency/4,0,0.17,f);
+        master.gain.exponentialRampToValueAtTime(0.98,now+0.006); master.gain.exponentialRampToValueAtTime(0.40,now+0.42); master.gain.exponentialRampToValueAtTime(0.53,now+2.0);
+
+      } else if (sound === "doompulse") {
+        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(1650,now); f.Q.setValueAtTime(1.7,now); f.connect(master);
+        addOsc("triangle",frequency/2,-4,0.27,f); addOsc("triangle",frequency/2,4,0.27,f); addOsc("square",frequency,0,0.075,f); addOsc("sine",frequency/4,0,0.23,f);
+        master.gain.exponentialRampToValueAtTime(0.94,now+0.009); master.gain.exponentialRampToValueAtTime(0.55,now+0.55); master.gain.exponentialRampToValueAtTime(0.67,now+2.2);
+
+      } else if (sound === "deepbeast") {
+        const f=ctx.createBiquadFilter(); f.type="bandpass"; f.frequency.setValueAtTime(980,now); f.Q.setValueAtTime(1.4,now); f.connect(master);
+        addOsc("triangle",frequency/2,-10,0.26,f); addOsc("triangle",frequency/2,10,0.26,f); addOsc("sawtooth",frequency/2,0,0.12,f); addOsc("sine",frequency/4,0,0.24,f);
+        master.gain.exponentialRampToValueAtTime(0.97,now+0.008); master.gain.exponentialRampToValueAtTime(0.51,now+0.46); master.gain.exponentialRampToValueAtTime(0.65,now+2.1);
+
+      } else if (sound === "darkthrob") {
+        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(2250,now); f.Q.setValueAtTime(3.0,now); f.connect(master);
+        addOsc("sawtooth",frequency/2,-8,0.16,f); addOsc("sawtooth",frequency/2,8,0.16,f); addOsc("triangle",frequency/2,0,0.22,f); addOsc("sine",frequency/4,0,0.20,f);
+        master.gain.exponentialRampToValueAtTime(0.96,now+0.007); master.gain.exponentialRampToValueAtTime(0.46,now+0.32); master.gain.exponentialRampToValueAtTime(0.59,now+1.9);
+
+      } else if (sound === "blackpulse") {
+        const filter = ctx.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.frequency.setValueAtTime(1450, now);
+        filter.Q.setValueAtTime(8.0, now);
+        filter.connect(master);
+        addOsc("square", frequency / 2, -6, 0.18, filter);
+        addOsc("square", frequency / 2, 6, 0.18, filter);
+        addOsc("sawtooth", frequency, -13, 0.12, filter);
+        addOsc("sawtooth", frequency, 13, 0.12, filter);
+        master.gain.exponentialRampToValueAtTime(0.97, now + 0.006);
+        master.gain.exponentialRampToValueAtTime(0.61, now + 0.07);
+        master.gain.exponentialRampToValueAtTime(0.89, now + 1.4);
+
+      } else if (sound === "overlord") {
+        const filter = ctx.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.frequency.setValueAtTime(2300, now);
+        filter.Q.setValueAtTime(4.2, now);
+        filter.connect(master);
+        [-28, -14, 0, 14, 28].forEach(detune => addOsc("sawtooth", frequency / 2, detune, 0.105, filter));
+        addOsc("square", frequency, -9, 0.09, filter);
+        addOsc("square", frequency, 9, 0.09, filter);
+        addOsc("sine", frequency / 4, 0, 0.14, filter);
+        addOsc("sawtooth", frequency * 2, 0, 0.04, filter);
+        master.gain.exponentialRampToValueAtTime(1.0, now + 0.006);
+        master.gain.exponentialRampToValueAtTime(0.76, now + 0.13);
+        master.gain.exponentialRampToValueAtTime(0.95, now + 1.8);
+
+      } else if (sound === "pluckystrings") {
+        const filter = ctx.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.frequency.setValueAtTime(7600, now);
+        filter.frequency.exponentialRampToValueAtTime(2200, now + 0.42);
+        filter.Q.setValueAtTime(1.35, now);
+        filter.connect(master);
+
+        addOsc("sawtooth", frequency, -7, 0.14, filter);
+        addOsc("sawtooth", frequency, 7, 0.14, filter);
+        addOsc("triangle", frequency, 0, 0.16, filter);
+        addOsc("sine", frequency * 2, 0, 0.055, filter);
+
+        master.gain.exponentialRampToValueAtTime(0.92, now + 0.006);
+        master.gain.exponentialRampToValueAtTime(0.44, now + 0.12);
+        master.gain.exponentialRampToValueAtTime(0.24, now + 0.65);
+        master.gain.exponentialRampToValueAtTime(0.31, now + 1.8);
+
       } else if (sound === "pluck") {
         const filter = ctx.createBiquadFilter();
         filter.type = "lowpass";
@@ -1198,9 +2261,24 @@
       stopActiveVoice();
       activeVoice = buildVoice(frequency, soundSelect.value, true);
 
+      clearAllVisualSymbols();
       light.style.backgroundColor = color;
       light.style.boxShadow = `0 0 70px ${color}`;
       key.classList.add("active");
+      showBratForKey(key);
+      showDevilForKey(key);
+      showHeartForKey(key);
+      showAngelForKey(key);
+      showSunForKey(key);
+      showPumpkinForKey(key);
+      showAlienForKey(key);
+      showEggplantForKey(key);
+      showCheeseForKey(key);
+      showFireForKey(key);
+      showMoonForKey(key);
+      showDolphinForKey(key);
+      showIslandForKey(key);
+      displaySymbolsForKeys([key]);
       activeVoice.key = key;
     }
 
@@ -1253,9 +2331,24 @@
       if (!key) return;
 
       const voice = buildVoice(Number(key.dataset.note), soundSelect.value, false);
+      clearAllVisualSymbols();
       light.style.backgroundColor = key.dataset.color;
       light.style.boxShadow = `0 0 70px ${key.dataset.color}`;
       key.classList.add("active");
+      showBratForKey(key);
+      showDevilForKey(key);
+      showHeartForKey(key);
+      showAngelForKey(key);
+      showSunForKey(key);
+      showPumpkinForKey(key);
+      showAlienForKey(key);
+      showEggplantForKey(key);
+      showCheeseForKey(key);
+      showFireForKey(key);
+      showMoonForKey(key);
+      showDolphinForKey(key);
+      showIslandForKey(key);
+      displaySymbolsForKeys([key]);
 
       setTimeout(() => {
         releaseVoice(voice, 0.18);
@@ -1299,6 +2392,7 @@
 
     function renderRoll() {
       pianoRoll.innerHTML = "";
+      pianoRoll.style.gridTemplateColumns = `58px repeat(${STEPS}, 32px)`;
 
       const corner = document.createElement("div");
       corner.className = "roll-corner";
@@ -1307,6 +2401,7 @@
       for (let step = 0; step < STEPS; step++) {
         const n = document.createElement("div");
         n.className = "step-number";
+        if (step % STEPS_PER_MEASURE === 0) n.classList.add("measure-start");
         n.textContent = step + 1;
         pianoRoll.appendChild(n);
       }
@@ -1317,6 +2412,7 @@
 
         const label = document.createElement("div");
         label.className = "roll-label";
+        if (key.dataset.name === "E4") label.style.color = "#fff";
         label.textContent = key.dataset.name;
         label.style.background = key.dataset.color;
         pianoRoll.appendChild(label);
@@ -1442,7 +2538,7 @@
       }
 
       savedSequences[name] = {
-        bpm: Math.min(240, Math.max(40, Number(tempoInput.value) || 110)),
+        bpm: Math.min(240, Math.max(40, Number(tempoInput.value) || 240)),
         pattern: clonePattern(pattern)
       };
 
@@ -1889,6 +2985,208 @@
         addOsc("square", frequency * 2, -16, 0.09, filter); addOsc("triangle", frequency * 2, 16, 0.19, filter); addOsc("sine", frequency * 3.03, 0, 0.075, filter);
         master.gain.exponentialRampToValueAtTime(0.51, start + 0.025); master.gain.setValueAtTime(0.56, end);
 
+      } else if (sound === "hellsaw") {
+        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(2600, start); filter.Q.setValueAtTime(5.5, start); filter.connect(master);
+        [-24,-12,0,12,24].forEach(detune => addOsc("sawtooth", frequency, detune, 0.105, filter)); addOsc("square", frequency / 2, 0, 0.10, filter);
+        master.gain.exponentialRampToValueAtTime(0.92, start + 0.008); master.gain.setValueAtTime(0.76, end);
+
+      } else if (sound === "doomstack") {
+        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(1850, start); filter.Q.setValueAtTime(3.0, start); filter.connect(master);
+        addOsc("sawtooth", frequency / 2, -15, 0.19, filter); addOsc("sawtooth", frequency / 2, 15, 0.19, filter); addOsc("square", frequency, -8, 0.11, filter); addOsc("square", frequency, 8, 0.11, filter); addOsc("sine", frequency / 4, 0, 0.12, filter);
+        master.gain.exponentialRampToValueAtTime(0.94, start + 0.012); master.gain.setValueAtTime(0.82, end);
+
+      } else if (sound === "ironfang") {
+        const filter = ctx.createBiquadFilter(); filter.type = "bandpass"; filter.frequency.setValueAtTime(1500, start); filter.Q.setValueAtTime(7.0, start); filter.connect(master);
+        addOsc("square", frequency, -18, 0.16, filter); addOsc("sawtooth", frequency, 18, 0.16, filter); addOsc("sawtooth", frequency * 2.01, -7, 0.08, filter);
+        master.gain.exponentialRampToValueAtTime(0.98, start + 0.005); master.gain.setValueAtTime(0.72, end);
+
+      } else if (sound === "voidbass") {
+        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(1050, start); filter.Q.setValueAtTime(6.0, start); filter.connect(master);
+        addOsc("sawtooth", frequency / 2, -10, 0.22, filter); addOsc("square", frequency / 2, 10, 0.15, filter); addOsc("sine", frequency / 4, 0, 0.20, filter); addOsc("sawtooth", frequency, 0, 0.08, filter);
+        master.gain.exponentialRampToValueAtTime(0.96, start + 0.01); master.gain.setValueAtTime(0.80, end);
+
+      } else if (sound === "razorlead") {
+        const filter = ctx.createBiquadFilter(); filter.type = "highpass"; filter.frequency.setValueAtTime(650, start); filter.Q.setValueAtTime(2.6, start); filter.connect(master);
+        [-20,-7,7,20].forEach(detune => addOsc("sawtooth", frequency * 2, detune, 0.115, filter)); addOsc("square", frequency, 0, 0.12, filter);
+        master.gain.exponentialRampToValueAtTime(0.95, start + 0.004); master.gain.setValueAtTime(0.75, end);
+
+      } else if (sound === "warengine") {
+        const filter = ctx.createBiquadFilter(); filter.type = "bandpass"; filter.frequency.setValueAtTime(920, start); filter.Q.setValueAtTime(4.8, start); filter.connect(master);
+        addOsc("sawtooth", frequency / 2, -30, 0.18, filter); addOsc("sawtooth", frequency / 2, 30, 0.18, filter); addOsc("square", frequency * 0.75, -12, 0.12, filter); addOsc("square", frequency * 1.5, 12, 0.08, filter); addOsc("sine", frequency / 4, 0, 0.13, filter);
+        master.gain.exponentialRampToValueAtTime(0.99, start + 0.007); master.gain.setValueAtTime(0.83, end);
+
+      } else if (sound === "blackpulse") {
+        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(1450, start); filter.Q.setValueAtTime(8.0, start); filter.connect(master);
+        addOsc("square", frequency / 2, -6, 0.18, filter); addOsc("square", frequency / 2, 6, 0.18, filter); addOsc("sawtooth", frequency, -13, 0.12, filter); addOsc("sawtooth", frequency, 13, 0.12, filter);
+        master.gain.exponentialRampToValueAtTime(0.97, start + 0.006); master.gain.setValueAtTime(0.77, end);
+
+      } else if (sound === "overlord") {
+        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(2300, start); filter.Q.setValueAtTime(4.2, start); filter.connect(master);
+        [-28,-14,0,14,28].forEach(detune => addOsc("sawtooth", frequency / 2, detune, 0.105, filter)); addOsc("square", frequency, -9, 0.09, filter); addOsc("square", frequency, 9, 0.09, filter); addOsc("sine", frequency / 4, 0, 0.14, filter);
+        master.gain.exponentialRampToValueAtTime(1.0, start + 0.006); master.gain.setValueAtTime(0.86, end);
+
+      } else if (sound === "pluckystrings") {
+        const filter = ctx.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.frequency.setValueAtTime(7600, start);
+        filter.frequency.exponentialRampToValueAtTime(2200, Math.min(end, start + 0.42));
+        filter.Q.setValueAtTime(1.35, start);
+        filter.connect(master);
+
+        addOsc("sawtooth", frequency, -7, 0.14, filter);
+        addOsc("sawtooth", frequency, 7, 0.14, filter);
+        addOsc("triangle", frequency, 0, 0.16, filter);
+        addOsc("sine", frequency * 2, 0, 0.055, filter);
+
+        master.gain.exponentialRampToValueAtTime(0.92, start + 0.006);
+        master.gain.exponentialRampToValueAtTime(0.44, Math.min(end, start + 0.12));
+        if (end > start + 0.12) {
+          master.gain.setValueAtTime(0.28, end);
+        }
+
+
+      } else if (["velvetpulse","nylonpulse","woodpulse","deepulse","warmbass","softpluck","hollowstring"].includes(sound)) {
+        const filter = ctx.createBiquadFilter();
+        filter.connect(master);
+
+        if (sound === "velvetpulse") {
+          filter.type="lowpass"; filter.frequency.setValueAtTime(3300,start);
+          addOsc("triangle",frequency,-5,0.24,filter); addOsc("triangle",frequency,5,0.24,filter); addOsc("sine",frequency/2,0,0.10,filter);
+          master.gain.exponentialRampToValueAtTime(0.58,start+0.018); master.gain.setValueAtTime(0.34,end);
+        } else if (sound === "nylonpulse") {
+          filter.type="lowpass"; filter.frequency.setValueAtTime(5200,start); filter.frequency.exponentialRampToValueAtTime(1900,Math.min(end,start+0.65));
+          addOsc("triangle",frequency,0,0.31,filter); addOsc("sine",frequency*2,0,0.09,filter); addOsc("sine",frequency*3,0,0.035,filter);
+          master.gain.exponentialRampToValueAtTime(0.72,start+0.007); master.gain.setValueAtTime(0.27,end);
+        } else if (sound === "woodpulse") {
+          filter.type="bandpass"; filter.frequency.setValueAtTime(1450,start); filter.Q.setValueAtTime(1.15,start);
+          addOsc("triangle",frequency,-3,0.28,filter); addOsc("sine",frequency,3,0.18,filter); addOsc("sine",frequency*2.01,0,0.07,filter);
+          master.gain.exponentialRampToValueAtTime(0.76,start+0.009); master.gain.setValueAtTime(0.30,end);
+        } else if (sound === "deepulse") {
+          filter.type="lowpass"; filter.frequency.setValueAtTime(2600,start);
+          addOsc("triangle",frequency/2,-6,0.24,filter); addOsc("triangle",frequency/2,6,0.24,filter); addOsc("sawtooth",frequency,0,0.09,filter); addOsc("sine",frequency/4,0,0.11,filter);
+          master.gain.exponentialRampToValueAtTime(0.82,start+0.012); master.gain.setValueAtTime(0.46,end);
+        } else if (sound === "warmbass") {
+          filter.type="lowpass"; filter.frequency.setValueAtTime(1800,start);
+          addOsc("sine",frequency/2,0,0.30,filter); addOsc("triangle",frequency/2,0,0.24,filter); addOsc("triangle",frequency,0,0.10,filter);
+          master.gain.exponentialRampToValueAtTime(0.88,start+0.014); master.gain.setValueAtTime(0.52,end);
+        } else if (sound === "softpluck") {
+          filter.type="lowpass"; filter.frequency.setValueAtTime(4300,start); filter.frequency.exponentialRampToValueAtTime(1300,Math.min(end,start+0.9));
+          addOsc("triangle",frequency,-4,0.24,filter); addOsc("triangle",frequency,4,0.24,filter); addOsc("sine",frequency*2,0,0.05,filter);
+          master.gain.exponentialRampToValueAtTime(0.66,start+0.01); master.gain.setValueAtTime(0.21,end);
+        } else {
+          filter.type="bandpass"; filter.frequency.setValueAtTime(2100,start);
+          addOsc("triangle",frequency,-8,0.20,filter); addOsc("triangle",frequency,8,0.20,filter); addOsc("sine",frequency/2,0,0.12,filter); addOsc("sine",frequency*2,0,0.055,filter);
+          master.gain.exponentialRampToValueAtTime(0.62,start+0.02); master.gain.setValueAtTime(0.39,end);
+        }
+
+      } else if (["subterror","warehouse","darklaser","voidstab","underground","ironbass","nightdrive","blackacid"].includes(sound)) {
+        const filter = ctx.createBiquadFilter(); filter.connect(master);
+
+        if (sound === "subterror") {
+          filter.type="lowpass"; filter.frequency.setValueAtTime(1450,start); filter.Q.setValueAtTime(2.4,start);
+          addOsc("sine",frequency/2,0,0.34,filter); addOsc("triangle",frequency/2,-9,0.23,filter); addOsc("triangle",frequency/2,9,0.23,filter); addOsc("sawtooth",frequency,0,0.07,filter);
+          master.gain.exponentialRampToValueAtTime(0.98,start+0.012); master.gain.setValueAtTime(0.58,end);
+        } else if (sound === "warehouse") {
+          filter.type="lowpass"; filter.frequency.setValueAtTime(3100,start); filter.frequency.exponentialRampToValueAtTime(1050,Math.min(end,start+0.55)); filter.Q.setValueAtTime(4.8,start);
+          [-18,0,18].forEach(d=>addOsc("sawtooth",frequency/2,d,0.17,filter)); addOsc("square",frequency,0,0.075,filter); addOsc("sine",frequency/4,0,0.13,filter);
+          master.gain.exponentialRampToValueAtTime(0.94,start+0.008); master.gain.setValueAtTime(0.48,end);
+        } else if (sound === "darklaser") {
+          filter.type="bandpass"; filter.frequency.setValueAtTime(2600,start); filter.frequency.exponentialRampToValueAtTime(620,Math.min(end,start+0.38)); filter.Q.setValueAtTime(6,start);
+          addOsc("sawtooth",frequency,-14,0.18,filter); addOsc("sawtooth",frequency,14,0.18,filter); addOsc("square",frequency/2,0,0.13,filter);
+          master.gain.exponentialRampToValueAtTime(0.92,start+0.006); master.gain.setValueAtTime(0.34,end);
+        } else if (sound === "voidstab") {
+          filter.type="lowpass"; filter.frequency.setValueAtTime(4800,start); filter.frequency.exponentialRampToValueAtTime(720,Math.min(end,start+0.26)); filter.Q.setValueAtTime(5.2,start);
+          [-23,-7,7,23].forEach(d=>addOsc("sawtooth",frequency/2,d,0.13,filter)); addOsc("sine",frequency/4,0,0.16,filter);
+          master.gain.exponentialRampToValueAtTime(1,start+0.004); master.gain.setValueAtTime(0.28,end);
+        } else if (sound === "underground") {
+          filter.type="lowpass"; filter.frequency.setValueAtTime(2100,start); filter.Q.setValueAtTime(1.8,start);
+          addOsc("triangle",frequency/2,-12,0.22,filter); addOsc("triangle",frequency/2,12,0.22,filter); addOsc("sine",frequency/4,0,0.21,filter); addOsc("sawtooth",frequency,0,0.055,filter);
+          master.gain.exponentialRampToValueAtTime(0.72,start+0.035); master.gain.setValueAtTime(0.58,end);
+        } else if (sound === "ironbass") {
+          filter.type="lowpass"; filter.frequency.setValueAtTime(2350,start); filter.Q.setValueAtTime(3.6,start);
+          addOsc("square",frequency/2,-6,0.17,filter); addOsc("square",frequency/2,6,0.17,filter); addOsc("sawtooth",frequency/2,0,0.15,filter); addOsc("sine",frequency/4,0,0.19,filter);
+          master.gain.exponentialRampToValueAtTime(0.98,start+0.007); master.gain.setValueAtTime(0.55,end);
+        } else if (sound === "nightdrive") {
+          filter.type="lowpass"; filter.frequency.setValueAtTime(3600,start); filter.Q.setValueAtTime(1.2,start);
+          addOsc("sawtooth",frequency/2,-16,0.13,filter); addOsc("sawtooth",frequency/2,16,0.13,filter); addOsc("triangle",frequency,0,0.16,filter); addOsc("sine",frequency/4,0,0.12,filter);
+          master.gain.exponentialRampToValueAtTime(0.76,start+0.018); master.gain.setValueAtTime(0.47,end);
+        } else {
+          filter.type="lowpass"; filter.frequency.setValueAtTime(5200,start); filter.frequency.exponentialRampToValueAtTime(850,Math.min(end,start+0.46)); filter.Q.setValueAtTime(10,start);
+          addOsc("sawtooth",frequency/2,-8,0.18,filter); addOsc("sawtooth",frequency/2,8,0.18,filter); addOsc("square",frequency/2,0,0.09,filter); addOsc("sine",frequency/4,0,0.14,filter);
+          master.gain.exponentialRampToValueAtTime(0.94,start+0.006); master.gain.setValueAtTime(0.39,end);
+        }
+
+      } else if (["doompluckfull","doompluckround","doompluckbass","doompluckwide","doompluckwarm"].includes(sound)) {
+        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.connect(master);
+
+        if (sound==="doompluckfull") {
+          f.frequency.setValueAtTime(3600,start); f.frequency.exponentialRampToValueAtTime(1100,Math.min(end,start+0.40)); f.Q.setValueAtTime(1.6,start);
+          addOsc("sawtooth",frequency/2,-4,0.16,f); addOsc("sawtooth",frequency/2,4,0.16,f); addOsc("triangle",frequency/2,0,0.16,f); addOsc("sine",frequency/4,0,0.13,f); addOsc("sine",frequency,0,0.045,f);
+          master.gain.exponentialRampToValueAtTime(0.88,start+0.006); master.gain.setValueAtTime(0.40,end);
+        } else if (sound==="doompluckround") {
+          f.frequency.setValueAtTime(2900,start); f.frequency.exponentialRampToValueAtTime(950,Math.min(end,start+0.48)); f.Q.setValueAtTime(1.1,start);
+          addOsc("triangle",frequency/2,-3,0.20,f); addOsc("triangle",frequency/2,3,0.20,f); addOsc("sine",frequency/2,0,0.13,f); addOsc("sine",frequency/4,0,0.12,f); addOsc("sawtooth",frequency,0,0.025,f);
+          master.gain.exponentialRampToValueAtTime(0.80,start+0.008); master.gain.setValueAtTime(0.42,end);
+        } else if (sound==="doompluckbass") {
+          f.frequency.setValueAtTime(2400,start); f.frequency.exponentialRampToValueAtTime(800,Math.min(end,start+0.45)); f.Q.setValueAtTime(1.35,start);
+          addOsc("triangle",frequency/2,-4,0.17,f); addOsc("triangle",frequency/2,4,0.17,f); addOsc("sine",frequency/4,0,0.20,f); addOsc("sine",frequency/8,0,0.08,f); addOsc("sawtooth",frequency,0,0.03,f);
+          master.gain.exponentialRampToValueAtTime(0.84,start+0.007); master.gain.setValueAtTime(0.46,end);
+        } else if (sound==="doompluckwide") {
+          f.frequency.setValueAtTime(3400,start); f.frequency.exponentialRampToValueAtTime(1000,Math.min(end,start+0.42)); f.Q.setValueAtTime(1.4,start);
+          addOsc("sawtooth",frequency/2,-9,0.12,f); addOsc("sawtooth",frequency/2,9,0.12,f); addOsc("triangle",frequency/2,-2,0.12,f); addOsc("triangle",frequency/2,2,0.12,f); addOsc("sine",frequency/4,0,0.11,f);
+          master.gain.exponentialRampToValueAtTime(0.82,start+0.006); master.gain.setValueAtTime(0.39,end);
+        } else {
+          f.frequency.setValueAtTime(2700,start); f.frequency.exponentialRampToValueAtTime(900,Math.min(end,start+0.55)); f.Q.setValueAtTime(0.85,start);
+          addOsc("triangle",frequency/2,-5,0.18,f); addOsc("triangle",frequency/2,5,0.18,f); addOsc("sine",frequency/2,0,0.12,f); addOsc("sine",frequency/4,0,0.13,f); addOsc("sawtooth",frequency,0,0.02,f);
+          master.gain.exponentialRampToValueAtTime(0.76,start+0.010); master.gain.setValueAtTime(0.44,end);
+        }
+
+      } else if (["gravepulse","nightbeast","subfang","doompluck","blackhollow","cryptbass"].includes(sound)) {
+        const f=ctx.createBiquadFilter(); f.connect(master);
+
+        if (sound==="gravepulse") {
+          f.type="lowpass"; f.frequency.setValueAtTime(2000,start); f.Q.setValueAtTime(2.2,start);
+          addOsc("triangle",frequency/2,-8,0.18,f); addOsc("triangle",frequency/2,8,0.18,f); addOsc("sine",frequency/4,0,0.16,f); addOsc("sawtooth",frequency,0,0.045,f);
+          master.gain.exponentialRampToValueAtTime(0.78,start+0.008); master.gain.setValueAtTime(0.48,end);
+        } else if (sound==="nightbeast") {
+          f.type="bandpass"; f.frequency.setValueAtTime(1200,start); f.Q.setValueAtTime(2.5,start);
+          addOsc("sawtooth",frequency/2,-16,0.15,f); addOsc("sawtooth",frequency/2,16,0.15,f); addOsc("triangle",frequency/2,0,0.17,f); addOsc("sine",frequency/4,0,0.15,f);
+          master.gain.exponentialRampToValueAtTime(0.84,start+0.006); master.gain.setValueAtTime(0.45,end);
+        } else if (sound==="subfang") {
+          f.type="lowpass"; f.frequency.setValueAtTime(1550,start); f.Q.setValueAtTime(3.1,start);
+          addOsc("square",frequency/2,-6,0.12,f); addOsc("square",frequency/2,6,0.12,f); addOsc("sine",frequency/4,0,0.20,f); addOsc("triangle",frequency/2,0,0.14,f);
+          master.gain.exponentialRampToValueAtTime(0.86,start+0.005); master.gain.setValueAtTime(0.50,end);
+        } else if (sound==="doompluck") {
+          f.type="lowpass"; f.frequency.setValueAtTime(4200,start); f.frequency.exponentialRampToValueAtTime(850,Math.min(end,start+0.32)); f.Q.setValueAtTime(3.8,start);
+          addOsc("sawtooth",frequency/2,-10,0.13,f); addOsc("sawtooth",frequency/2,10,0.13,f); addOsc("sine",frequency/4,0,0.15,f);
+          master.gain.exponentialRampToValueAtTime(0.90,start+0.004); master.gain.setValueAtTime(0.30,end);
+        } else if (sound==="blackhollow") {
+          f.type="bandpass"; f.frequency.setValueAtTime(1750,start); f.Q.setValueAtTime(0.9,start);
+          addOsc("triangle",frequency/2,-12,0.16,f); addOsc("triangle",frequency/2,12,0.16,f); addOsc("sine",frequency/2,0,0.12,f); addOsc("sine",frequency/4,0,0.11,f);
+          master.gain.exponentialRampToValueAtTime(0.70,start+0.015); master.gain.setValueAtTime(0.47,end);
+        } else {
+          f.type="lowpass"; f.frequency.setValueAtTime(1350,start); f.Q.setValueAtTime(1.4,start);
+          addOsc("sine",frequency/4,0,0.24,f); addOsc("triangle",frequency/2,-5,0.17,f); addOsc("triangle",frequency/2,5,0.17,f); addOsc("sawtooth",frequency,0,0.035,f);
+          master.gain.exponentialRampToValueAtTime(0.80,start+0.010); master.gain.setValueAtTime(0.53,end);
+        }
+
+      } else if (["abysspulse","dreadbass","beastpulse","blackengine","voidgrowl","doompulse","deepbeast","darkthrob"].includes(sound)) {
+        const f=ctx.createBiquadFilter(); f.connect(master);
+        const cfg={
+          abysspulse:["lowpass",1850,2.8,"triangle",0.25,0.18],
+          dreadbass:["lowpass",2400,3.5,"sawtooth",0.19,0.20],
+          beastpulse:["bandpass",1350,2.1,"sawtooth",0.20,0.17],
+          blackengine:["lowpass",2900,4.2,"square",0.14,0.19],
+          voidgrowl:["lowpass",3200,6.5,"sawtooth",0.18,0.17],
+          doompulse:["lowpass",1650,1.7,"triangle",0.27,0.23],
+          deepbeast:["bandpass",980,1.4,"triangle",0.26,0.24],
+          darkthrob:["lowpass",2250,3.0,"sawtooth",0.16,0.20]
+        }[sound];
+        f.type=cfg[0]; f.frequency.setValueAtTime(cfg[1],start); f.Q.setValueAtTime(cfg[2],start);
+        addOsc(cfg[3],frequency/2,-9,cfg[4],f); addOsc(cfg[3],frequency/2,9,cfg[4],f);
+        addOsc("triangle",frequency/2,0,0.12,f); addOsc("sine",frequency/4,0,cfg[5],f);
+        master.gain.exponentialRampToValueAtTime(0.98,start+0.007); master.gain.setValueAtTime(0.56,end);
+
       } else {
         const filter = ctx.createBiquadFilter();
         filter.type = "lowpass";
@@ -1975,9 +3273,11 @@
       exportStatus.textContent = "Rendering track…";
 
       try {
-        const bpm = Math.min(240, Math.max(40, Number(tempoInput.value) || 110));
-        const stepSeconds = (60 / bpm) / 4;
-        const totalSeconds = STEPS * stepSeconds + 0.9;
+        const bpm = Math.min(240, Math.max(40, Number(tempoInput.value) || 240));
+        // One piano-roll cell is one eighth note.
+        const stepSeconds = (60 / bpm) / 2;
+        const playbackEndStep = getPlaybackEndStep();
+        const totalSeconds = playbackEndStep * stepSeconds + 0.9;
         const sampleRate = 44100;
 
         const offline = new OfflineAudioContext(
@@ -1994,7 +3294,7 @@
         limiter.release.setValueAtTime(0.18, 0);
         limiter.connect(offline.destination);
 
-        for (let step = 0; step < STEPS; step++) {
+        for (let step = 0; step < playbackEndStep; step++) {
           const start = step * stepSeconds;
 
           for (let keyIndex = 0; keyIndex < keys.length; keyIndex++) {
@@ -2081,7 +3381,7 @@
       sequenceName.value = "Untitled";
 
       for (const row of pattern) row.fill(0);
-      tempoInput.value = 110;
+      tempoInput.value = 240;
       renderRoll();
       exportStatus.textContent = "All saved tracks deleted.";
     });
@@ -2115,10 +3415,37 @@
       return Math.max(1, Number(pattern[keyIndex][startStep]) || 1);
     }
 
+    const STEPS_PER_MEASURE = 8;
+
+    function measureHasAnyNote(measureStart) {
+      const measureEnd = Math.min(STEPS, measureStart + STEPS_PER_MEASURE);
+
+      for (let keyIndex = 0; keyIndex < keys.length; keyIndex++) {
+        for (let step = measureStart; step < measureEnd; step++) {
+          if (findNoteAtCell(keyIndex, step)) return true;
+        }
+      }
+
+      return false;
+    }
+
+    function getPlaybackEndStep() {
+      // Play consecutive populated measures from the beginning.
+      // The first completely empty measure is the loop/end boundary.
+      for (let measureStart = 0; measureStart < STEPS; measureStart += STEPS_PER_MEASURE) {
+        if (!measureHasAnyNote(measureStart)) {
+          return Math.max(STEPS_PER_MEASURE, measureStart);
+        }
+      }
+
+      return STEPS;
+    }
+
     function getStepDurationMs() {
-      const bpm = Math.min(240, Math.max(40, Number(tempoInput.value) || 110));
+      const bpm = Math.min(240, Math.max(40, Number(tempoInput.value) || 240));
       tempoInput.value = bpm;
-      return (60000 / bpm) / 4;
+      // One piano-roll cell is one eighth note.
+      return (60000 / bpm) / 2;
     }
 
     function clearPlayHighlight() {
@@ -2132,6 +3459,7 @@
 
     function stopSequence() {
       sequencePlaying = false;
+      resetSequencerSymbolState();
       if (playTimer) {
         clearTimeout(playTimer);
         playTimer = null;
@@ -2144,6 +3472,7 @@
       playButton.title = "Play sequence";
       if (dialogPlayButton) dialogPlayButton.textContent = "Play";
       currentStep = 0;
+      showRestDisplay();
     }
 
     function playStep(step) {
@@ -2184,6 +3513,19 @@
           });
 
           key.classList.add("active");
+      showBratForKey(key);
+      showDevilForKey(key);
+      showHeartForKey(key);
+      showAngelForKey(key);
+      showSunForKey(key);
+      showPumpkinForKey(key);
+      showAlienForKey(key);
+      showEggplantForKey(key);
+      showCheeseForKey(key);
+      showFireForKey(key);
+      showMoonForKey(key);
+      showDolphinForKey(key);
+      showIslandForKey(key);
         }
       }
 
@@ -2191,17 +3533,27 @@
         const top = notes[notes.length - 1];
         light.style.backgroundColor = top.dataset.color;
         light.style.boxShadow = `0 0 70px ${top.dataset.color}`;
+
+        // Persist for the actual sounding-note/chord duration. This only redraws
+        // when the sounding pitch set changes, so sustained notes stay visually solid.
+        displaySequencerSymbols(notes);
+      } else {
+        // Rests are also persistent until the next sounding state change.
+        displaySequencerRest();
       }
 
       playTimer = setTimeout(() => {
         if (!sequencePlaying) return;
 
         const nextStep = step + 1;
-        if (nextStep >= STEPS) {
+        const playbackEndStep = getPlaybackEndStep();
+
+        if (nextStep >= playbackEndStep) {
           if (loopEnabled) {
             sequenceVoices.forEach(entry => releaseSequenceVoice(entry, 0.10));
             sequenceVoices = [];
             currentStep = 0;
+            resetSequencerSymbolState();
             playStep(0);
           } else {
             stopSequence();
@@ -2225,6 +3577,7 @@
       playButton.classList.add("active");
       playButton.title = "Stop sequence";
       renderRoll();
+      resetSequencerSymbolState();
       playStep(0);
     }
 
@@ -2249,10 +3602,26 @@
     });
 
     readSavedSequences();
-    refreshSequenceSelect();
+    refreshSequenceSelect("360");
+    loadSequenceByName("360");
     sequenceName.value = "Untitled";
-    tempoInput.value = 110;
+    tempoInput.value = 240;
     renderRoll();
-  </script>
+  
+    // Loop is ON by default. Synchronize the controls exactly as if their
+    // active/clicked state had already been selected by the user.
+    loopEnabled = true;
+    if (loopButton) {
+      loopButton.classList.add("active");
+      loopButton.setAttribute("aria-pressed", "true");
+    }
+    if (dialogLoopButton) {
+      dialogLoopButton.classList.add("active");
+      dialogLoopButton.setAttribute("aria-pressed", "true");
+    }
+
+</script>
 </body>
 </html>
+
+```
