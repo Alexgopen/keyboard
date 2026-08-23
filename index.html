@@ -350,6 +350,74 @@
       cursor: pointer;
     }
 
+    #reroll-sound-button {
+      display: none;
+      border: 0;
+      border-radius: 7px;
+      padding: 6px 9px;
+      background: rgba(255, 255, 255, 0.94);
+      color: #111;
+      cursor: pointer;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    #reroll-sound-button.show,
+    #save-random-sound-button.show { display: inline-block; }
+
+    #reroll-sound-button:hover,
+    #save-random-sound-button:hover { background: white; }
+
+    #save-random-sound-button {
+      display: none;
+      border: 0;
+      border-radius: 7px;
+      padding: 6px 9px;
+      background: rgba(255, 255, 255, 0.94);
+      color: #111;
+      cursor: pointer;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    #sound-save-dialog {
+      width: min(420px, calc(100vw - 28px));
+      padding: 18px;
+    }
+
+    #sound-save-dialog form {
+      display: grid;
+      gap: 12px;
+    }
+
+    #sound-save-dialog h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    #sound-preset-name {
+      width: 100%;
+      border: 0;
+      border-radius: 7px;
+      padding: 9px 10px;
+      background: #f5f5f5;
+      color: #111;
+      font: inherit;
+    }
+
+    #sound-save-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    #sound-save-status {
+      min-height: 18px;
+      margin: 0;
+      font-size: 12px;
+      color: #ddd;
+    }
+
     #transport {
       position: absolute;
       top: 14px;
@@ -721,6 +789,7 @@
         
         
         
+        <option value="random">RANDOM</option>
         <option value="pluck">Pluck</option>
         <option value="pluckystrings">Plucky Strings</option>
         <option value="gbbass">8-Bit Bass</option>
@@ -807,6 +876,8 @@
         <option value="overlord">Overlord</option>
         
       </select>
+      <button id="reroll-sound-button" type="button" title="Reroll random synth" aria-label="Reroll random synth">🎲</button>
+      <button id="save-random-sound-button" type="button" title="Save random synth" aria-label="Save random synth">💾</button>
     </div>
 
     <div id="transport">
@@ -850,6 +921,18 @@
     <button class="key violet"    data-note="987.77"  data-name="B5" data-color="#af52de" aria-label="B5 violet piano key"></button>
     <button class="key white"     data-note="1046.50" data-name="C6" data-color="#f7f7f7" aria-label="C6 white piano key"></button>
   </div>
+
+  <dialog id="sound-save-dialog">
+    <form method="dialog" id="sound-save-form">
+      <h3>Save Sound Preset</h3>
+      <input id="sound-preset-name" type="text" maxlength="40" placeholder="Preset name" autocomplete="off">
+      <p id="sound-save-status" aria-live="polite"></p>
+      <div id="sound-save-actions">
+        <button id="cancel-sound-save-button" class="small-button" type="button">Cancel</button>
+        <button id="confirm-sound-save-button" class="small-button" type="submit">Save</button>
+      </div>
+    </form>
+  </dialog>
 
   <dialog id="sequencer-dialog">
     <div class="dialog-header">
@@ -920,6 +1003,13 @@
     const GREEN_NOTE_NAME = "D5";
     let bratTimer = null;
     const soundSelect = document.getElementById("sound-select");
+    const rerollSoundButton = document.getElementById("reroll-sound-button");
+    const saveRandomSoundButton = document.getElementById("save-random-sound-button");
+    const soundSaveDialog = document.getElementById("sound-save-dialog");
+    const soundSaveForm = document.getElementById("sound-save-form");
+    const soundPresetName = document.getElementById("sound-preset-name");
+    const soundSaveStatus = document.getElementById("sound-save-status");
+    const cancelSoundSaveButton = document.getElementById("cancel-sound-save-button");
     const editButton = document.getElementById("edit-button");
     const playButton = document.getElementById("play-button");
     const loopButton = document.getElementById("loop-button");
@@ -1462,6 +1552,124 @@
       }, durationMs);
     }
 
+    const RANDOM_WAVES = ["sine", "triangle", "square", "sawtooth"];
+    const SOUND_PRESET_STORAGE_KEY = "rainbowPianoRandomSoundPresetsV1";
+    let randomSynthRecipe = null;
+    let savedRandomSoundPresets = {};
+
+    function cloneRandomSynthRecipe(recipe) {
+      return JSON.parse(JSON.stringify(recipe));
+    }
+
+    function readRandomSoundPresets() {
+      try {
+        const raw = localStorage.getItem(SOUND_PRESET_STORAGE_KEY);
+        savedRandomSoundPresets = raw ? JSON.parse(raw) : {};
+      } catch {
+        savedRandomSoundPresets = {};
+      }
+    }
+
+    function writeRandomSoundPresets() {
+      try {
+        localStorage.setItem(SOUND_PRESET_STORAGE_KEY, JSON.stringify(savedRandomSoundPresets));
+      } catch {}
+    }
+
+    function rebuildSavedSoundOptions(selectedValue = soundSelect.value) {
+      for (const option of [...soundSelect.querySelectorAll("option[data-random-saved='true']")]) {
+        option.remove();
+      }
+
+      for (const name of Object.keys(savedRandomSoundPresets).sort((a, b) => a.localeCompare(b))) {
+        const option = document.createElement("option");
+        option.value = `saved-random:${name}`;
+        option.dataset.randomSaved = "true";
+        option.textContent = `(S) ${name}`;
+        soundSelect.appendChild(option);
+      }
+
+      if ([...soundSelect.options].some(option => option.value === selectedValue)) {
+        soundSelect.value = selectedValue;
+      }
+    }
+
+    function selectedRandomRecipe() {
+      if (soundSelect.value === "random") return ensureRandomSynthRecipe();
+      if (soundSelect.value.startsWith("saved-random:")) {
+        const name = soundSelect.value.slice("saved-random:".length);
+        return savedRandomSoundPresets[name] || ensureRandomSynthRecipe();
+      }
+      return null;
+    }
+
+    function randomBetween(min, max) {
+      return min + Math.random() * (max - min);
+    }
+
+    function randomChoice(values) {
+      return values[Math.floor(Math.random() * values.length)];
+    }
+
+    function makeRandomSynthRecipe() {
+      const oscillatorCount = 2 + Math.floor(Math.random() * 4);
+      const oscillators = [];
+
+      for (let i = 0; i < oscillatorCount; i++) {
+        let ratio;
+        const mode = Math.random();
+        if (mode < 0.58) ratio = randomChoice([0.5, 1, 1, 1, 2, 2, 3]);
+        else if (mode < 0.82) ratio = randomChoice([0.25, 0.75, 1.5, 2.5, 4]);
+        else ratio = randomBetween(0.45, 3.4);
+
+        oscillators.push({
+          type: randomChoice(RANDOM_WAVES),
+          ratio,
+          detune: randomBetween(-18, 18),
+          volume: randomBetween(0.045, 0.22)
+        });
+      }
+
+      const filterType = randomChoice(["lowpass", "lowpass", "lowpass", "bandpass", "highpass"]);
+      const filterStart = filterType === "highpass"
+        ? randomBetween(80, 900)
+        : randomBetween(900, 9000);
+      const filterEnd = filterType === "highpass"
+        ? randomBetween(filterStart, 2200)
+        : randomBetween(350, Math.max(500, filterStart));
+
+      return {
+        oscillators,
+        filterType,
+        filterStart,
+        filterEnd,
+        filterQ: randomBetween(0.15, 7.5),
+        attack: randomBetween(0.004, 0.22),
+        peak: randomBetween(0.35, 0.95),
+        decay: randomBetween(0.05, 0.75),
+        sustain: randomBetween(0.18, 0.72),
+        release: randomBetween(0.18, 0.9)
+      };
+    }
+
+    function rerollRandomSynth() {
+      randomSynthRecipe = makeRandomSynthRecipe();
+      if (soundSelect.value === "random" && dragging && activeKey) {
+        startVoice(Number(activeKey.dataset.note), activeKey.dataset.color, activeKey);
+      }
+    }
+
+    function ensureRandomSynthRecipe() {
+      if (!randomSynthRecipe) randomSynthRecipe = makeRandomSynthRecipe();
+      return randomSynthRecipe;
+    }
+
+    function updateRandomSoundControls() {
+      const isRandom = soundSelect.value === "random";
+      rerollSoundButton.classList.toggle("show", isRandom);
+      saveRandomSoundButton.classList.toggle("show", isRandom);
+    }
+
     function buildVoice(frequency, sound = soundSelect.value, swell = true) {
       const ctx = getAudioContext();
       const now = ctx.currentTime;
@@ -1486,7 +1694,30 @@
         oscillators.push(osc);
       }
 
-      if (sound === "pad") {
+      if (sound === "random" || sound.startsWith("saved-random:")) {
+        const recipe = sound === "random" ? ensureRandomSynthRecipe() : (savedRandomSoundPresets[sound.slice("saved-random:".length)] || ensureRandomSynthRecipe());
+        const filter = ctx.createBiquadFilter();
+        filter.type = recipe.filterType;
+        filter.frequency.setValueAtTime(Math.max(20, recipe.filterStart), now);
+        filter.Q.setValueAtTime(recipe.filterQ, now);
+        filter.frequency.exponentialRampToValueAtTime(
+          Math.max(20, recipe.filterEnd),
+          now + Math.max(0.08, recipe.decay + 0.25)
+        );
+        filter.connect(master);
+
+        recipe.oscillators.forEach(spec => {
+          addOsc(spec.type, Math.max(20, frequency * spec.ratio), spec.detune, spec.volume, filter);
+        });
+
+        const attackEnd = now + recipe.attack;
+        const decayEnd = attackEnd + recipe.decay;
+        master.gain.exponentialRampToValueAtTime(recipe.peak, attackEnd);
+        master.gain.exponentialRampToValueAtTime(
+          Math.max(0.0001, recipe.peak * recipe.sustain),
+          decayEnd
+        );
+      } else if (sound === "pad") {
         const filter = ctx.createBiquadFilter();
         filter.type = "lowpass";
         filter.frequency.setValueAtTime(3600, now);
@@ -2361,8 +2592,12 @@
       return { master, oscillators, stopped: false };
     }
 
-    function releaseVoice(voice, release = 0.55) {
+    function releaseVoice(voice, release = null) {
       if (!voice || voice.stopped) return;
+      if (release == null) {
+        const recipe = selectedRandomRecipe();
+        release = recipe ? recipe.release : 0.55;
+      }
       voice.stopped = true;
 
       const ctx = getAudioContext();
@@ -2460,10 +2695,61 @@
     document.addEventListener("pointercancel", stopDragging);
 
     soundSelect.addEventListener("change", () => {
+      updateRandomSoundControls();
+      if (soundSelect.value === "random") ensureRandomSynthRecipe();
+
       if (dragging && activeKey) {
         startVoice(Number(activeKey.dataset.note), activeKey.dataset.color, activeKey);
       }
     });
+
+    rerollSoundButton.addEventListener("click", () => {
+      rerollRandomSynth();
+      rerollSoundButton.animate(
+        [{ transform: "rotate(0deg)" }, { transform: "rotate(360deg)" }],
+        { duration: 220, easing: "ease-out" }
+      );
+    });
+
+    saveRandomSoundButton.addEventListener("click", () => {
+      if (soundSelect.value !== "random") return;
+      ensureRandomSynthRecipe();
+      soundPresetName.value = "";
+      soundSaveStatus.textContent = "";
+      soundSaveDialog.showModal();
+      queueMicrotask(() => soundPresetName.focus());
+    });
+
+    cancelSoundSaveButton.addEventListener("click", () => {
+      soundSaveDialog.close();
+    });
+
+    soundSaveForm.addEventListener("submit", event => {
+      event.preventDefault();
+
+      const name = soundPresetName.value.trim();
+      if (!name) {
+        soundSaveStatus.textContent = "Enter a preset name.";
+        soundPresetName.focus();
+        return;
+      }
+
+      if (name.toUpperCase() === "RANDOM") {
+        soundSaveStatus.textContent = "Choose a name other than RANDOM.";
+        soundPresetName.focus();
+        return;
+      }
+
+      savedRandomSoundPresets[name] = cloneRandomSynthRecipe(ensureRandomSynthRecipe());
+      writeRandomSoundPresets();
+      rebuildSavedSoundOptions(`saved-random:${name}`);
+      soundSaveDialog.close();
+      updateRandomSoundControls();
+    });
+
+    readRandomSoundPresets();
+    rebuildSavedSoundOptions();
+    updateRandomSoundControls();
 
     function previewRollNote(keyIndex) {
       const key = keys[keyIndex];
@@ -2918,7 +3204,8 @@
     function offlineAddVoice(ctx, destination, frequency, sound, start, duration) {
       const master = ctx.createGain();
       const end = start + duration;
-      const releaseEnd = end + 0.45;
+      const offlineRandomRecipe = (sound === "random" || sound.startsWith("saved-random:")) ? (sound === "random" ? ensureRandomSynthRecipe() : (savedRandomSoundPresets[sound.slice("saved-random:".length)] || ensureRandomSynthRecipe())) : null;
+      const releaseEnd = end + (offlineRandomRecipe ? offlineRandomRecipe.release : 0.45);
 
       master.gain.setValueAtTime(0.0001, start);
       master.connect(destination);
@@ -2939,7 +3226,37 @@
         oscillators.push(osc);
       }
 
-      if (sound === "pad") {
+      if (sound === "random" || sound.startsWith("saved-random:")) {
+        const recipe = offlineRandomRecipe;
+        const filter = ctx.createBiquadFilter();
+        filter.type = recipe.filterType;
+        filter.frequency.setValueAtTime(Math.max(20, recipe.filterStart), start);
+        filter.Q.setValueAtTime(recipe.filterQ, start);
+        filter.frequency.exponentialRampToValueAtTime(
+          Math.max(20, recipe.filterEnd),
+          Math.min(end, start + Math.max(0.08, recipe.decay + 0.25))
+        );
+        filter.connect(master);
+
+        recipe.oscillators.forEach(spec => {
+          addOsc(spec.type, Math.max(20, frequency * spec.ratio), spec.detune, spec.volume, filter);
+        });
+
+        const attackEnd = Math.min(end, start + recipe.attack);
+        const decayEnd = Math.min(end, attackEnd + recipe.decay);
+        master.gain.exponentialRampToValueAtTime(recipe.peak, attackEnd);
+        if (decayEnd > attackEnd) {
+          master.gain.exponentialRampToValueAtTime(
+            Math.max(0.0001, recipe.peak * recipe.sustain),
+            decayEnd
+          );
+        }
+        master.gain.setValueAtTime(
+          Math.max(0.0001, recipe.peak * recipe.sustain),
+          end
+        );
+        master.gain.exponentialRampToValueAtTime(0.0001, end + recipe.release);
+      } else if (sound === "pad") {
         const filter = ctx.createBiquadFilter();
         filter.type = "lowpass";
         filter.frequency.setValueAtTime(3600, start);
