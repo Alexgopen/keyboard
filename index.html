@@ -513,26 +513,56 @@
     }
 
     #piano {
+      position: relative;
       height: 58vh;
-      display: flex;
-      gap: 5px;
       padding: 12px;
       touch-action: none;
       overscroll-behavior: none;
     }
 
+    #natural-keys {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      gap: 5px;
+    }
+
     .key {
-      flex: 1;
       border: none;
       touch-action: none;
       -webkit-user-select: none;
       user-select: none;
-      border-radius: 0 0 18px 18px;
       cursor: pointer;
+      transition: transform 60ms ease, filter 60ms ease;
+    }
+
+    .key.natural {
+      flex: 1;
+      min-width: 0;
+      height: 100%;
+      border-radius: 0 0 18px 18px;
       box-shadow:
         inset 0 -12px 0 rgba(0,0,0,0.18),
         0 6px 14px rgba(0,0,0,0.35);
-      transition: transform 60ms ease, filter 60ms ease;
+    }
+
+    .key.accidental {
+      position: absolute;
+      z-index: 4;
+      top: 12px;
+      left: 0;
+      width: clamp(28px, 4.55%, 64px);
+      height: 58%;
+      padding: 0;
+      transform: translateX(-50%);
+      border-radius: 0 0 11px 11px;
+      background: linear-gradient(#262626, #050505 72%);
+      box-shadow:
+        inset 0 -8px 0 rgba(255,255,255,0.04),
+        inset 1px 0 0 rgba(255,255,255,0.12),
+        inset -1px 0 0 rgba(255,255,255,0.06),
+        0 6px 10px rgba(0,0,0,0.55);
     }
 
     .key:hover { filter: brightness(1.08); }
@@ -544,6 +574,15 @@
       box-shadow:
         inset 0 -4px 0 rgba(0,0,0,0.18),
         0 2px 5px rgba(0,0,0,0.35);
+    }
+
+    .key.accidental:active,
+    .key.accidental.active {
+      transform: translateX(-50%) translateY(6px);
+      filter: brightness(1.25);
+      box-shadow:
+        inset 0 -3px 0 rgba(255,255,255,0.05),
+        0 2px 5px rgba(0,0,0,0.55);
     }
 
     .black      { background: #050505; }
@@ -779,7 +818,6 @@
     :-webkit-full-screen #piano {
       height: 62vh;
       padding: 6px;
-      gap: 4px;
     }
 
     :fullscreen #sound-select-wrap,
@@ -806,6 +844,13 @@
       }
     }
 
+
+    :fullscreen #natural-keys,
+    :-webkit-full-screen #natural-keys { gap: 4px; }
+
+    :fullscreen .key.accidental,
+    :-webkit-full-screen .key.accidental { top: 6px; }
+
     @media (max-width: 600px) {
       #sound-select-wrap {
         top: 8px;
@@ -822,7 +867,115 @@
         height: 38px;
       }
     }
-  </style>
+  
+/* Computer keyboard bind labels; always visible and hover-independent */
+.bind-label {
+  position: absolute !important;
+  left: 50% !important;
+  bottom: 10px !important;
+  transform: translateX(-50%) !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  z-index: 2147483647 !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+  font-weight: 900 !important;
+  font-size: clamp(13px, 1.25vw, 19px) !important;
+  line-height: 1 !important;
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  text-align: center !important;
+  transition: none !important;
+  animation: none !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+}
+
+/* Prevent existing piano hover rules from hiding/fading/recoloring labels. */
+.key .bind-label,
+.key:hover .bind-label,
+.key:focus .bind-label,
+.key:active .bind-label,
+.key.active .bind-label,
+.key.pressed .bind-label {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  transform: translateX(-50%) !important;
+}
+
+.bind-label.colored-bind,
+.key:hover .bind-label.colored-bind,
+.key:focus .bind-label.colored-bind,
+.key:active .bind-label.colored-bind {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  text-shadow: none !important;
+}
+
+.bind-label.black-bind,
+.key:hover .bind-label.black-bind,
+.key:focus .bind-label.black-bind,
+.key:active .bind-label.black-bind {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  text-shadow: 0 1px 2px #000 !important;
+}
+
+.key.accidental .bind-label {
+  bottom: 8px !important;
+  font-size: clamp(11px, 1vw, 15px) !important;
+}
+
+
+
+/* Proper note names shown at the top of each piano key. */
+.note-name-label {
+  position: absolute !important;
+  left: 50% !important;
+  top: 8px !important;
+  transform: translateX(-50%) !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  z-index: 2147483646 !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+  font-weight: 900 !important;
+  font-size: clamp(11px, 1vw, 15px) !important;
+  line-height: 1 !important;
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  text-align: center !important;
+  transition: none !important;
+}
+
+.note-name-label.on-colored-key {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+  text-shadow: none !important;
+}
+
+.note-name-label.on-black-key {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  text-shadow: 0 1px 2px #000 !important;
+}
+
+/* Accidentals are shorter, so keep the note name close to their top edge. */
+.key.accidental .note-name-label {
+  top: 7px !important;
+  font-size: clamp(10px, .9vw, 14px) !important;
+}
+
+</style>
 </head>
 <body>
   <div id="light-wrap">
@@ -854,6 +1007,10 @@
         <option value="wander">Wander</option>
         <option value="pluck">Pluck</option>
         <option value="pluckystrings">Plucky Strings</option>
+        <option value="dryplonk" selected>🟣 Dry House Plonk</option>
+        <option value="rubberpluck">🟠 Rubber Pluck</option>
+        <option value="hollowmallet">🔵 Hollow Mallet</option>
+        <option value="softstab">🟢 Soft House Stab</option>
         <option value="gbbass">8-Bit Bass</option>
         
         
@@ -921,7 +1078,7 @@
         <option value="nightbeast">Night Beast</option>
         <option value="subfang">Sub Fang</option>
         <option value="doompluck">Doom Pluck</option>
-        <option value="doompluckfull" selected>Doom Pluck Full</option>
+        <option value="doompluckfull">Doom Pluck Full</option>
         <option value="doompluckround">Doom Pluck Round</option>
         <option value="doompluckbass">Doom Pluck Bass</option>
         <option value="doompluckwide">Doom Pluck Wide</option>
@@ -972,19 +1129,31 @@
   </div>
 
   <div id="piano">
-    <button class="key black"     data-note="329.63"  data-name="E4" data-color="#050505" aria-label="E4 black piano key"></button>
-    <button class="key red"       data-note="349.23"  data-name="F4" data-color="#ff3b30" aria-label="F4 red piano key"></button>
-    <button class="key redorange" data-note="392.00"  data-name="G4" data-color="#ff5e2b" aria-label="G4 red-orange piano key"></button>
-    <button class="key orange"    data-note="440.00"  data-name="A4" data-color="#ff8c1a" aria-label="A4 orange piano key"></button>
-    <button class="key amber"     data-note="493.88"  data-name="B4" data-color="#ffb000" aria-label="B4 amber piano key"></button>
-    <button class="key yellow"    data-note="523.25"  data-name="C5" data-color="#ffd60a" aria-label="C5 yellow piano key"></button>
-    <button class="key lime"      data-note="587.33"  data-name="D5" data-color="#9bdc28" aria-label="D5 lime piano key"></button>
-    <button class="key green"     data-note="659.25"  data-name="E5" data-color="#34c759" aria-label="E5 green piano key"></button>
-    <button class="key turquoise" data-note="698.46"  data-name="F5" data-color="#20c9b0" aria-label="F5 turquoise piano key"></button>
-    <button class="key blue"      data-note="783.99"  data-name="G5" data-color="#2f80ed" aria-label="G5 blue piano key"></button>
-    <button class="key indigo"    data-note="880.00"  data-name="A5" data-color="#5856d6" aria-label="A5 indigo piano key"></button>
-    <button class="key violet"    data-note="987.77"  data-name="B5" data-color="#af52de" aria-label="B5 violet piano key"></button>
-    <button class="key white"     data-note="1046.50" data-name="C6" data-color="#f7f7f7" aria-label="C6 white piano key"></button>
+    <div id="natural-keys">
+      <button class="key natural black"     data-note="329.63"  data-name="E4" data-color="#050505" aria-label="E4 piano key"></button>
+      <button class="key natural red"       data-note="349.23"  data-name="F4" data-color="#ff3b30" aria-label="F4 piano key"></button>
+      <button class="key natural redorange" data-note="392.00"  data-name="G4" data-color="#ff5e2b" aria-label="G4 piano key"></button>
+      <button class="key natural orange"    data-note="440.00"  data-name="A4" data-color="#ff8c1a" aria-label="A4 piano key"></button>
+      <button class="key natural amber"     data-note="493.88"  data-name="B4" data-color="#ffb000" aria-label="B4 piano key"></button>
+      <button class="key natural yellow"    data-note="523.25"  data-name="C5" data-color="#ffd60a" aria-label="C5 piano key"></button>
+      <button class="key natural lime"      data-note="587.33"  data-name="D5" data-color="#9bdc28" aria-label="D5 piano key"></button>
+      <button class="key natural green"     data-note="659.25"  data-name="E5" data-color="#34c759" aria-label="E5 piano key"></button>
+      <button class="key natural turquoise" data-note="698.46"  data-name="F5" data-color="#20c9b0" aria-label="F5 piano key"></button>
+      <button class="key natural blue"      data-note="783.99"  data-name="G5" data-color="#2f80ed" aria-label="G5 piano key"></button>
+      <button class="key natural indigo"    data-note="880.00"  data-name="A5" data-color="#5856d6" aria-label="A5 piano key"></button>
+      <button class="key natural violet"    data-note="987.77"  data-name="B5" data-color="#af52de" aria-label="B5 piano key"></button>
+      <button class="key natural white"     data-note="1046.50" data-name="C6" data-color="#f7f7f7" aria-label="C6 piano key"></button>
+    </div>
+
+    <!-- Chromatic accidentals. --x is the boundary between the corresponding natural keys. -->
+    <button class="key accidental" data-between="F4,G4" data-note="369.99" data-name="F#4" data-color="#111111" aria-label="F sharp 4 black piano key"></button>
+    <button class="key accidental" data-between="G4,A4" data-note="415.30" data-name="G#4" data-color="#111111" aria-label="G sharp 4 black piano key"></button>
+    <button class="key accidental" data-between="A4,B4" data-note="466.16" data-name="A#4" data-color="#111111" aria-label="A sharp 4 black piano key"></button>
+    <button class="key accidental" data-between="C5,D5" data-note="554.37" data-name="C#5" data-color="#111111" aria-label="C sharp 5 black piano key"></button>
+    <button class="key accidental" data-between="D5,E5" data-note="622.25" data-name="D#5" data-color="#111111" aria-label="D sharp 5 black piano key"></button>
+    <button class="key accidental" data-between="F5,G5" data-note="739.99" data-name="F#5" data-color="#111111" aria-label="F sharp 5 black piano key"></button>
+    <button class="key accidental" data-between="G5,A5" data-note="830.61" data-name="G#5" data-color="#111111" aria-label="G sharp 5 black piano key"></button>
+    <button class="key accidental" data-between="A5,B5" data-note="932.33" data-name="A#5" data-color="#111111" aria-label="A sharp 5 black piano key"></button>
   </div>
 
   <dialog id="sound-save-dialog">
@@ -1077,8 +1246,62 @@
     const dolphinText = document.getElementById("dolphin-text");
     const islandText = document.getElementById("island-text");
     const symbolRow = document.getElementById("symbol-row");
-    const keys = [...document.querySelectorAll(".key")];
+    // Keep every musical subsystem in pitch order even though the black keys are
+    // overlaid later in the DOM for visual stacking.
+    const keys = [...document.querySelectorAll(".key")].sort(
+      (a, b) => Number(a.dataset.note) - Number(b.dataset.note)
+    );
+
+    // Position each black key on the actual boundary between its neighboring naturals.
+    // This is measured from the rendered DOM so padding, flex gaps, resize, and
+    // fullscreen dimensions are all handled correctly.
+    function positionAccidentalKeys() {
+      const piano = document.getElementById("piano");
+      if (!piano) return;
+      const pianoRect = piano.getBoundingClientRect();
+
+      for (const accidental of piano.querySelectorAll(".key.accidental")) {
+        const [leftName, rightName] = (accidental.dataset.between || "").split(",");
+        const leftKey = piano.querySelector(`.key.natural[data-name="${leftName}"]`);
+        const rightKey = piano.querySelector(`.key.natural[data-name="${rightName}"]`);
+        if (!leftKey || !rightKey) continue;
+
+        const leftRect = leftKey.getBoundingClientRect();
+        const rightRect = rightKey.getBoundingClientRect();
+        const boundaryX = (leftRect.right + rightRect.left) / 2;
+        accidental.style.left = `${boundaryX - pianoRect.left}px`;
+      }
+    }
+
+    requestAnimationFrame(positionAccidentalKeys);
+    window.addEventListener("load", positionAccidentalKeys);
+    window.addEventListener("resize", positionAccidentalKeys);
+    document.addEventListener("fullscreenchange", () => requestAnimationFrame(positionAccidentalKeys));
+    document.addEventListener("webkitfullscreenchange", () => requestAnimationFrame(positionAccidentalKeys));
     const GREEN_NOTE_NAME = "D5";
+    // Physical accidental keys remain black. The top display uses the color
+    // of the note letter we actually display: F#, G#, Bb, Db, Eb.
+    function displayColorForKey(key) {
+      if (!key) return "#000";
+
+      const displayColorSource = {
+        "F#4": "F4",
+        "G#4": "G4",
+        "A#4": "B4",  // Bb
+        "C#5": "D5",  // Db
+        "D#5": "E5",  // Eb
+        "F#5": "F5",
+        "G#5": "G5",
+        "A#5": "B5"   // Bb
+      };
+
+      const sourceName = displayColorSource[key.dataset.name];
+      if (!sourceName) return key.dataset.color;
+
+      const sourceKey = document.querySelector(`.key[data-name="${sourceName}"]`);
+      return sourceKey?.dataset?.color || key.dataset.color;
+    }
+
     let bratTimer = null;
     const soundSelect = document.getElementById("sound-select");
     const rerollSoundButton = document.getElementById("reroll-sound-button");
@@ -1219,15 +1442,29 @@
       resizePattern(Math.max(INITIAL_STEPS, sourceSteps));
       for (const row of pattern) row.fill(0);
 
-      for (let r = 0; r < keys.length; r++) {
+      // Before chromatic black keys were added, saved patterns had 13 rows in
+      // natural-note order. Expand those rows onto the same named naturals so
+      // old melodies remain exactly the same pitches. New patterns have 21 rows.
+      const LEGACY_NATURAL_NAMES = [
+        "E4", "F4", "G4", "A4", "B4", "C5", "D5",
+        "E5", "F5", "G5", "A5", "B5", "C6"
+      ];
+      const isLegacyNaturalPattern = data.pattern.length === LEGACY_NATURAL_NAMES.length;
+
+      for (let r = 0; r < data.pattern.length; r++) {
+        const targetRow = isLegacyNaturalPattern
+          ? keys.findIndex(key => key.dataset.name === LEGACY_NATURAL_NAMES[r])
+          : r;
+        if (targetRow < 0 || targetRow >= keys.length) continue;
+
         for (let s = 0; s < STEPS; s++) {
           const value = data.pattern[r]?.[s];
 
           // Backward compatibility with older boolean saves.
           if (value === true) {
-            pattern[r][s] = 1;
+            pattern[targetRow][s] = 1;
           } else if (Number.isFinite(Number(value)) && Number(value) > 0) {
-            pattern[r][s] = Math.min(STEPS - s, Math.max(1, Math.floor(Number(value))));
+            pattern[targetRow][s] = Math.min(STEPS - s, Math.max(1, Math.floor(Number(value))));
           }
         }
       }
@@ -1490,15 +1727,23 @@
     const NOTE_SYMBOLS = {
       E4: "🐈‍⬛",
       F4: "❤️",
+      "F#4": "❤️#",
       G4: "🔥",
+      "G#4": "🔥#",
       A4: "🎃",
+      "A#4": "🧀b",
       B4: "🧀",
       C5: "☀️",
+      "C#5": "bratb",
       D5: "brat",
+      "D#5": "👽b",
       E5: "👽",
       F5: "🏝️",
+      "F#5": "🏝️#",
       G5: "🐬",
+      "G#5": "🐬#",
       A5: "🌑",
+      "A#5": "🍆b",
       B5: "🍆",
       C6: "😇"
     };
@@ -2237,6 +2482,129 @@
           Math.max(0.0001, recipe.peak * recipe.sustain),
           decayEnd
         );
+      } else if (sound === "dryplonk") {
+        // Tight, dry, low-mid house pluck. No delay/reverb path at all.
+        // Character comes from a short sine body, a quickly-damped upper partial,
+        // and a tiny downward pitch gesture at the transient.
+        const bus = ctx.createGain();
+        const filter = ctx.createBiquadFilter();
+        bus.connect(filter);
+        filter.connect(master);
+        filter.type = "lowpass";
+        filter.Q.setValueAtTime(0.72, now);
+        filter.frequency.setValueAtTime(Math.min(5200, Math.max(1700, frequency * 6.0)), now);
+        filter.frequency.exponentialRampToValueAtTime(Math.max(700, frequency * 2.1), now + 0.18);
+
+        const body = ctx.createOscillator();
+        const bodyGain = ctx.createGain();
+        body.type = "sine";
+        body.frequency.setValueAtTime(frequency * 1.025, now);
+        body.frequency.exponentialRampToValueAtTime(frequency, now + 0.035);
+        bodyGain.gain.setValueAtTime(0.70, now);
+        body.connect(bodyGain); bodyGain.connect(bus); body.start(now);
+        oscillators.push(body);
+
+        const knock = ctx.createOscillator();
+        const knockGain = ctx.createGain();
+        knock.type = "triangle";
+        knock.frequency.setValueAtTime(frequency * 2.02, now);
+        knockGain.gain.setValueAtTime(0.20, now);
+        knockGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.085);
+        knock.connect(knockGain); knockGain.connect(bus); knock.start(now);
+        oscillators.push(knock);
+
+        addOsc("sine", frequency * 0.5, 0, 0.18, bus);
+
+        master.gain.exponentialRampToValueAtTime(0.92, now + 0.004);
+        master.gain.exponentialRampToValueAtTime(0.34, now + 0.075);
+        master.gain.exponentialRampToValueAtTime(0.11, now + 0.26);
+        master.gain.exponentialRampToValueAtTime(0.035, now + 0.72);
+
+      } else if (sound === "rubberpluck") {
+        // Slightly elastic / rubbery version: a very short FM transient feeding a dark body.
+        const filter = ctx.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.Q.setValueAtTime(1.15, now);
+        filter.frequency.setValueAtTime(Math.min(4400, Math.max(1500, frequency * 5.2)), now);
+        filter.frequency.exponentialRampToValueAtTime(Math.max(620, frequency * 1.8), now + 0.14);
+        filter.connect(master);
+
+        const carrier = ctx.createOscillator();
+        const cg = ctx.createGain();
+        const mod = ctx.createOscillator();
+        const mg = ctx.createGain();
+        carrier.type = "sine";
+        carrier.frequency.setValueAtTime(frequency, now);
+        cg.gain.setValueAtTime(0.72, now);
+        mod.type = "sine";
+        mod.frequency.setValueAtTime(frequency * 1.49, now);
+        mg.gain.setValueAtTime(Math.max(18, frequency * 0.34), now);
+        mg.gain.exponentialRampToValueAtTime(0.01, now + 0.055);
+        mod.connect(mg); mg.connect(carrier.frequency);
+        carrier.connect(cg); cg.connect(filter);
+        carrier.start(now); mod.start(now);
+        oscillators.push(carrier, mod);
+
+        addOsc("sine", frequency * 0.5, 0, 0.22, filter);
+        addOsc("triangle", frequency, -4, 0.075, filter);
+
+        master.gain.exponentialRampToValueAtTime(0.88, now + 0.003);
+        master.gain.exponentialRampToValueAtTime(0.31, now + 0.065);
+        master.gain.exponentialRampToValueAtTime(0.085, now + 0.23);
+        master.gain.exponentialRampToValueAtTime(0.028, now + 0.62);
+
+      } else if (sound === "hollowmallet") {
+        // Hollow wooden/plastic mallet: odd partials, but all of them decay quickly.
+        const filter = ctx.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.Q.setValueAtTime(0.55, now);
+        filter.frequency.setValueAtTime(Math.min(6000, Math.max(2100, frequency * 7.0)), now);
+        filter.frequency.exponentialRampToValueAtTime(Math.max(850, frequency * 2.4), now + 0.22);
+        filter.connect(master);
+
+        const partials = [
+          [1.0, 0.55, 0.0],
+          [2.74, 0.16, -3.0],
+          [4.18, 0.07, 4.0]
+        ];
+        partials.forEach(([ratio, level, detune], i) => {
+          const o = ctx.createOscillator();
+          const g = ctx.createGain();
+          o.type = "sine";
+          o.frequency.setValueAtTime(frequency * ratio, now);
+          o.detune.setValueAtTime(detune, now);
+          g.gain.setValueAtTime(level, now);
+          if (i > 0) g.gain.exponentialRampToValueAtTime(0.0001, now + (i === 1 ? 0.095 : 0.055));
+          o.connect(g); g.connect(filter); o.start(now); oscillators.push(o);
+        });
+        addOsc("sine", frequency * 0.5, 0, 0.15, filter);
+
+        master.gain.exponentialRampToValueAtTime(0.86, now + 0.004);
+        master.gain.exponentialRampToValueAtTime(0.29, now + 0.085);
+        master.gain.exponentialRampToValueAtTime(0.095, now + 0.30);
+        master.gain.exponentialRampToValueAtTime(0.026, now + 0.78);
+
+      } else if (sound === "softstab") {
+        // Short chord-like deep-house stab. Still dry; width comes from mild detuning,
+        // not time-domain effects.
+        const filter = ctx.createBiquadFilter();
+        filter.type = "lowpass";
+        filter.Q.setValueAtTime(0.82, now);
+        filter.frequency.setValueAtTime(Math.min(4800, Math.max(1800, frequency * 5.5)), now);
+        filter.frequency.exponentialRampToValueAtTime(Math.max(760, frequency * 2.0), now + 0.20);
+        filter.connect(master);
+
+        addOsc("sine", frequency * 0.5, 0, 0.16, filter);
+        addOsc("sine", frequency, -7, 0.28, filter);
+        addOsc("sine", frequency, 7, 0.28, filter);
+        addOsc("triangle", frequency * 2.0, 0, 0.08, filter);
+        addOsc("sine", frequency * 3.0, 0, 0.03, filter);
+
+        master.gain.exponentialRampToValueAtTime(0.78, now + 0.008);
+        master.gain.exponentialRampToValueAtTime(0.33, now + 0.10);
+        master.gain.exponentialRampToValueAtTime(0.12, now + 0.34);
+        master.gain.exponentialRampToValueAtTime(0.040, now + 0.82);
+
       } else if (sound === "pad") {
         const filter = ctx.createBiquadFilter();
         filter.type = "lowpass";
@@ -3138,8 +3506,9 @@
       activeVoice = buildVoice(frequency, soundSelect.value, true);
 
       clearAllVisualSymbols();
-      light.style.backgroundColor = color;
-      light.style.boxShadow = `0 0 70px ${color}`;
+      const displayColor = displayColorForKey(key);
+      light.style.backgroundColor = displayColor;
+      light.style.boxShadow = `0 0 70px ${displayColor}`;
       key.classList.add("active");
       showBratForKey(key);
       showDevilForKey(key);
@@ -3386,8 +3755,9 @@
 
       const voice = buildVoice(Number(key.dataset.note), soundSelect.value, false);
       clearAllVisualSymbols();
-      light.style.backgroundColor = key.dataset.color;
-      light.style.boxShadow = `0 0 70px ${key.dataset.color}`;
+      const displayColor = displayColorForKey(key);
+      light.style.backgroundColor = displayColor;
+      light.style.boxShadow = `0 0 70px ${displayColor}`;
       key.classList.add("active");
       showBratForKey(key);
       showDevilForKey(key);
@@ -4861,8 +5231,9 @@
 
       if (notes.length) {
         const top = notes[notes.length - 1];
-        light.style.backgroundColor = top.dataset.color;
-        light.style.boxShadow = `0 0 70px ${top.dataset.color}`;
+        const displayColor = displayColorForKey(top);
+        light.style.backgroundColor = displayColor;
+        light.style.boxShadow = `0 0 70px ${displayColor}`;
 
         // Persist for the actual sounding-note/chord duration. This only redraws
         // when the sounding pitch set changes, so sustained notes stay visually solid.
@@ -5039,6 +5410,110 @@
       dialogLoopButton.classList.add("active");
       dialogLoopButton.setAttribute("aria-pressed", "true");
     }
+
+
+
+const bindLabelsByNote = {
+  "E4":"Caps", "F4":"A", "G4":"S", "A4":"D", "B4":"F",
+  "C5":"G", "D5":"H", "E5":"J", "F5":"K", "G5":"L",
+  "A5":";", "B5":"'", "C6":"Enter",
+  "F#4":"W", "G#4":"E", "A#4":"R", "C#5":"Y",
+  "D#5":"U", "F#5":"O", "G#5":"P", "A#5":"["
+};
+
+function installComputerBindLabels() {
+  document.querySelectorAll(".bind-label").forEach(el => el.remove());
+  document.querySelectorAll(".key[data-name]").forEach(key => {
+    const note = key.dataset.name;
+    const bind = bindLabelsByNote[note];
+    if (!bind) return;
+
+    // Determine visual blackness from the existing element itself.
+    // All accidentals are black. E4 is also intentionally a visually black natural key.
+    const visuallyBlack = key.classList.contains("accidental") || note === "E4";
+
+    const span = document.createElement("span");
+    span.className = "bind-label " + (visuallyBlack ? "black-bind" : "colored-bind");
+    span.textContent = bind;
+    span.setAttribute("aria-hidden", "true");
+
+    // Keep labels visible regardless of existing hover/child styles.
+    span.style.display = "block";
+    span.style.visibility = "visible";
+    span.style.opacity = "1";
+    span.style.color = visuallyBlack ? "#fff" : "#000";
+    span.style.webkitTextFillColor = visuallyBlack ? "#fff" : "#000";
+    span.style.zIndex = "2147483647";
+
+    // Natural keys need a positioning context for the overlay.
+    // Accidentals already have their own explicit positioning, so leave that geometry alone.
+    if (!key.classList.contains("accidental")) {
+      key.style.position = "relative";
+      key.style.overflow = "visible";
+      key.style.zIndex = key.style.zIndex || "1";
+    }
+
+    key.appendChild(span);
+  });
+}
+installComputerBindLabels();
+
+
+
+
+
+
+
+
+
+const pianoKeyNoteNames = {
+  "E4": "E",
+  "F4": "F",
+  "F#4": "F#",
+  "G4": "G",
+  "G#4": "G#",
+  "A4": "A",
+  "A#4": "Bb",
+  "B4": "B",
+  "C5": "C",
+  "C#5": "Db",
+  "D5": "D",
+  "D#5": "Eb",
+  "E5": "E",
+  "F5": "F",
+  "F#5": "F#",
+  "G5": "G",
+  "G#5": "G#",
+  "A5": "A",
+  "A#5": "Bb",
+  "B5": "B",
+  "C6": "C"
+};
+
+function installPianoKeyNoteNames() {
+  document.querySelectorAll(".note-name-label").forEach(el => el.remove());
+
+  document.querySelectorAll(".key[data-name]").forEach(key => {
+    const noteName = pianoKeyNoteNames[key.dataset.name];
+    if (!noteName) return;
+
+    // All accidentals are visually black. E4 is also intentionally a black natural key.
+    const visuallyBlack = key.classList.contains("accidental") || key.dataset.name === "E4";
+
+    const label = document.createElement("span");
+    label.className = "note-name-label " + (visuallyBlack ? "on-black-key" : "on-colored-key");
+    label.textContent = noteName;
+    label.setAttribute("aria-hidden", "true");
+
+    if (!key.classList.contains("accidental")) {
+      key.style.position = "relative";
+      key.style.overflow = "visible";
+    }
+
+    key.appendChild(label);
+  });
+}
+installPianoKeyNoteNames();
 
 </script>
 </body>
