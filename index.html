@@ -5515,6 +5515,77 @@ function installPianoKeyNoteNames() {
 }
 installPianoKeyNoteNames();
 
+
+
+    const computerKeyToNote = new Map([
+      ["CapsLock", "E4"],
+      ["KeyA", "F4"],
+      ["KeyS", "G4"],
+      ["KeyD", "A4"],
+      ["KeyF", "B4"],
+      ["KeyG", "C5"],
+      ["KeyH", "D5"],
+      ["KeyJ", "E5"],
+      ["KeyK", "F5"],
+      ["KeyL", "G5"],
+      ["Semicolon", "A5"],
+      ["Quote", "B5"],
+      ["Enter", "C6"],
+
+      ["KeyW", "F#4"],
+      ["KeyE", "G#4"],
+      ["KeyR", "A#4"],
+      ["KeyY", "C#5"],
+      ["KeyU", "D#5"],
+      ["KeyO", "F#5"],
+      ["KeyP", "G#5"],
+      ["BracketLeft", "A#5"]
+    ]);
+
+    const noteKeyByName = new Map(keys.map(key => [key.dataset.name, key]));
+    const heldComputerKeys = new Set();
+
+    function isEditableKeyboardTarget(target) {
+      if (!target) return false;
+      if (target.isContentEditable) return true;
+      const tag = target.tagName;
+      return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
+    }
+
+    document.addEventListener("keydown", event => {
+      const noteName = computerKeyToNote.get(event.code);
+      if (!noteName || isEditableKeyboardTarget(event.target)) return;
+
+      event.preventDefault();
+      if (event.repeat || heldComputerKeys.has(event.code)) return;
+      heldComputerKeys.add(event.code);
+
+      const key = noteKeyByName.get(noteName);
+      if (!key) return;
+
+      activeKey = key;
+      startVoice(Number(key.dataset.note), key.dataset.color, key);
+    });
+
+    document.addEventListener("keyup", event => {
+      if (!computerKeyToNote.has(event.code)) return;
+      heldComputerKeys.delete(event.code);
+
+      const noteName = computerKeyToNote.get(event.code);
+      const releasedKey = noteKeyByName.get(noteName);
+      if (releasedKey && activeVoice?.key === releasedKey) {
+        activeKey = null;
+        stopActiveVoice();
+      }
+    });
+
+    window.addEventListener("blur", () => {
+      if (!heldComputerKeys.size) return;
+      heldComputerKeys.clear();
+      activeKey = null;
+      stopActiveVoice();
+    });
+
 </script>
 </body>
 </html>
