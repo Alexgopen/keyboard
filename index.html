@@ -2306,7 +2306,12 @@
       // discontinuities when the number of sounding notes changes.
       const polyGain=ctx.createGain();
       polyGain.gain.setValueAtTime(Math.max(0.08, Math.min(1, voiceLevel)),start);
-      dcBlock.connect(polyGain);polyGain.connect(destination);
+      dcBlock.connect(polyGain);
+      // Independent transition gain: only pointer glissandos use this layer.
+      // The recipe ADSR remains on master.gain, completely unchanged.
+      const transitionGain=ctx.createGain();
+      transitionGain.gain.setValueAtTime(1,start);
+      polyGain.connect(transitionGain);transitionGain.connect(destination);
       const filter=ctx.createBiquadFilter();filter.type=recipe.filterType;
       filter.Q.setValueAtTime(Math.max(0.1,recipe.filterQ),start);
       filter.frequency.setValueAtTime(Math.max(20,recipe.filterStart),start);
@@ -2340,7 +2345,7 @@
         const releaseEnd=scheduleClicklessRelease(master.gain,releaseStart,held,recipe.release);
         oscillators.forEach(o=>o.stop(releaseEnd+0.015));
       }
-      return {master,oscillators,stopped:false,recipe,start};
+      return {master,transitionGain,oscillators,stopped:false,recipe,start};
     }
     function buildVoice(frequency,sound=soundSelect.value,swell=true) {
       const ctx=getAudioContext();
@@ -2375,15 +2380,75 @@
       displaySymbolsForKeys(held);
     }
 
+    // Pointer glissando voices have a separate short articulation crossfade.
+    // The ADSR (including recipe.release) is left intact. A pointer's old
+    // voices are silenced by this transition gain so they cannot accumulate.
+    const pointerTransitionTails = new Map();
+    const GLISS_FADE = 0.018;
+    function transitionGainAt(voice, at) {
+      const state = voice.transitionState;
+      if (!state) return 1;
+      if (at <= state.start) return state.from;
+      if (at >= state.end) return state.to;
+      return state.from + (state.to - state.from) *
+        (at - state.start) / (state.end - state.start);
+    }
+    function fadeTransition(voice, target, duration) {
+      if (!voice?.transitionGain) return;
+      const param = voice.transitionGain.gain;
+      const now = Math.max(voice.start, voice.master.context.currentTime);
+      const from = Math.max(0, Math.min(1, transitionGainAt(voice, now)));
+      // Use a known, tracked value rather than AudioParam.value: value does
+      // not reliably represent in-flight automation on all browsers.
+      if (typeof param.cancelAndHoldAtTime === 'function') {
+        try { param.cancelAndHoldAtTime(now); }
+        catch (_) { param.cancelScheduledValues(now); param.setValueAtTime(from, now); }
+      } else {
+        param.cancelScheduledValues(now);
+        param.setValueAtTime(from, now);
+      }
+      const end = now + duration;
+      param.linearRampToValueAtTime(target, end);
+      voice.transitionState = {start:now,end,from,to:target};
+    }
+    function silencePointerTails(owner) {
+      const tails = pointerTransitionTails.get(owner);
+      if (!tails) return;
+      for (const voice of tails) fadeTransition(voice, 0, GLISS_FADE);
+      // Remove references once voices are stopped, without timer-driven
+      // gain changes. AudioParam ramps are all on the audio clock.
+      for (const voice of [...tails]) {
+        if (voice.oscillators.length) {
+          voice.oscillators[0].addEventListener('ended', () => tails.delete(voice), {once:true});
+        }
+      }
+    }
     function startManualVoice(owner, key) {
       if (!key) return;
       const previous = manualVoices.get(owner);
       if (previous?.key === key) return;
+      const pointerSlide = owner.startsWith('pointer:') && !!previous;
+      if (pointerSlide) silencePointerTails(owner);
       if (previous) {
         manualVoices.delete(owner);
+        if (pointerSlide) {
+          // Crossfade the *whole outgoing voice* to zero, instead of 72%.
+          // Its recipe release still runs, but rapid slides cannot stack tails.
+          fadeTransition(previous.voice, 0, GLISS_FADE);
+          let tails = pointerTransitionTails.get(owner);
+          if (!tails) pointerTransitionTails.set(owner, tails = new Set());
+          tails.add(previous.voice);
+        }
         releaseVoice(previous.voice);
       }
       const voice = buildVoice(Number(key.dataset.note), soundSelect.value, true);
+      if (pointerSlide) {
+        const param = voice.transitionGain.gain;
+        param.cancelScheduledValues(voice.start);
+        param.setValueAtTime(0, voice.start);
+        voice.transitionState = {start:voice.start,end:voice.start,from:0,to:0};
+        fadeTransition(voice, 1, GLISS_FADE);
+      }
       manualVoices.set(owner, {key, voice});
       lastManualKey = key;
       refreshManualVisuals();
@@ -2444,6 +2509,12 @@
     });
 
     document.getElementById("tweak-sound-button").addEventListener("click",tweakRandomSynth);
+    // Restore piano typing after adjusting any synth slider.
+    for (const id of ["synth-volume", "synth-pitch", "synth-release"]) {
+      const slider = document.getElementById(id);
+      slider.addEventListener("pointerup", () => slider.blur());
+      slider.addEventListener("change", () => slider.blur());
+    }
     document.getElementById("synth-volume").addEventListener("input",updateSynthVolume);
     document.getElementById("synth-release").addEventListener("input",editSynthRelease);
     document.getElementById("synth-pitch").addEventListener("input",()=>{
@@ -3777,6 +3848,9 @@ installPianoKeyNoteNames();
       if (!target) return false;
       if (target.isContentEditable) return true;
       const tag = target.tagName;
+      // Range sliders can retain focus after dragging. They must not steal
+      // mapped piano keystrokes; the keydown handler prevents their defaults.
+      if (tag === "INPUT" && target.type === "range") return false;
       return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
     }
 
