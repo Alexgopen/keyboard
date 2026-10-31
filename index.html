@@ -3411,26 +3411,28 @@
 
     function stopSequence() {
       if(sequencerScheduler!==null){clearInterval(sequencerScheduler);sequencerScheduler=null;}
-      // Cancel queued voices while respecting each synth's release envelope.
-      if(scheduledVoices.length){
-        const ctx=getAudioContext();
-        for(const {voice} of scheduledVoices){
-          const now=ctx.currentTime;
-          if(now<voice.start){
-            // Not yet audible: cancel its entire future gain envelope.
-            voice.master.gain.cancelScheduledValues(voice.start);
-            voice.master.gain.setValueAtTime(0,voice.start);
-            voice.oscillators.forEach(o=>{try{o.stop(voice.start+0.002);}catch(e){}});
-          }else{
-            // An already scheduled gate may be in its release; preserve
-            // existing tail when stopping playback rather than retriggering.
-            const at=now;
-            const held=holdVoiceGain(voice,at);
-            const releaseEnd=scheduleClicklessRelease(voice.master.gain,at,held,voice.recipe.release);
-            voice.oscillators.forEach(o=>{try{o.stop(releaseEnd+0.015);}catch(e){}});
+      // Scheduled sequencer voices already have complete ADSR and oscillator
+      // stop events. Do NOT edit master.gain here: its release may be inside
+      // setValueCurveAtTime, where inserting a new event throws in Firefox.
+      // Mute via the independent transition gain instead.
+      if (scheduledVoices.length) {
+        const ctx = getAudioContext();
+        const now = ctx.currentTime;
+        for (const {voice} of scheduledVoices) {
+          const gain = voice.transitionGain.gain;
+          if (now < voice.start) {
+            // Future note: suppress it before it ever becomes audible.
+            gain.cancelScheduledValues(voice.start);
+            gain.setValueAtTime(0, voice.start);
+          } else {
+            // Already sounding: smooth 8 ms mute, without touching the ADSR
+            // curve or rescheduling an oscillator's existing stop event.
+            gain.cancelScheduledValues(now);
+            gain.setValueAtTime(1, now);
+            gain.linearRampToValueAtTime(0, now + 0.008);
           }
         }
-        scheduledVoices=[];
+        scheduledVoices = [];
       }
       sequencePlaying = false;
       resetSequencerSymbolState();
