@@ -1249,10 +1249,10 @@
     const dialogLoopButton = document.getElementById("dialog-loop-button");
 
     let audioContext;
-    let dragging = false;
-    let pianoPointerId = null;
-    let activeKey = null;
-    let activeVoice = null;
+    // Each physical input owns its voice; separate inputs can hold chords.
+    const manualVoices = new Map(); // owner -> {key, voice}
+    const pianoPointers = new Map(); // pointerId -> key
+    let lastManualKey = null;
 
     let rollDragging = false;
     let rollDragKeyIndex = null;
@@ -2121,9 +2121,7 @@
     function rerollRandomSynth() {
       randomSynthRecipe = makeRandomSynthRecipe();
       syncReleaseSlider();
-      if (soundSelect.value === "random" && dragging && activeKey) {
-        startVoice(Number(activeKey.dataset.note), activeKey.dataset.color, activeKey);
-      }
+      // Existing held voices finish with their original recipe.
     }
 
     function ensureRandomSynthRecipe() {
@@ -2362,85 +2360,79 @@
       voice.oscillators.forEach(osc=>{try{osc.stop(fadeEnd+0.015);}catch(e){}});
     }
 
-    function startVoice(frequency, color, key) {
-      stopActiveVoice();
-      activeVoice = buildVoice(frequency, soundSelect.value, true);
-
-      clearAllVisualSymbols();
-      const displayColor = displayColorForKey(key);
+    function refreshManualVisuals() {
+      const held = [...new Set([...manualVoices.values()].map(entry => entry.key))];
+      keys.forEach(key => key.classList.toggle("active", held.includes(key)));
+      if (!held.length) {
+        clearAllVisualSymbols();
+        return;
+      }
+      const focus = held.includes(lastManualKey) ? lastManualKey : held[held.length - 1];
+      const displayColor = displayColorForKey(focus);
       light.style.backgroundColor = displayColor;
       light.style.boxShadow = `0 0 70px ${displayColor}`;
-      key.classList.add("active");
-      showBratForKey(key);
-      showDevilForKey(key);
-      showHeartForKey(key);
-      showAngelForKey(key);
-      showSunForKey(key);
-      showPumpkinForKey(key);
-      showAlienForKey(key);
-      showEggplantForKey(key);
-      showCheeseForKey(key);
-      showFireForKey(key);
-      showMoonForKey(key);
-      showDolphinForKey(key);
-      showIslandForKey(key);
-      displaySymbolsForKeys([key]);
-      activeVoice.key = key;
+      clearAllVisualSymbols();
+      displaySymbolsForKeys(held);
+    }
+
+    function startManualVoice(owner, key) {
+      if (!key) return;
+      const previous = manualVoices.get(owner);
+      if (previous?.key === key) return;
+      if (previous) {
+        manualVoices.delete(owner);
+        releaseVoice(previous.voice);
+      }
+      const voice = buildVoice(Number(key.dataset.note), soundSelect.value, true);
+      manualVoices.set(owner, {key, voice});
+      lastManualKey = key;
+      refreshManualVisuals();
+    }
+
+    function stopManualVoice(owner) {
+      const entry = manualVoices.get(owner);
+      if (!entry) return;
+      manualVoices.delete(owner);
+      releaseVoice(entry.voice); // Never truncate another owner's held note.
+      refreshManualVisuals();
     }
 
     function stopActiveVoice() {
-      if (!activeVoice) return;
-      releaseVoice(activeVoice);
-      activeVoice.key?.classList.remove("active");
-      activeVoice = null;
+      for (const owner of [...manualVoices.keys()]) stopManualVoice(owner);
+      pianoPointers.clear();
     }
 
-    function triggerKey(key) {
-      if (!key || key === activeKey) return;
-      activeKey = key;
-      startVoice(Number(key.dataset.note), key.dataset.color, key);
+    function keyUnderPointer(event) {
+      const element = document.elementFromPoint(event.clientX, event.clientY);
+      const key = element?.closest?.(".key");
+      return key && document.getElementById("piano").contains(key) ? key : null;
     }
 
     keys.forEach(key => {
       key.addEventListener("pointerdown", event => {
-        // The piano owns this gesture. In particular, prevent touch browsers
-        // from turning a horizontal finger slide into page navigation/scrolling.
         event.preventDefault();
-
-        if (dragging && pianoPointerId !== event.pointerId) return;
-
-        dragging = true;
-        pianoPointerId = event.pointerId;
-        activeKey = null;
-
-        // Do NOT capture the pointer on the first key. We continuously hit-test
-        // the finger coordinates so sliding across the keyboard changes notes.
-        triggerKey(key);
+        // Each touch/mouse pointer has independent note ownership.
+        if (pianoPointers.has(event.pointerId)) return;
+        pianoPointers.set(event.pointerId, key);
+        startManualVoice(`pointer:${event.pointerId}`, key);
       });
     });
 
     document.addEventListener("pointermove", event => {
-      if (!dragging || event.pointerId !== pianoPointerId) return;
-
+      if (!pianoPointers.has(event.pointerId)) return;
       event.preventDefault();
-
-      const element = document.elementFromPoint(event.clientX, event.clientY);
-      const key = element?.closest?.(".key");
-
-      if (key && document.getElementById("piano").contains(key)) {
-        triggerKey(key);
+      const key = keyUnderPointer(event);
+      if (key && key !== pianoPointers.get(event.pointerId)) {
+        pianoPointers.set(event.pointerId, key);
+        startManualVoice(`pointer:${event.pointerId}`, key);
       }
-    }, { passive: false });
+    }, {passive: false});
 
     function stopDragging(event) {
-      if (event && pianoPointerId !== null && event.pointerId !== pianoPointerId) return;
-
-      dragging = false;
-      pianoPointerId = null;
-      activeKey = null;
-      stopActiveVoice();
+      if (!event || !pianoPointers.has(event.pointerId)) return;
+      pianoPointers.delete(event.pointerId);
+      stopManualVoice(`pointer:${event.pointerId}`);
     }
-
     document.addEventListener("pointerup", stopDragging);
     document.addEventListener("pointercancel", stopDragging);
 
@@ -2448,10 +2440,7 @@
       updateRandomSoundControls();
       syncReleaseSlider();
       if (soundSelect.value === "random") ensureRandomSynthRecipe();
-
-      if (dragging && activeKey) {
-        startVoice(Number(activeKey.dataset.note), activeKey.dataset.color, activeKey);
-      }
+      // Already-held notes keep their original recipe; new notes use the new one.
     });
 
     document.getElementById("tweak-sound-button").addEventListener("click",tweakRandomSynth);
@@ -3802,26 +3791,18 @@ installPianoKeyNoteNames();
       const key = noteKeyByName.get(noteName);
       if (!key) return;
 
-      activeKey = key;
-      startVoice(Number(key.dataset.note), key.dataset.color, key);
+      startManualVoice(`keyboard:${event.code}`, key);
     });
 
     document.addEventListener("keyup", event => {
       if (!computerKeyToNote.has(event.code)) return;
       heldComputerKeys.delete(event.code);
 
-      const noteName = computerKeyToNote.get(event.code);
-      const releasedKey = noteKeyByName.get(noteName);
-      if (releasedKey && activeVoice?.key === releasedKey) {
-        activeKey = null;
-        stopActiveVoice();
-      }
+      stopManualVoice(`keyboard:${event.code}`);
     });
 
     window.addEventListener("blur", () => {
-      if (!heldComputerKeys.size) return;
       heldComputerKeys.clear();
-      activeKey = null;
       stopActiveVoice();
     });
 
