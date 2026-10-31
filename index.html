@@ -997,109 +997,15 @@
 
     <div id="sound-select-wrap">
       <label for="sound-select">Sound</label>
-      <select id="sound-select">
-        
-        
-        
-        
-        <option value="random">🎲 RANDOM</option>
-        <option value="gbc">GBC</option>
-        <option value="wander">Wander</option>
-        <option value="pluck">Pluck</option>
-        <option value="pluckystrings">Plucky Strings</option>
-        <option value="dryplonk" selected>🟣 Dry House Plonk</option>
-        <option value="rubberpluck">🟠 Rubber Pluck</option>
-        <option value="hollowmallet">🔵 Hollow Mallet</option>
-        <option value="softstab">🟢 Soft House Stab</option>
-        <option value="gbbass">8-Bit Bass</option>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <option value="screammonster">Monster Roar</option>
-        <option value="musicbox">Clockwork Music Box</option>
-        <option value="dulcimer">Hammered Dulcimer</option>
-        <option value="celesta">Moonlit Celesta</option>
-        
-        
-        
-        
-        <option value="deepbell">Deep Temple Bell</option>
-        
-        <option value="arcade">Arcade Lead</option>
-        <option value="machine">Machine Voice</option>
-        <option value="hellsaw">Hell Saw</option>
-        <option value="doomstack">Doom Stack</option>
-        <option value="ironfang">Iron Fang</option>
-        <option value="voidbass">Void Bass</option>
-        <option value="razorlead">Razor Lead</option>
-        <option value="warengine">War Engine</option>
-        <option value="blackpulse">Black Pulse</option>
-        <option value="velvetpulse">Velvet Pulse</option>
-        <option value="nylonpulse">Nylon Pulse</option>
-        <option value="woodpulse">Wood Pulse</option>
-        <option value="deepulse">Deep Pulse</option>
-        <option value="warmbass">Warm Bass Pulse</option>
-        <option value="softpluck">Soft Pluck</option>
-        <option value="hollowstring">Hollow String</option>
-        <option value="subterror">Sub Terror</option>
-        <option value="warehouse">Warehouse Pulse</option>
-        <option value="darklaser">Dark Laser</option>
-        <option value="voidstab">Void Stab</option>
-        <option value="underground">Underground</option>
-        <option value="ironbass">Iron Bass</option>
-        <option value="nightdrive">Night Drive</option>
-        <option value="blackacid">Black Acid</option>
-        <option value="abysspulse">Abyss Pulse</option>
-        <option value="gravepulse">Grave Pulse</option>
-        <option value="nightbeast">Night Beast</option>
-        <option value="subfang">Sub Fang</option>
-        <option value="doompluck">Doom Pluck</option>
-        <option value="doompluckfull">Doom Pluck Full</option>
-        <option value="doompluckround">Doom Pluck Round</option>
-        <option value="doompluckbass">Doom Pluck Bass</option>
-        <option value="doompluckwide">Doom Pluck Wide</option>
-        <option value="doompluckwarm">Doom Pluck Warm</option>
-        <option value="blackhollow">Black Hollow</option>
-        <option value="cryptbass">Crypt Bass</option>
-        <option value="dreadbass">Dread Bass</option>
-        <option value="beastpulse">Beast Pulse</option>
-        <option value="blackengine">Black Engine</option>
-        <option value="voidgrowl">Void Growl</option>
-        <option value="doompulse">Doom Pulse</option>
-        <option value="deepbeast">Deep Beast</option>
-        <option value="darkthrob">Dark Throb</option>
-        <option value="overlord">Overlord</option>
-        
-      </select>
+      <select id="sound-select"><option value="random" selected>🎲 DARK GENERATOR</option></select>
       <button id="reroll-sound-button" type="button" title="Reroll random synth" aria-label="Reroll random synth">🎲</button>
+      <button id="tweak-sound-button" type="button" title="Mutate this synth slightly">🧬 Tweak</button>
       <button id="save-random-sound-button" type="button" title="Save random synth" aria-label="Save random synth">💾</button>
       <button id="export-random-sounds-button" type="button" title="Copy selected synth" aria-label="Copy selected synth">📋</button>
       <button id="import-random-sounds-button" type="button" title="Import synth from text" aria-label="Import synth from text">📥</button>
       <button id="delete-random-sound-button" type="button" title="Delete selected saved synth" aria-label="Delete selected saved synth">🗑️</button>
+      <label class="synth-control">Vol <input id="synth-volume" type="range" min="0" max="150" value="100"><output id="synth-volume-value">100%</output></label>
+      <label class="synth-control">Pitch <input id="synth-pitch" type="range" min="-24" max="12" step="1" value="-12"><output id="synth-pitch-value">-12 st</output></label>
     </div>
 
     <div id="transport">
@@ -1884,45 +1790,9 @@
       }, durationMs);
     }
 
-    const GBC_SYNTH_RECIPE = {
-      oscillators: [
-        { type: "square", ratio: 1.5, detune: 15.688641401098415, volume: 0.16708504398497553 },
-        { type: "sine", ratio: 1, detune: 11.180279472240038, volume: 0.21413518206263454 },
-        { type: "square", ratio: 2, detune: 1.532376490556043, volume: 0.19790949945801473 },
-        { type: "triangle", ratio: 4, detune: -7.262097251501645, volume: 0.21004998296627897 }
-      ],
-      filterType: "highpass",
-      filterStart: 766.40962165993,
-      filterEnd: 1472.8711307644026,
-      filterQ: 4.027486495150307,
-      attack: 0.02603526771231068,
-      peak: 0.3648005782927053,
-      decay: 0.7350454895135025,
-      sustain: 0.205584779251372,
-      release: 0.7741676959502835
-    };
 
-    const WANDER_SYNTH_RECIPE = {
-      family: "bass",
-      oscillators: [
-        { type: "square", ratio: 0.5, detune: -3.1499191743134, volume: 0.1694515339512805 },
-        { type: "triangle", ratio: 0.25, detune: 3.566449571533015, volume: 0.12402402261954268 },
-        { type: "sawtooth", ratio: 2, detune: -11.853366813387202, volume: 0.05224746014020762 }
-      ],
-      filterType: "lowpass",
-      filterStart: 670.7570982331824,
-      filterEnd: 426.104560593301,
-      filterQ: 6.567938220749042,
-      attack: 0.042586887801469304,
-      peak: 0.8111105446959532,
-      decay: 0.5480704652388505,
-      sustain: 0.1726281984326632,
-      release: 0.42117748170774144,
-      pitchSweep: -1104.0604872034792,
-      pitchSweepTime: 0.35604205771433345,
-      tremoloDepth: 0,
-      tremoloRate: 14.625940726812045
-    };
+
+
 
     const RANDOM_WAVES = ["sine", "triangle", "square", "sawtooth"];
     const SOUND_PRESET_STORAGE_KEY = "rainbowPianoRandomSoundPresetsV1";
@@ -2043,22 +1913,6 @@
     }
 
     function getSelectedShareableSound() {
-      if (soundSelect.value === "wander") {
-        return {
-          name: "Wander",
-          kind: "recipe",
-          recipe: cloneRandomSynthRecipe(WANDER_SYNTH_RECIPE)
-        };
-      }
-
-      if (soundSelect.value === "gbc") {
-        return {
-          name: "GBC",
-          kind: "recipe",
-          recipe: cloneRandomSynthRecipe(GBC_SYNTH_RECIPE)
-        };
-      }
-
       if (soundSelect.value === "random") {
         return {
           name: "RANDOM",
@@ -2185,15 +2039,8 @@
         soundSelect.appendChild(option);
       }
 
-      for (const name of Object.keys(savedCustomSourcePresets).sort((a, b) => a.localeCompare(b))) {
-        const option = document.createElement("option");
-        option.value = `saved-source:${name}`;
-        option.dataset.userSaved = "true";
-        option.dataset.savedType = "source";
-        option.dataset.savedName = name;
-        option.textContent = `(S) ${name}`;
-        soundSelect.appendChild(option);
-      }
+      // Legacy source-code presets remain in storage but are not loaded into the
+      // recipe-only dark generator. Existing recipe presets remain available.
 
       if ([...soundSelect.options].some(option => option.value === selectedValue)) {
         soundSelect.value = selectedValue;
@@ -2201,8 +2048,6 @@
     }
 
     function selectedRandomRecipe() {
-      if (soundSelect.value === "wander") return WANDER_SYNTH_RECIPE;
-      if (soundSelect.value === "gbc") return GBC_SYNTH_RECIPE;
       if (soundSelect.value === "random") return ensureRandomSynthRecipe();
       if (soundSelect.value.startsWith("saved-random:")) {
         const name = soundSelect.value.slice("saved-random:".length);
@@ -2219,160 +2064,56 @@
       return values[Math.floor(Math.random() * values.length)];
     }
 
+    // Weighted toward deep warehouse bass, analog growl, dubby pulse and dark stabs.
+    // Every recipe retains the original portable recipe schema.
     function makeRandomSynthRecipe() {
-      // RANDOM intentionally spans several synthesis families rather than only
-      // varying one subtractive oscillator stack. This lets rolls reach basses,
-      // bells, organs, chip sounds, noisy/percussive timbres, detuned leads, etc.
-      const family = randomChoice([
-        "subtractive", "subtractive", "subtractive",
-        "bass", "bass",
-        "chip",
-        "organ",
-        "metallic",
-        "hollow",
-        "detuned",
-        "percussive"
-      ]);
-
+      const family = randomChoice(["sub", "sub", "warehouse", "warehouse", "growl", "growl", "rubber", "dub", "acid", "darkstab"]);
       const oscillators = [];
-      const add = (type, ratio, detune, volume) => oscillators.push({
-        type, ratio, detune, volume
-      });
-
-      if (family === "bass") {
-        const rootWave = randomChoice(["sawtooth", "square", "triangle"]);
-        add(rootWave, randomChoice([0.25, 0.5, 0.5, 1]), randomBetween(-8, 8), randomBetween(0.16, 0.34));
-        add(randomChoice(["sine", "triangle"]), randomChoice([0.25, 0.5, 1]), randomBetween(-5, 5), randomBetween(0.12, 0.30));
-        if (Math.random() < 0.7) {
-          add(randomChoice(["square", "sawtooth"]), randomChoice([1, 2]), randomBetween(-14, 14), randomBetween(0.04, 0.15));
-        }
-      } else if (family === "chip") {
-        const count = 1 + Math.floor(Math.random() * 4);
-        for (let i = 0; i < count; i++) {
-          add(
-            randomChoice(["square", "square", "triangle"]),
-            randomChoice([0.5, 1, 1, 1.5, 2, 3, 4]),
-            randomBetween(-20, 20),
-            randomBetween(0.06, 0.24)
-          );
-        }
-      } else if (family === "organ") {
-        const partials = [0.5, 1, 2, 3, 4, 5, 6, 8];
-        const count = 3 + Math.floor(Math.random() * 5);
-        for (let i = 0; i < count; i++) {
-          add(
-            randomChoice(["sine", "triangle", "square"]),
-            randomChoice(partials),
-            randomBetween(-5, 5),
-            randomBetween(0.035, 0.17)
-          );
-        }
-      } else if (family === "metallic") {
-        const count = 2 + Math.floor(Math.random() * 5);
-        for (let i = 0; i < count; i++) {
-          add(
-            randomChoice(["sine", "triangle", "square"]),
-            randomChoice([1, 1.414, 1.5, 2, 2.414, 2.718, 3.1416, 3.5, 4.25, 5.7]),
-            randomBetween(-25, 25),
-            randomBetween(0.035, 0.19)
-          );
-        }
-      } else if (family === "hollow") {
-        add(randomChoice(["sine", "triangle"]), randomChoice([0.5, 1]), randomBetween(-7, 7), randomBetween(0.15, 0.30));
-        add(randomChoice(["sine", "triangle"]), randomChoice([2, 3, 4]), randomBetween(-10, 10), randomBetween(0.04, 0.15));
-      } else if (family === "detuned") {
-        const wave = randomChoice(["sawtooth", "square", "triangle"]);
-        const ratio = randomChoice([0.5, 1, 1, 2]);
-        const spread = randomBetween(5, 35);
-        add(wave, ratio, -spread, randomBetween(0.09, 0.20));
-        add(wave, ratio, spread, randomBetween(0.09, 0.20));
-        add(randomChoice(["sine", "triangle"]), randomChoice([0.5, 1, 2]), 0, randomBetween(0.04, 0.16));
-        if (Math.random() < 0.5) add(wave, ratio, 0, randomBetween(0.05, 0.14));
-      } else if (family === "percussive") {
-        add(randomChoice(["square", "sawtooth", "triangle"]), randomChoice([0.5, 1, 2]), randomBetween(-20, 20), randomBetween(0.12, 0.28));
-        if (Math.random() < 0.75) add("sine", randomChoice([0.25, 0.5, 1, 2, 3]), randomBetween(-8, 8), randomBetween(0.08, 0.22));
-      } else {
-        const oscillatorCount = 1 + Math.floor(Math.random() * 7);
-        for (let i = 0; i < oscillatorCount; i++) {
-          let ratio;
-          const ratioMode = Math.random();
-          if (ratioMode < 0.48) ratio = randomChoice([0.25, 0.5, 1, 1, 1, 2, 2, 3, 4, 5, 6, 8]);
-          else if (ratioMode < 0.75) ratio = randomChoice([0.375, 0.75, 1.25, 1.5, 2.5, 3.5, 4.5]);
-          else ratio = randomBetween(0.18, 8);
-
-          add(
-            randomChoice(RANDOM_WAVES),
-            ratio,
-            randomBetween(-35, 35),
-            randomBetween(0.025, 0.28)
-          );
-        }
-      }
-
-      let filterType;
-      let filterStart;
-      let filterEnd;
-      let filterQ;
-
-      if (family === "bass") {
-        filterType = randomChoice(["lowpass", "lowpass", "lowpass", "bandpass"]);
-        filterStart = randomBetween(180, 2600);
-        filterEnd = randomBetween(60, Math.max(100, filterStart));
-        filterQ = randomBetween(0.1, 14);
-      } else if (family === "metallic") {
-        filterType = randomChoice(["bandpass", "highpass", "lowpass"]);
-        filterStart = randomBetween(1200, 12000);
-        filterEnd = randomBetween(500, 10000);
-        filterQ = randomBetween(1, 18);
-      } else {
-        filterType = randomChoice(["lowpass", "lowpass", "bandpass", "highpass"]);
-        filterStart = filterType === "highpass" ? randomBetween(30, 2400) : randomBetween(180, 14000);
-        filterEnd = filterType === "highpass" ? randomBetween(80, 7000) : randomBetween(80, 12000);
-        filterQ = randomBetween(0.05, 16);
-      }
-
-      let attack = randomBetween(0.002, 0.45);
-      let decay = randomBetween(0.025, 1.4);
-      let sustain = randomBetween(0.04, 0.88);
-      let release = randomBetween(0.035, 1.8);
-
-      if (family === "organ") {
-        attack = randomBetween(0.005, 0.10);
-        decay = randomBetween(0.08, 0.5);
-        sustain = randomBetween(0.62, 0.98);
-        release = randomBetween(0.08, 0.7);
-      } else if (family === "percussive") {
-        attack = randomBetween(0.001, 0.025);
-        decay = randomBetween(0.025, 0.35);
-        sustain = randomBetween(0.015, 0.20);
-        release = randomBetween(0.025, 0.30);
-      } else if (family === "bass") {
-        attack = randomBetween(0.002, 0.09);
-        decay = randomBetween(0.05, 0.7);
-        sustain = randomBetween(0.12, 0.75);
-        release = randomBetween(0.04, 0.8);
-      }
-
+      const add = (type, ratio, detune, volume) => oscillators.push({type,ratio,detune,volume});
+      const main = randomChoice(["sawtooth","sawtooth","square","triangle"]);
+      const sub = randomChoice([0.25,0.25,0.5]);
+      add("sine",sub,0,randomBetween(0.14,0.26));
+      add(randomChoice(["triangle","sine"]),0.5,randomBetween(-3,3),randomBetween(0.10,0.20));
+      const spread = randomBetween(2,17);
+      const bodyRatio = family === "sub" ? 0.5 : randomChoice([0.5,0.5,1]);
+      add(main,bodyRatio,-spread,randomBetween(0.09,0.18));
+      add(main,bodyRatio,spread,randomBetween(0.09,0.18));
+      if (family === "growl" || family === "acid" || family === "warehouse")
+        add(randomChoice(["sawtooth","square"]),1,randomBetween(-6,6),randomBetween(0.035,0.10));
+      if (family === "darkstab" || family === "dub")
+        add("triangle",randomChoice([1,2]),randomBetween(-5,5),randomBetween(0.025,0.075));
+      const low = family === "sub" || family === "rubber";
+      const filterEnd = low ? randomBetween(160,850) : randomBetween(350,1800);
       return {
-        family,
-        oscillators,
-        filterType,
-        filterStart,
-        filterEnd,
-        filterQ,
-        attack,
-        peak: randomBetween(0.28, 0.98),
-        decay,
-        sustain,
-        release,
-
-        // Additional modulation possibilities. Older saved recipes simply omit
-        // these fields and remain fully compatible.
-        pitchSweep: Math.random() < 0.32 ? randomBetween(-1200, 1200) : 0,
-        pitchSweepTime: randomBetween(0.015, 0.65),
-        tremoloDepth: Math.random() < 0.24 ? randomBetween(0.08, 0.65) : 0,
-        tremoloRate: randomBetween(2, 18)
+        family,oscillators,filterType:"lowpass",
+        filterStart:low?randomBetween(650,2400):randomBetween(1200,5000),
+        filterEnd,filterQ:randomBetween(0.5,family==="acid"?10:5),
+        attack:randomBetween(0.003,0.025),peak:randomBetween(0.55,0.9),
+        decay:randomBetween(0.10,0.55),sustain:randomBetween(0.20,0.65),
+        release:randomBetween(0.07,0.45),
+        pitchSweep:Math.random()<0.30?randomBetween(-180,90):0,
+        pitchSweepTime:randomBetween(0.025,0.13),
+        tremoloDepth:Math.random()<0.22?randomBetween(0.06,0.22):0,
+        tremoloRate:randomBetween(3,12)
       };
+    }
+
+    function tweakRandomSynth() {
+      const source = selectedRandomRecipe() || ensureRandomSynthRecipe();
+      const recipe = cloneRandomSynthRecipe(source);
+      const nudge = (v,amount,min,max) => Math.min(max,Math.max(min,v*(1+randomBetween(-amount,amount))));
+      recipe.oscillators.forEach(o=>{
+        o.volume=nudge(o.volume,0.16,0.008,0.5);
+        o.detune=Math.max(-50,Math.min(50,o.detune+randomBetween(-2.5,2.5)));
+      });
+      recipe.filterStart=nudge(recipe.filterStart,0.24,80,9000);
+      recipe.filterEnd=nudge(recipe.filterEnd,0.24,60,7000);
+      recipe.filterQ=nudge(recipe.filterQ,0.18,0.1,16);
+      for(const k of ["attack","decay","sustain","release"])
+        recipe[k]=nudge(recipe[k],0.14,k==="attack"?0.001:0.02,k==="sustain"?0.98:2);
+      randomSynthRecipe=recipe;
+      soundSelect.value="random";
+      updateRandomSoundControls();
     }
 
     function rerollRandomSynth() {
@@ -2405,1079 +2146,101 @@
       fn(ctx, now, master, addOsc, frequency, swell);
     }
 
-    function buildVoice(frequency, sound = soundSelect.value, swell = true) {
-      const ctx = getAudioContext();
-      const now = ctx.currentTime;
-      const master = ctx.createGain();
-      const oscillators = [];
-
-      master.gain.setValueAtTime(0.0001, now);
-      master.connect(ctx.destination);
-
-      function addOsc(type, freq, detune, volume, destination = master) {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-
-        osc.type = type;
-        osc.frequency.setValueAtTime(freq, now);
-        osc.detune.setValueAtTime(detune, now);
-        gain.gain.setValueAtTime(volume, now);
-
-        osc.connect(gain);
-        gain.connect(destination);
-        osc.start(now);
-        oscillators.push(osc);
+    function getSynthRecipe(sound) {
+      if (sound.startsWith("saved-random:")) return savedRandomSoundPresets[sound.slice(13)] || ensureRandomSynthRecipe();
+      return ensureRandomSynthRecipe();
+    }
+    function synthPitchFrequency(frequency) {
+      return frequency * Math.pow(2,Number(document.getElementById("synth-pitch").value)/12);
+    }
+    // Shared live/offline master. Gentle compression preserves per-voice grit.
+    let synthOutput = null;
+    function createMasterChain(ctx, destination, volume=1) {
+      const input=ctx.createGain();
+      input.gain.value=volume;
+      const compressor=ctx.createDynamicsCompressor();
+      compressor.threshold.value=-14;
+      compressor.knee.value=8;
+      compressor.ratio.value=2.4;
+      compressor.attack.value=0.008;
+      compressor.release.value=0.14;
+      const limiter=ctx.createDynamicsCompressor();
+      limiter.threshold.value=-2;
+      limiter.knee.value=0;
+      limiter.ratio.value=12;
+      limiter.attack.value=0.003;
+      limiter.release.value=0.08;
+      const output=ctx.createGain();
+      output.gain.value=0.92;
+      input.connect(compressor);compressor.connect(limiter);
+      limiter.connect(output);output.connect(destination);
+      return {input,output,compressor,limiter};
+    }
+    function getSynthOutput(ctx) {
+      if(synthOutput && synthOutput.context===ctx)return synthOutput;
+      synthOutput={context:ctx,...createMasterChain(ctx,ctx.destination)};
+      updateSynthVolume();
+      return synthOutput;
+    }
+    function updateSynthVolume() {
+      const volume=Number(document.getElementById("synth-volume").value)/100;
+      document.getElementById("synth-volume-value").textContent=Math.round(volume*100)+"%";
+      if(synthOutput)synthOutput.input.gain.setTargetAtTime(volume,synthOutput.context.currentTime,0.015);
+    }
+    function envelopeValueAt(recipe,start,t){
+      const a=Math.max(0.001,recipe.attack),d=Math.max(0.01,recipe.decay);
+      const peak=Math.max(0.001,recipe.peak),sus=Math.max(0.001,recipe.peak*recipe.sustain);
+      const elapsed=Math.max(0,t-start);
+      if(elapsed<a) return 0.0001*Math.pow(peak/0.0001,elapsed/a);
+      if(elapsed<a+d) return peak*Math.pow(sus/peak,(elapsed-a)/d);
+      return sus;
+    }
+    function makeSynthNodes(ctx,destination,frequency,sound,start,end=null) {
+      const recipe=getSynthRecipe(sound);
+      const master=ctx.createGain();master.gain.setValueAtTime(0.0001,start);master.connect(destination);
+      const filter=ctx.createBiquadFilter();filter.type=recipe.filterType;
+      filter.Q.setValueAtTime(Math.max(0.1,recipe.filterQ),start);
+      filter.frequency.setValueAtTime(Math.max(20,recipe.filterStart),start);
+      filter.frequency.exponentialRampToValueAtTime(Math.max(20,recipe.filterEnd),start+Math.max(0.08,recipe.decay+0.25));
+      // Gentle per-voice harmonic grit BEFORE mixing; never square-wave the whole bus.
+      const grit=ctx.createWaveShaper();
+      const drive=1.9;
+      const curve=new Float32Array(1025);
+      for(let i=0;i<curve.length;i++){
+        const x=2*i/(curve.length-1)-1;
+        curve[i]=Math.tanh(drive*x)/Math.tanh(drive);
       }
-
-      if (sound.startsWith("saved-source:")) {
-        const name = sound.slice("saved-source:".length);
-        const source = savedCustomSourcePresets[name];
-        if (!source) throw new Error(`Missing saved synth source: ${name}`);
-        runSavedSourcePreset(source, ctx, now, master, addOsc, frequency, swell);
-      } else if (sound === "wander" || sound === "gbc" || sound === "random" || sound.startsWith("saved-random:")) {
-        const recipe = sound === "wander"
-          ? WANDER_SYNTH_RECIPE
-          : sound === "gbc"
-            ? GBC_SYNTH_RECIPE
-            : sound === "random"
-            ? ensureRandomSynthRecipe()
-            : (savedRandomSoundPresets[sound.slice("saved-random:".length)] || ensureRandomSynthRecipe());
-        const filter = ctx.createBiquadFilter();
-        filter.type = recipe.filterType;
-        filter.frequency.setValueAtTime(Math.max(20, recipe.filterStart), now);
-        filter.Q.setValueAtTime(recipe.filterQ, now);
-        filter.frequency.exponentialRampToValueAtTime(
-          Math.max(20, recipe.filterEnd),
-          now + Math.max(0.08, recipe.decay + 0.25)
-        );
-        filter.connect(master);
-
-        recipe.oscillators.forEach(spec => {
-          const osc = addOsc(spec.type, Math.max(20, frequency * spec.ratio), spec.detune, spec.volume, filter);
-          if (recipe.pitchSweep && osc?.frequency) {
-            const base = Math.max(20, frequency * spec.ratio);
-            const startFreq = Math.max(20, base * Math.pow(2, recipe.pitchSweep / 1200));
-            osc.frequency.cancelScheduledValues(now);
-            osc.frequency.setValueAtTime(startFreq, now);
-            osc.frequency.exponentialRampToValueAtTime(base, now + recipe.pitchSweepTime);
-          }
-        });
-
-        if (recipe.tremoloDepth > 0) {
-          const tremolo = ctx.createOscillator();
-          const tremoloGain = ctx.createGain();
-          tremolo.type = "sine";
-          tremolo.frequency.setValueAtTime(recipe.tremoloRate, now);
-          tremoloGain.gain.setValueAtTime(recipe.tremoloDepth * 0.22, now);
-          tremolo.connect(tremoloGain);
-          tremoloGain.connect(master.gain);
-          tremolo.start(now);
-          oscillators.push(tremolo);
-        }
-
-        const attackEnd = now + recipe.attack;
-        const decayEnd = attackEnd + recipe.decay;
-        master.gain.exponentialRampToValueAtTime(recipe.peak, attackEnd);
-        master.gain.exponentialRampToValueAtTime(
-          Math.max(0.0001, recipe.peak * recipe.sustain),
-          decayEnd
-        );
-      } else if (sound === "dryplonk") {
-        // Tight, dry, low-mid house pluck. No delay/reverb path at all.
-        // Character comes from a short sine body, a quickly-damped upper partial,
-        // and a tiny downward pitch gesture at the transient.
-        const bus = ctx.createGain();
-        const filter = ctx.createBiquadFilter();
-        bus.connect(filter);
-        filter.connect(master);
-        filter.type = "lowpass";
-        filter.Q.setValueAtTime(0.72, now);
-        filter.frequency.setValueAtTime(Math.min(5200, Math.max(1700, frequency * 6.0)), now);
-        filter.frequency.exponentialRampToValueAtTime(Math.max(700, frequency * 2.1), now + 0.18);
-
-        const body = ctx.createOscillator();
-        const bodyGain = ctx.createGain();
-        body.type = "sine";
-        body.frequency.setValueAtTime(frequency * 1.025, now);
-        body.frequency.exponentialRampToValueAtTime(frequency, now + 0.035);
-        bodyGain.gain.setValueAtTime(0.70, now);
-        body.connect(bodyGain); bodyGain.connect(bus); body.start(now);
-        oscillators.push(body);
-
-        const knock = ctx.createOscillator();
-        const knockGain = ctx.createGain();
-        knock.type = "triangle";
-        knock.frequency.setValueAtTime(frequency * 2.02, now);
-        knockGain.gain.setValueAtTime(0.20, now);
-        knockGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.085);
-        knock.connect(knockGain); knockGain.connect(bus); knock.start(now);
-        oscillators.push(knock);
-
-        addOsc("sine", frequency * 0.5, 0, 0.18, bus);
-
-        master.gain.exponentialRampToValueAtTime(0.92, now + 0.004);
-        master.gain.exponentialRampToValueAtTime(0.34, now + 0.075);
-        master.gain.exponentialRampToValueAtTime(0.11, now + 0.26);
-        master.gain.exponentialRampToValueAtTime(0.035, now + 0.72);
-
-      } else if (sound === "rubberpluck") {
-        // Slightly elastic / rubbery version: a very short FM transient feeding a dark body.
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.Q.setValueAtTime(1.15, now);
-        filter.frequency.setValueAtTime(Math.min(4400, Math.max(1500, frequency * 5.2)), now);
-        filter.frequency.exponentialRampToValueAtTime(Math.max(620, frequency * 1.8), now + 0.14);
-        filter.connect(master);
-
-        const carrier = ctx.createOscillator();
-        const cg = ctx.createGain();
-        const mod = ctx.createOscillator();
-        const mg = ctx.createGain();
-        carrier.type = "sine";
-        carrier.frequency.setValueAtTime(frequency, now);
-        cg.gain.setValueAtTime(0.72, now);
-        mod.type = "sine";
-        mod.frequency.setValueAtTime(frequency * 1.49, now);
-        mg.gain.setValueAtTime(Math.max(18, frequency * 0.34), now);
-        mg.gain.exponentialRampToValueAtTime(0.01, now + 0.055);
-        mod.connect(mg); mg.connect(carrier.frequency);
-        carrier.connect(cg); cg.connect(filter);
-        carrier.start(now); mod.start(now);
-        oscillators.push(carrier, mod);
-
-        addOsc("sine", frequency * 0.5, 0, 0.22, filter);
-        addOsc("triangle", frequency, -4, 0.075, filter);
-
-        master.gain.exponentialRampToValueAtTime(0.88, now + 0.003);
-        master.gain.exponentialRampToValueAtTime(0.31, now + 0.065);
-        master.gain.exponentialRampToValueAtTime(0.085, now + 0.23);
-        master.gain.exponentialRampToValueAtTime(0.028, now + 0.62);
-
-      } else if (sound === "hollowmallet") {
-        // Hollow wooden/plastic mallet: odd partials, but all of them decay quickly.
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.Q.setValueAtTime(0.55, now);
-        filter.frequency.setValueAtTime(Math.min(6000, Math.max(2100, frequency * 7.0)), now);
-        filter.frequency.exponentialRampToValueAtTime(Math.max(850, frequency * 2.4), now + 0.22);
-        filter.connect(master);
-
-        const partials = [
-          [1.0, 0.55, 0.0],
-          [2.74, 0.16, -3.0],
-          [4.18, 0.07, 4.0]
-        ];
-        partials.forEach(([ratio, level, detune], i) => {
-          const o = ctx.createOscillator();
-          const g = ctx.createGain();
-          o.type = "sine";
-          o.frequency.setValueAtTime(frequency * ratio, now);
-          o.detune.setValueAtTime(detune, now);
-          g.gain.setValueAtTime(level, now);
-          if (i > 0) g.gain.exponentialRampToValueAtTime(0.0001, now + (i === 1 ? 0.095 : 0.055));
-          o.connect(g); g.connect(filter); o.start(now); oscillators.push(o);
-        });
-        addOsc("sine", frequency * 0.5, 0, 0.15, filter);
-
-        master.gain.exponentialRampToValueAtTime(0.86, now + 0.004);
-        master.gain.exponentialRampToValueAtTime(0.29, now + 0.085);
-        master.gain.exponentialRampToValueAtTime(0.095, now + 0.30);
-        master.gain.exponentialRampToValueAtTime(0.026, now + 0.78);
-
-      } else if (sound === "softstab") {
-        // Short chord-like deep-house stab. Still dry; width comes from mild detuning,
-        // not time-domain effects.
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.Q.setValueAtTime(0.82, now);
-        filter.frequency.setValueAtTime(Math.min(4800, Math.max(1800, frequency * 5.5)), now);
-        filter.frequency.exponentialRampToValueAtTime(Math.max(760, frequency * 2.0), now + 0.20);
-        filter.connect(master);
-
-        addOsc("sine", frequency * 0.5, 0, 0.16, filter);
-        addOsc("sine", frequency, -7, 0.28, filter);
-        addOsc("sine", frequency, 7, 0.28, filter);
-        addOsc("triangle", frequency * 2.0, 0, 0.08, filter);
-        addOsc("sine", frequency * 3.0, 0, 0.03, filter);
-
-        master.gain.exponentialRampToValueAtTime(0.78, now + 0.008);
-        master.gain.exponentialRampToValueAtTime(0.33, now + 0.10);
-        master.gain.exponentialRampToValueAtTime(0.12, now + 0.34);
-        master.gain.exponentialRampToValueAtTime(0.040, now + 0.82);
-
-      } else if (sound === "pad") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(3600, now);
-        filter.Q.setValueAtTime(0.6, now);
-        filter.connect(master);
-
-        [-18, -9, 0, 9, 18].forEach((detune, i) => {
-          addOsc(i % 2 === 0 ? "sine" : "triangle", frequency, detune, i === 2 ? 0.24 : 0.14, filter);
-        });
-
-        master.gain.exponentialRampToValueAtTime(0.32, now + 0.12);
-        if (swell) {
-          master.gain.exponentialRampToValueAtTime(0.58, now + 1.2);
-          master.gain.exponentialRampToValueAtTime(0.82, now + 3.5);
-        } else {
-          master.gain.exponentialRampToValueAtTime(0.48, now + 0.35);
-        }
-
-      } else if (sound === "electric") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(5000, now);
-        filter.Q.setValueAtTime(0.8, now);
-        filter.connect(master);
-
-        addOsc("triangle", frequency, -7, 0.30, filter);
-        addOsc("triangle", frequency, 7, 0.30, filter);
-        addOsc("sine", frequency * 2, -3, 0.14, filter);
-        addOsc("sine", frequency * 2.01, 3, 0.11, filter);
-        addOsc("sine", frequency * 3, 0, 0.06, filter);
-
-        master.gain.exponentialRampToValueAtTime(0.60, now + 0.03);
-        master.gain.exponentialRampToValueAtTime(0.72, now + 1.8);
-
-      } else if (sound === "bell") {
-        [[1.00, 0.48], [2.01, 0.22], [3.90, 0.14], [5.40, 0.08]].forEach(([ratio, volume]) => {
-          addOsc("sine", frequency * ratio, 0, volume);
-        });
-
-        master.gain.exponentialRampToValueAtTime(0.74, now + 0.01);
-        master.gain.exponentialRampToValueAtTime(0.40, now + 0.8);
-        master.gain.exponentialRampToValueAtTime(0.52, now + 2.4);
-
-      } else if (sound === "organ") {
-        addOsc("sine", frequency, 0, 0.34);
-        addOsc("sine", frequency * 2, 0, 0.20);
-        addOsc("triangle", frequency * 3, 0, 0.12);
-        addOsc("sine", frequency * 4, 0, 0.08);
-
-        master.gain.exponentialRampToValueAtTime(0.52, now + 0.04);
-        master.gain.exponentialRampToValueAtTime(0.72, now + 2.5);
-
-      } else if (sound === "gbpulse") {
-        // Narrow pulse approximation: layered square waves with phase-like detuning.
-        addOsc("square", frequency, -8, 0.20);
-        addOsc("square", frequency, 8, 0.16);
-        addOsc("square", frequency * 2, 0, 0.055);
-        master.gain.exponentialRampToValueAtTime(0.48, now + 0.008);
-        master.gain.exponentialRampToValueAtTime(0.58, now + 1.8);
-
-      } else if (sound === "gbsquare") {
-        // Classic handheld square-wave lead.
-        addOsc("square", frequency, 0, 0.30);
-        addOsc("square", frequency * 2, 0, 0.055);
-        master.gain.exponentialRampToValueAtTime(0.46, now + 0.006);
-        master.gain.exponentialRampToValueAtTime(0.54, now + 1.6);
-
-      } else if (sound === "gbsoft") {
-        // Softer chiptune lead: square core plus triangle body.
-        addOsc("square", frequency, -4, 0.17);
-        addOsc("square", frequency, 4, 0.17);
-        addOsc("triangle", frequency / 2, 0, 0.12);
-        master.gain.exponentialRampToValueAtTime(0.50, now + 0.012);
-        master.gain.exponentialRampToValueAtTime(0.62, now + 2.2);
-
-      } else if (sound === "gbbass") {
-        // Chunky retro bass voice.
-        addOsc("square", frequency / 2, 0, 0.25);
-        addOsc("triangle", frequency / 2, 0, 0.22);
-        addOsc("square", frequency, 0, 0.08);
-        master.gain.exponentialRampToValueAtTime(0.58, now + 0.008);
-        master.gain.exponentialRampToValueAtTime(0.68, now + 2.0);
-
-      } else if (sound === "wiipluck") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(5400, now);
-        filter.frequency.exponentialRampToValueAtTime(1800, now + 1.4);
-        filter.Q.setValueAtTime(1.1, now);
-        filter.connect(master);
-        addOsc("triangle", frequency, -5, 0.28, filter);
-        addOsc("triangle", frequency, 5, 0.28, filter);
-        addOsc("sine", frequency * 2, 0, 0.10, filter);
-        addOsc("sine", frequency * 3, 0, 0.035, filter);
-        master.gain.exponentialRampToValueAtTime(0.66, now + 0.012);
-        master.gain.exponentialRampToValueAtTime(0.38, now + 0.48);
-        master.gain.exponentialRampToValueAtTime(0.52, now + 2.1);
-
-      } else if (sound === "wiibell") {
-        addOsc("sine", frequency, 0, 0.34);
-        addOsc("sine", frequency * 2.01, 0, 0.15);
-        addOsc("sine", frequency * 3.02, 0, 0.07);
-        addOsc("sine", frequency * 4.08, 0, 0.035);
-        master.gain.exponentialRampToValueAtTime(0.62, now + 0.008);
-        master.gain.exponentialRampToValueAtTime(0.30, now + 0.65);
-        master.gain.exponentialRampToValueAtTime(0.42, now + 2.2);
-
-      } else if (sound === "wiimarimba") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(3900, now);
-        filter.Q.setValueAtTime(0.9, now);
-        filter.connect(master);
-        addOsc("sine", frequency, 0, 0.42, filter);
-        addOsc("triangle", frequency * 2, 0, 0.11, filter);
-        addOsc("sine", frequency * 3, 0, 0.045, filter);
-        master.gain.exponentialRampToValueAtTime(0.72, now + 0.006);
-        master.gain.exponentialRampToValueAtTime(0.25, now + 0.42);
-        master.gain.exponentialRampToValueAtTime(0.36, now + 1.9);
-
-      } else if (sound === "wiibubble") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(4600, now);
-        filter.Q.setValueAtTime(1.5, now);
-        filter.connect(master);
-        addOsc("sine", frequency, -11, 0.25, filter);
-        addOsc("sine", frequency, 11, 0.25, filter);
-        addOsc("triangle", frequency * 2, 0, 0.08, filter);
-        addOsc("sine", frequency / 2, 0, 0.08, filter);
-        master.gain.exponentialRampToValueAtTime(0.48, now + 0.045);
-        master.gain.exponentialRampToValueAtTime(0.68, now + 1.8);
-
-      } else if (sound === "wiiair") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(3300, now);
-        filter.Q.setValueAtTime(0.5, now);
-        filter.connect(master);
-        [-13, -6, 0, 6, 13].forEach((detune, i) => {
-          addOsc(i === 2 ? "triangle" : "sine", frequency, detune, i === 2 ? 0.20 : 0.11, filter);
-        });
-        addOsc("sine", frequency * 2, 3, 0.055, filter);
-        master.gain.exponentialRampToValueAtTime(0.28, now + 0.18);
-        master.gain.exponentialRampToValueAtTime(0.62, now + 2.6);
-
-      } else if (sound === "wiichime") {
-        addOsc("sine", frequency, -3, 0.28);
-        addOsc("sine", frequency, 3, 0.28);
-        addOsc("sine", frequency * 2.5, 0, 0.09);
-        addOsc("sine", frequency * 4.0, 0, 0.045);
-        addOsc("sine", frequency * 5.05, 0, 0.025);
-        master.gain.exponentialRampToValueAtTime(0.60, now + 0.012);
-        master.gain.exponentialRampToValueAtTime(0.32, now + 0.8);
-        master.gain.exponentialRampToValueAtTime(0.46, now + 2.5);
-
-      } else if (sound === "rsflute") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(2900, now);
-        filter.Q.setValueAtTime(1.1, now);
-        filter.connect(master);
-        addOsc("sine", frequency, -4, 0.30, filter);
-        addOsc("sine", frequency, 4, 0.24, filter);
-        addOsc("triangle", frequency * 2, 0, 0.07, filter);
-        master.gain.exponentialRampToValueAtTime(0.36, now + 0.07);
-        master.gain.exponentialRampToValueAtTime(0.58, now + 1.8);
-
-      } else if (sound === "rslute") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(4300, now);
-        filter.frequency.exponentialRampToValueAtTime(1300, now + 1.3);
-        filter.connect(master);
-        addOsc("triangle", frequency, -6, 0.27, filter);
-        addOsc("triangle", frequency, 6, 0.27, filter);
-        addOsc("sine", frequency * 2, 0, 0.10, filter);
-        addOsc("sine", frequency * 3, 0, 0.04, filter);
-        master.gain.exponentialRampToValueAtTime(0.72, now + 0.008);
-        master.gain.exponentialRampToValueAtTime(0.24, now + 0.55);
-        master.gain.exponentialRampToValueAtTime(0.38, now + 1.8);
-
-      } else if (sound === "rshorn") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(2100, now);
-        filter.Q.setValueAtTime(1.0, now);
-        filter.connect(master);
-        addOsc("sawtooth", frequency, -5, 0.12, filter);
-        addOsc("triangle", frequency, 5, 0.25, filter);
-        addOsc("sine", frequency / 2, 0, 0.13, filter);
-        addOsc("sine", frequency * 2, 0, 0.06, filter);
-        master.gain.exponentialRampToValueAtTime(0.34, now + 0.09);
-        master.gain.exponentialRampToValueAtTime(0.62, now + 1.4);
-
-      } else if (sound === "rsharps") {
-        addOsc("sine", frequency, 0, 0.34);
-        addOsc("sine", frequency * 2, 2, 0.16);
-        addOsc("sine", frequency * 3, -2, 0.07);
-        addOsc("sine", frequency * 4, 0, 0.035);
-        master.gain.exponentialRampToValueAtTime(0.68, now + 0.006);
-        master.gain.exponentialRampToValueAtTime(0.22, now + 0.65);
-        master.gain.exponentialRampToValueAtTime(0.34, now + 2.0);
-
-      } else if (sound === "rsmystic") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(2500, now);
-        filter.Q.setValueAtTime(1.6, now);
-        filter.connect(master);
-        addOsc("sine", frequency, -13, 0.22, filter);
-        addOsc("sine", frequency, 13, 0.22, filter);
-        addOsc("triangle", frequency / 2, 0, 0.15, filter);
-        addOsc("sine", frequency * 2.01, 0, 0.06, filter);
-        master.gain.exponentialRampToValueAtTime(0.22, now + 0.18);
-        master.gain.exponentialRampToValueAtTime(0.62, now + 2.8);
-
-      } else if (sound === "rswood") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(3400, now);
-        filter.Q.setValueAtTime(0.8, now);
-        filter.connect(master);
-        addOsc("triangle", frequency, -3, 0.28, filter);
-        addOsc("sine", frequency, 3, 0.24, filter);
-        addOsc("sine", frequency * 2, 0, 0.065, filter);
-        addOsc("sine", frequency * 3, 0, 0.025, filter);
-        master.gain.exponentialRampToValueAtTime(0.40, now + 0.045);
-        master.gain.exponentialRampToValueAtTime(0.56, now + 1.7);
-
-      } else if (sound === "spookydrone") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(1700, now);
-        filter.Q.setValueAtTime(1.8, now);
-        filter.connect(master);
-        addOsc("sine", frequency / 2, -9, 0.23, filter);
-        addOsc("triangle", frequency / 2, 9, 0.20, filter);
-        addOsc("sine", frequency, -14, 0.13, filter);
-        addOsc("sine", frequency, 14, 0.13, filter);
-        addOsc("sine", frequency * 1.5, 0, 0.045, filter);
-        master.gain.exponentialRampToValueAtTime(0.18, now + 0.25);
-        master.gain.exponentialRampToValueAtTime(0.68, now + 3.2);
-
-      } else if (sound === "spookyorgan") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(2400, now);
-        filter.Q.setValueAtTime(0.9, now);
-        filter.connect(master);
-        addOsc("sine", frequency / 2, 0, 0.18, filter);
-        addOsc("square", frequency, -5, 0.11, filter);
-        addOsc("square", frequency, 5, 0.11, filter);
-        addOsc("sine", frequency * 2, 0, 0.09, filter);
-        addOsc("sine", frequency * 3, 0, 0.045, filter);
-        master.gain.exponentialRampToValueAtTime(0.42, now + 0.10);
-        master.gain.exponentialRampToValueAtTime(0.66, now + 2.4);
-
-      } else if (sound === "spookybells") {
-        addOsc("sine", frequency, 0, 0.28);
-        addOsc("sine", frequency * 1.49, 0, 0.12);
-        addOsc("sine", frequency * 2.03, 0, 0.15);
-        addOsc("sine", frequency * 3.11, 0, 0.075);
-        addOsc("sine", frequency * 4.73, 0, 0.035);
-        master.gain.exponentialRampToValueAtTime(0.72, now + 0.006);
-        master.gain.exponentialRampToValueAtTime(0.22, now + 0.9);
-        master.gain.exponentialRampToValueAtTime(0.34, now + 2.8);
-
-      } else if (sound === "spookylute") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(3300, now);
-        filter.frequency.exponentialRampToValueAtTime(900, now + 1.5);
-        filter.Q.setValueAtTime(1.2, now);
-        filter.connect(master);
-        addOsc("triangle", frequency, -8, 0.25, filter);
-        addOsc("triangle", frequency, 8, 0.25, filter);
-        addOsc("sine", frequency * 2, -4, 0.085, filter);
-        addOsc("sine", frequency * 2.97, 3, 0.045, filter);
-        master.gain.exponentialRampToValueAtTime(0.70, now + 0.007);
-        master.gain.exponentialRampToValueAtTime(0.19, now + 0.62);
-        master.gain.exponentialRampToValueAtTime(0.31, now + 2.0);
-
-      } else if (sound === "spookychoir") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "bandpass";
-        filter.frequency.setValueAtTime(1050, now);
-        filter.Q.setValueAtTime(0.65, now);
-        filter.connect(master);
-        [-18, -9, 0, 9, 18].forEach((detune, i) => {
-          addOsc(i === 2 ? "triangle" : "sine", frequency, detune, i === 2 ? 0.20 : 0.13, filter);
-        });
-        addOsc("sine", frequency / 2, 0, 0.11, filter);
-        master.gain.exponentialRampToValueAtTime(0.15, now + 0.28);
-        master.gain.exponentialRampToValueAtTime(0.64, now + 3.0);
-
-      } else if (sound === "spookyhurdy") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(2600, now);
-        filter.Q.setValueAtTime(1.4, now);
-        filter.connect(master);
-        addOsc("sawtooth", frequency, -7, 0.12, filter);
-        addOsc("sawtooth", frequency, 7, 0.12, filter);
-        addOsc("triangle", frequency, 0, 0.18, filter);
-        addOsc("sine", frequency / 2, 0, 0.16, filter);
-        addOsc("sine", frequency * 2, 0, 0.045, filter);
-        master.gain.exponentialRampToValueAtTime(0.38, now + 0.12);
-        master.gain.exponentialRampToValueAtTime(0.70, now + 2.6);
-
-      } else if (sound === "spookypipes") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(3000, now);
-        filter.Q.setValueAtTime(1.1, now);
-        filter.connect(master);
-        addOsc("triangle", frequency, -12, 0.23, filter);
-        addOsc("sine", frequency, 12, 0.20, filter);
-        addOsc("sine", frequency * 2, 0, 0.065, filter);
-        addOsc("sine", frequency * 2.98, 0, 0.028, filter);
-        addOsc("sine", frequency / 2, 0, 0.07, filter);
-        master.gain.exponentialRampToValueAtTime(0.31, now + 0.09);
-        master.gain.exponentialRampToValueAtTime(0.59, now + 2.2);
-
-      } else if (sound === "screamghost") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "bandpass";
-        filter.frequency.setValueAtTime(1150, now);
-        filter.Q.setValueAtTime(4.5, now);
-        filter.connect(master);
-        addOsc("sawtooth", frequency * 2.2, -22, 0.10, filter);
-        addOsc("sawtooth", frequency * 2.2, 22, 0.10, filter);
-        addOsc("sine", frequency * 3.3, -12, 0.15, filter);
-        addOsc("sine", frequency * 4.4, 15, 0.08, filter);
-        master.gain.exponentialRampToValueAtTime(0.18, now + 0.12);
-        master.gain.exponentialRampToValueAtTime(0.78, now + 2.4);
-
-      } else if (sound === "screamdemon") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "bandpass";
-        filter.frequency.setValueAtTime(850, now);
-        filter.Q.setValueAtTime(3.2, now);
-        filter.connect(master);
-        addOsc("sawtooth", frequency / 2, -18, 0.16, filter);
-        addOsc("square", frequency, 14, 0.10, filter);
-        addOsc("sawtooth", frequency * 1.48, -9, 0.11, filter);
-        addOsc("sine", frequency * 2.9, 20, 0.07, filter);
-        master.gain.exponentialRampToValueAtTime(0.28, now + 0.08);
-        master.gain.exponentialRampToValueAtTime(0.82, now + 1.9);
-
-      } else if (sound === "screamchoir") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "bandpass";
-        filter.frequency.setValueAtTime(1300, now);
-        filter.Q.setValueAtTime(2.1, now);
-        filter.connect(master);
-        [-30, -15, 0, 15, 30].forEach((detune, i) => {
-          addOsc(i === 2 ? "sawtooth" : "sine", frequency * 2, detune, i === 2 ? 0.11 : 0.10, filter);
-        });
-        addOsc("sine", frequency * 3.01, 8, 0.07, filter);
-        master.gain.exponentialRampToValueAtTime(0.14, now + 0.25);
-        master.gain.exponentialRampToValueAtTime(0.76, now + 3.0);
-
-      } else if (sound === "screambanshee") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "bandpass";
-        filter.frequency.setValueAtTime(1750, now);
-        filter.Q.setValueAtTime(5.5, now);
-        filter.connect(master);
-        addOsc("sawtooth", frequency * 3, -28, 0.085, filter);
-        addOsc("sawtooth", frequency * 3, 28, 0.085, filter);
-        addOsc("square", frequency * 4.02, 0, 0.045, filter);
-        addOsc("sine", frequency * 5.1, -13, 0.065, filter);
-        master.gain.exponentialRampToValueAtTime(0.12, now + 0.10);
-        master.gain.exponentialRampToValueAtTime(0.86, now + 1.65);
-
-      } else if (sound === "screammonster") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(1250, now);
-        filter.Q.setValueAtTime(2.8, now);
-        filter.connect(master);
-        addOsc("sawtooth", frequency / 2, -24, 0.19, filter);
-        addOsc("sawtooth", frequency / 2, 24, 0.19, filter);
-        addOsc("square", frequency * 0.75, -8, 0.08, filter);
-        addOsc("triangle", frequency, 11, 0.11, filter);
-        master.gain.exponentialRampToValueAtTime(0.88, now + 0.012);
-        master.gain.exponentialRampToValueAtTime(0.62, now + 0.16);
-        master.gain.exponentialRampToValueAtTime(0.86, now + 1.8);
-
-      } else if (sound === "musicbox") {
-        addOsc("sine", frequency, 0, 0.30);
-        addOsc("sine", frequency * 2, 2, 0.16);
-        addOsc("sine", frequency * 4.01, -2, 0.07);
-        addOsc("triangle", frequency * 3, 0, 0.045);
-        master.gain.exponentialRampToValueAtTime(0.78, now + 0.004);
-        master.gain.exponentialRampToValueAtTime(0.20, now + 0.55);
-        master.gain.exponentialRampToValueAtTime(0.31, now + 1.8);
-
-      } else if (sound === "dulcimer") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(4800, now);
-        filter.frequency.exponentialRampToValueAtTime(1600, now + 1.3);
-        filter.connect(master);
-        addOsc("triangle", frequency, -9, 0.24, filter);
-        addOsc("triangle", frequency, 9, 0.24, filter);
-        addOsc("sine", frequency * 2, -4, 0.12, filter);
-        addOsc("sine", frequency * 3.01, 4, 0.055, filter);
-        master.gain.exponentialRampToValueAtTime(0.76, now + 0.006);
-        master.gain.exponentialRampToValueAtTime(0.25, now + 0.48);
-        master.gain.exponentialRampToValueAtTime(0.38, now + 1.8);
-
-      } else if (sound === "celesta") {
-        addOsc("sine", frequency, -3, 0.27);
-        addOsc("sine", frequency, 3, 0.27);
-        addOsc("sine", frequency * 2.01, 0, 0.13);
-        addOsc("sine", frequency * 3.98, 0, 0.055);
-        master.gain.exponentialRampToValueAtTime(0.64, now + 0.01);
-        master.gain.exponentialRampToValueAtTime(0.30, now + 0.72);
-        master.gain.exponentialRampToValueAtTime(0.42, now + 2.3);
-
-      } else if (sound === "ocarina") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(2600, now);
-        filter.Q.setValueAtTime(1.4, now);
-        filter.connect(master);
-        addOsc("sine", frequency, -5, 0.34, filter);
-        addOsc("sine", frequency, 5, 0.27, filter);
-        addOsc("triangle", frequency * 2, 0, 0.045, filter);
-        master.gain.exponentialRampToValueAtTime(0.30, now + 0.09);
-        master.gain.exponentialRampToValueAtTime(0.57, now + 1.7);
-
-      } else if (sound === "reed") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(2200, now);
-        filter.Q.setValueAtTime(1.0, now);
-        filter.connect(master);
-        addOsc("square", frequency, -6, 0.10, filter);
-        addOsc("square", frequency, 6, 0.10, filter);
-        addOsc("triangle", frequency, 0, 0.22, filter);
-        addOsc("sine", frequency * 2, 0, 0.07, filter);
-        master.gain.exponentialRampToValueAtTime(0.37, now + 0.08);
-        master.gain.exponentialRampToValueAtTime(0.63, now + 2.1);
-
-      } else if (sound === "crystal") {
-        addOsc("sine", frequency, -7, 0.22);
-        addOsc("sine", frequency, 7, 0.22);
-        addOsc("sine", frequency * 2.51, 0, 0.11);
-        addOsc("sine", frequency * 4.03, 0, 0.06);
-        addOsc("sine", frequency * 6.12, 0, 0.025);
-        master.gain.exponentialRampToValueAtTime(0.58, now + 0.015);
-        master.gain.exponentialRampToValueAtTime(0.34, now + 0.9);
-        master.gain.exponentialRampToValueAtTime(0.49, now + 2.6);
-
-      } else if (sound === "copper") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(3800, now);
-        filter.Q.setValueAtTime(1.3, now);
-        filter.connect(master);
-        addOsc("sawtooth", frequency, -10, 0.10, filter);
-        addOsc("triangle", frequency, 10, 0.24, filter);
-        addOsc("sine", frequency / 2, 0, 0.10, filter);
-        addOsc("sine", frequency * 2, 0, 0.07, filter);
-        master.gain.exponentialRampToValueAtTime(0.55, now + 0.025);
-        master.gain.exponentialRampToValueAtTime(0.69, now + 1.9);
-
-      } else if (sound === "deepbell") {
-        addOsc("sine", frequency / 2, 0, 0.28);
-        addOsc("sine", frequency, 0, 0.20);
-        addOsc("sine", frequency * 1.49, 0, 0.12);
-        addOsc("sine", frequency * 2.73, 0, 0.07);
-        master.gain.exponentialRampToValueAtTime(0.82, now + 0.008);
-        master.gain.exponentialRampToValueAtTime(0.29, now + 1.1);
-        master.gain.exponentialRampToValueAtTime(0.39, now + 3.0);
-
-      } else if (sound === "frost") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "highpass";
-        filter.frequency.setValueAtTime(420, now);
-        filter.Q.setValueAtTime(0.7, now);
-        filter.connect(master);
-        [-20, -10, 0, 10, 20].forEach((detune, i) => {
-          addOsc(i === 2 ? "triangle" : "sine", frequency * (i === 4 ? 2 : 1), detune, i === 2 ? 0.18 : 0.09, filter);
-        });
-        master.gain.exponentialRampToValueAtTime(0.18, now + 0.22);
-        master.gain.exponentialRampToValueAtTime(0.62, now + 3.0);
-
-      } else if (sound === "arcade") {
-        addOsc("square", frequency, -10, 0.16);
-        addOsc("square", frequency, 10, 0.16);
-        addOsc("triangle", frequency * 2, 0, 0.10);
-        addOsc("square", frequency * 3, 0, 0.035);
-        master.gain.exponentialRampToValueAtTime(0.68, now + 0.006);
-        master.gain.exponentialRampToValueAtTime(0.76, now + 1.5);
-
-      } else if (sound === "machine") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "bandpass";
-        filter.frequency.setValueAtTime(980, now);
-        filter.Q.setValueAtTime(3.4, now);
-        filter.connect(master);
-        addOsc("sawtooth", frequency / 2, -17, 0.15, filter);
-        addOsc("square", frequency, 17, 0.10, filter);
-        addOsc("sawtooth", frequency * 1.5, -8, 0.09, filter);
-        addOsc("sine", frequency * 3.1, 0, 0.045, filter);
-        master.gain.exponentialRampToValueAtTime(0.72, now + 0.018);
-        master.gain.exponentialRampToValueAtTime(0.54, now + 0.25);
-        master.gain.exponentialRampToValueAtTime(0.78, now + 1.9);
-
-      } else if (sound === "goblin") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "bandpass";
-        filter.frequency.setValueAtTime(1900, now);
-        filter.Q.setValueAtTime(2.2, now);
-        filter.connect(master);
-        addOsc("square", frequency * 2, -16, 0.09, filter);
-        addOsc("triangle", frequency * 2, 16, 0.19, filter);
-        addOsc("sine", frequency * 3.03, 0, 0.075, filter);
-        master.gain.exponentialRampToValueAtTime(0.51, now + 0.025);
-        master.gain.exponentialRampToValueAtTime(0.65, now + 1.5);
-
-      } else if (sound === "hellsaw") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(2600, now);
-        filter.Q.setValueAtTime(5.5, now);
-        filter.connect(master);
-        [-24, -12, 0, 12, 24].forEach(detune => addOsc("sawtooth", frequency, detune, 0.105, filter));
-        addOsc("square", frequency / 2, 0, 0.10, filter);
-        master.gain.exponentialRampToValueAtTime(0.92, now + 0.008);
-        master.gain.exponentialRampToValueAtTime(0.70, now + 0.12);
-        master.gain.exponentialRampToValueAtTime(0.88, now + 1.5);
-
-      } else if (sound === "doomstack") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(1850, now);
-        filter.Q.setValueAtTime(3.0, now);
-        filter.connect(master);
-        addOsc("sawtooth", frequency / 2, -15, 0.19, filter);
-        addOsc("sawtooth", frequency / 2, 15, 0.19, filter);
-        addOsc("square", frequency, -8, 0.11, filter);
-        addOsc("square", frequency, 8, 0.11, filter);
-        addOsc("sine", frequency / 4, 0, 0.12, filter);
-        master.gain.exponentialRampToValueAtTime(0.94, now + 0.012);
-        master.gain.exponentialRampToValueAtTime(0.78, now + 0.20);
-        master.gain.exponentialRampToValueAtTime(0.91, now + 1.7);
-
-      } else if (sound === "ironfang") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "bandpass";
-        filter.frequency.setValueAtTime(1500, now);
-        filter.Q.setValueAtTime(7.0, now);
-        filter.connect(master);
-        addOsc("square", frequency, -18, 0.16, filter);
-        addOsc("sawtooth", frequency, 18, 0.16, filter);
-        addOsc("sawtooth", frequency * 2.01, -7, 0.08, filter);
-        addOsc("square", frequency * 3, 9, 0.045, filter);
-        master.gain.exponentialRampToValueAtTime(0.98, now + 0.005);
-        master.gain.exponentialRampToValueAtTime(0.67, now + 0.09);
-        master.gain.exponentialRampToValueAtTime(0.84, now + 1.2);
-
-      } else if (sound === "voidbass") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(1050, now);
-        filter.Q.setValueAtTime(6.0, now);
-        filter.connect(master);
-        addOsc("sawtooth", frequency / 2, -10, 0.22, filter);
-        addOsc("square", frequency / 2, 10, 0.15, filter);
-        addOsc("sine", frequency / 4, 0, 0.20, filter);
-        addOsc("sawtooth", frequency, 0, 0.08, filter);
-        master.gain.exponentialRampToValueAtTime(0.96, now + 0.01);
-        master.gain.exponentialRampToValueAtTime(0.76, now + 0.16);
-        master.gain.exponentialRampToValueAtTime(0.90, now + 1.9);
-
-      } else if (sound === "razorlead") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "highpass";
-        filter.frequency.setValueAtTime(650, now);
-        filter.Q.setValueAtTime(2.6, now);
-        filter.connect(master);
-        [-20, -7, 7, 20].forEach(detune => addOsc("sawtooth", frequency * 2, detune, 0.115, filter));
-        addOsc("square", frequency, 0, 0.12, filter);
-        addOsc("sine", frequency * 4.02, 0, 0.035, filter);
-        master.gain.exponentialRampToValueAtTime(0.95, now + 0.004);
-        master.gain.exponentialRampToValueAtTime(0.72, now + 0.10);
-        master.gain.exponentialRampToValueAtTime(0.86, now + 1.3);
-
-      } else if (sound === "warengine") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "bandpass";
-        filter.frequency.setValueAtTime(920, now);
-        filter.Q.setValueAtTime(4.8, now);
-        filter.connect(master);
-        addOsc("sawtooth", frequency / 2, -30, 0.18, filter);
-        addOsc("sawtooth", frequency / 2, 30, 0.18, filter);
-        addOsc("square", frequency * 0.75, -12, 0.12, filter);
-        addOsc("square", frequency * 1.5, 12, 0.08, filter);
-        addOsc("sine", frequency / 4, 0, 0.13, filter);
-        master.gain.exponentialRampToValueAtTime(0.99, now + 0.007);
-        master.gain.exponentialRampToValueAtTime(0.73, now + 0.14);
-        master.gain.exponentialRampToValueAtTime(0.92, now + 2.0);
-
-      } else if (sound === "velvetpulse") {
-        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(3300, now); filter.Q.setValueAtTime(0.7, now); filter.connect(master);
-        addOsc("triangle", frequency, -5, 0.24, filter); addOsc("triangle", frequency, 5, 0.24, filter); addOsc("sine", frequency / 2, 0, 0.10, filter);
-        master.gain.exponentialRampToValueAtTime(0.58, now + 0.018); master.gain.exponentialRampToValueAtTime(0.31, now + 0.55); master.gain.exponentialRampToValueAtTime(0.38, now + 1.8);
-
-      } else if (sound === "nylonpulse") {
-        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(5200, now); filter.frequency.exponentialRampToValueAtTime(1900, now + 0.65); filter.Q.setValueAtTime(0.9, now); filter.connect(master);
-        addOsc("triangle", frequency, 0, 0.31, filter); addOsc("sine", frequency * 2, 0, 0.09, filter); addOsc("sine", frequency * 3, 0, 0.035, filter);
-        master.gain.exponentialRampToValueAtTime(0.72, now + 0.007); master.gain.exponentialRampToValueAtTime(0.24, now + 0.42); master.gain.exponentialRampToValueAtTime(0.30, now + 1.6);
-
-      } else if (sound === "woodpulse") {
-        const filter = ctx.createBiquadFilter(); filter.type = "bandpass"; filter.frequency.setValueAtTime(1450, now); filter.Q.setValueAtTime(1.15, now); filter.connect(master);
-        addOsc("triangle", frequency, -3, 0.28, filter); addOsc("sine", frequency, 3, 0.18, filter); addOsc("sine", frequency * 2.01, 0, 0.07, filter);
-        master.gain.exponentialRampToValueAtTime(0.76, now + 0.009); master.gain.exponentialRampToValueAtTime(0.27, now + 0.38); master.gain.exponentialRampToValueAtTime(0.34, now + 1.5);
-
-      } else if (sound === "deepulse") {
-        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(2600, now); filter.Q.setValueAtTime(1.3, now); filter.connect(master);
-        addOsc("triangle", frequency / 2, -6, 0.24, filter); addOsc("triangle", frequency / 2, 6, 0.24, filter); addOsc("sawtooth", frequency, 0, 0.09, filter); addOsc("sine", frequency / 4, 0, 0.11, filter);
-        master.gain.exponentialRampToValueAtTime(0.82, now + 0.012); master.gain.exponentialRampToValueAtTime(0.42, now + 0.5); master.gain.exponentialRampToValueAtTime(0.50, now + 1.8);
-
-      } else if (sound === "warmbass") {
-        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(1800, now); filter.Q.setValueAtTime(0.8, now); filter.connect(master);
-        addOsc("sine", frequency / 2, 0, 0.30, filter); addOsc("triangle", frequency / 2, 0, 0.24, filter); addOsc("triangle", frequency, 0, 0.10, filter);
-        master.gain.exponentialRampToValueAtTime(0.88, now + 0.014); master.gain.exponentialRampToValueAtTime(0.48, now + 0.62); master.gain.exponentialRampToValueAtTime(0.56, now + 2.0);
-
-      } else if (sound === "softpluck") {
-        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(4300, now); filter.frequency.exponentialRampToValueAtTime(1300, now + 0.9); filter.connect(master);
-        addOsc("triangle", frequency, -4, 0.24, filter); addOsc("triangle", frequency, 4, 0.24, filter); addOsc("sine", frequency * 2, 0, 0.05, filter);
-        master.gain.exponentialRampToValueAtTime(0.66, now + 0.01); master.gain.exponentialRampToValueAtTime(0.18, now + 0.62); master.gain.exponentialRampToValueAtTime(0.25, now + 1.7);
-
-      } else if (sound === "hollowstring") {
-        const filter = ctx.createBiquadFilter(); filter.type = "bandpass"; filter.frequency.setValueAtTime(2100, now); filter.Q.setValueAtTime(0.75, now); filter.connect(master);
-        addOsc("triangle", frequency, -8, 0.20, filter); addOsc("triangle", frequency, 8, 0.20, filter); addOsc("sine", frequency / 2, 0, 0.12, filter); addOsc("sine", frequency * 2, 0, 0.055, filter);
-        master.gain.exponentialRampToValueAtTime(0.62, now + 0.02); master.gain.exponentialRampToValueAtTime(0.34, now + 0.7); master.gain.exponentialRampToValueAtTime(0.44, now + 2.2);
-
-      } else if (sound === "subterror") {
-        const filter = ctx.createBiquadFilter(); filter.type="lowpass"; filter.frequency.setValueAtTime(1450,now); filter.Q.setValueAtTime(2.4,now); filter.connect(master);
-        addOsc("sine",frequency/2,0,0.34,filter); addOsc("triangle",frequency/2,-9,0.23,filter); addOsc("triangle",frequency/2,9,0.23,filter); addOsc("sawtooth",frequency,0,0.07,filter);
-        master.gain.exponentialRampToValueAtTime(0.98,now+0.012); master.gain.exponentialRampToValueAtTime(0.54,now+0.48); master.gain.exponentialRampToValueAtTime(0.62,now+2.0);
-
-      } else if (sound === "warehouse") {
-        const filter = ctx.createBiquadFilter(); filter.type="lowpass"; filter.frequency.setValueAtTime(3100,now); filter.frequency.exponentialRampToValueAtTime(1050,now+0.55); filter.Q.setValueAtTime(4.8,now); filter.connect(master);
-        [-18,0,18].forEach(d=>addOsc("sawtooth",frequency/2,d,0.17,filter)); addOsc("square",frequency,0,0.075,filter); addOsc("sine",frequency/4,0,0.13,filter);
-        master.gain.exponentialRampToValueAtTime(0.94,now+0.008); master.gain.exponentialRampToValueAtTime(0.43,now+0.32); master.gain.exponentialRampToValueAtTime(0.53,now+1.8);
-
-      } else if (sound === "darklaser") {
-        const filter = ctx.createBiquadFilter(); filter.type="bandpass"; filter.frequency.setValueAtTime(2600,now); filter.frequency.exponentialRampToValueAtTime(620,now+0.38); filter.Q.setValueAtTime(6.0,now); filter.connect(master);
-        addOsc("sawtooth",frequency,-14,0.18,filter); addOsc("sawtooth",frequency,14,0.18,filter); addOsc("square",frequency/2,0,0.13,filter);
-        master.gain.exponentialRampToValueAtTime(0.92,now+0.006); master.gain.exponentialRampToValueAtTime(0.30,now+0.42); master.gain.exponentialRampToValueAtTime(0.37,now+1.5);
-
-      } else if (sound === "voidstab") {
-        const filter = ctx.createBiquadFilter(); filter.type="lowpass"; filter.frequency.setValueAtTime(4800,now); filter.frequency.exponentialRampToValueAtTime(720,now+0.26); filter.Q.setValueAtTime(5.2,now); filter.connect(master);
-        [-23,-7,7,23].forEach(d=>addOsc("sawtooth",frequency/2,d,0.13,filter)); addOsc("sine",frequency/4,0,0.16,filter);
-        master.gain.exponentialRampToValueAtTime(1.0,now+0.004); master.gain.exponentialRampToValueAtTime(0.24,now+0.28); master.gain.exponentialRampToValueAtTime(0.32,now+1.25);
-
-      } else if (sound === "underground") {
-        const filter = ctx.createBiquadFilter(); filter.type="lowpass"; filter.frequency.setValueAtTime(2100,now); filter.Q.setValueAtTime(1.8,now); filter.connect(master);
-        addOsc("triangle",frequency/2,-12,0.22,filter); addOsc("triangle",frequency/2,12,0.22,filter); addOsc("sine",frequency/4,0,0.21,filter); addOsc("sawtooth",frequency,0,0.055,filter);
-        master.gain.exponentialRampToValueAtTime(0.72,now+0.035); master.gain.exponentialRampToValueAtTime(0.48,now+0.75); master.gain.exponentialRampToValueAtTime(0.68,now+2.5);
-
-      } else if (sound === "ironbass") {
-        const filter = ctx.createBiquadFilter(); filter.type="lowpass"; filter.frequency.setValueAtTime(2350,now); filter.Q.setValueAtTime(3.6,now); filter.connect(master);
-        addOsc("square",frequency/2,-6,0.17,filter); addOsc("square",frequency/2,6,0.17,filter); addOsc("sawtooth",frequency/2,0,0.15,filter); addOsc("sine",frequency/4,0,0.19,filter);
-        master.gain.exponentialRampToValueAtTime(0.98,now+0.007); master.gain.exponentialRampToValueAtTime(0.51,now+0.38); master.gain.exponentialRampToValueAtTime(0.58,now+1.8);
-
-      } else if (sound === "nightdrive") {
-        const filter = ctx.createBiquadFilter(); filter.type="lowpass"; filter.frequency.setValueAtTime(3600,now); filter.Q.setValueAtTime(1.2,now); filter.connect(master);
-        addOsc("sawtooth",frequency/2,-16,0.13,filter); addOsc("sawtooth",frequency/2,16,0.13,filter); addOsc("triangle",frequency,0,0.16,filter); addOsc("sine",frequency/4,0,0.12,filter);
-        master.gain.exponentialRampToValueAtTime(0.76,now+0.018); master.gain.exponentialRampToValueAtTime(0.39,now+0.65); master.gain.exponentialRampToValueAtTime(0.54,now+2.2);
-
-      } else if (sound === "blackacid") {
-        const filter = ctx.createBiquadFilter(); filter.type="lowpass"; filter.frequency.setValueAtTime(5200,now); filter.frequency.exponentialRampToValueAtTime(850,now+0.46); filter.Q.setValueAtTime(10.0,now); filter.connect(master);
-        addOsc("sawtooth",frequency/2,-8,0.18,filter); addOsc("sawtooth",frequency/2,8,0.18,filter); addOsc("square",frequency/2,0,0.09,filter); addOsc("sine",frequency/4,0,0.14,filter);
-        master.gain.exponentialRampToValueAtTime(0.94,now+0.006); master.gain.exponentialRampToValueAtTime(0.34,now+0.5); master.gain.exponentialRampToValueAtTime(0.43,now+1.7);
-
-      } else if (sound === "gravepulse") {
-        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(2000,now); f.Q.setValueAtTime(2.2,now); f.connect(master);
-        addOsc("triangle",frequency/2,-8,0.18,f); addOsc("triangle",frequency/2,8,0.18,f); addOsc("sine",frequency/4,0,0.16,f); addOsc("sawtooth",frequency,0,0.045,f);
-        master.gain.exponentialRampToValueAtTime(0.78,now+0.008); master.gain.exponentialRampToValueAtTime(0.42,now+0.40); master.gain.exponentialRampToValueAtTime(0.52,now+1.8);
-
-      } else if (sound === "nightbeast") {
-        const f=ctx.createBiquadFilter(); f.type="bandpass"; f.frequency.setValueAtTime(1200,now); f.Q.setValueAtTime(2.5,now); f.connect(master);
-        addOsc("sawtooth",frequency/2,-16,0.15,f); addOsc("sawtooth",frequency/2,16,0.15,f); addOsc("triangle",frequency/2,0,0.17,f); addOsc("sine",frequency/4,0,0.15,f);
-        master.gain.exponentialRampToValueAtTime(0.84,now+0.006); master.gain.exponentialRampToValueAtTime(0.39,now+0.30); master.gain.exponentialRampToValueAtTime(0.49,now+1.7);
-
-      } else if (sound === "subfang") {
-        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(1550,now); f.Q.setValueAtTime(3.1,now); f.connect(master);
-        addOsc("square",frequency/2,-6,0.12,f); addOsc("square",frequency/2,6,0.12,f); addOsc("sine",frequency/4,0,0.20,f); addOsc("triangle",frequency/2,0,0.14,f);
-        master.gain.exponentialRampToValueAtTime(0.86,now+0.005); master.gain.exponentialRampToValueAtTime(0.44,now+0.34); master.gain.exponentialRampToValueAtTime(0.55,now+1.9);
-
-      } else if (sound === "doompluckfull") {
-        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(3600,now); f.frequency.exponentialRampToValueAtTime(1100,now+0.40); f.Q.setValueAtTime(1.6,now); f.connect(master);
-        addOsc("sawtooth",frequency/2,-4,0.16,f);
-        addOsc("sawtooth",frequency/2,4,0.16,f);
-        addOsc("triangle",frequency/2,0,0.16,f);
-        addOsc("sine",frequency/4,0,0.13,f);
-        addOsc("sine",frequency,0,0.045,f);
-        master.gain.exponentialRampToValueAtTime(0.88,now+0.006);
-        master.gain.exponentialRampToValueAtTime(0.36,now+0.34);
-        master.gain.exponentialRampToValueAtTime(0.44,now+1.6);
-
-      } else if (sound === "doompluckround") {
-        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(2900,now); f.frequency.exponentialRampToValueAtTime(950,now+0.48); f.Q.setValueAtTime(1.1,now); f.connect(master);
-        addOsc("triangle",frequency/2,-3,0.20,f);
-        addOsc("triangle",frequency/2,3,0.20,f);
-        addOsc("sine",frequency/2,0,0.13,f);
-        addOsc("sine",frequency/4,0,0.12,f);
-        addOsc("sawtooth",frequency,0,0.025,f);
-        master.gain.exponentialRampToValueAtTime(0.80,now+0.008);
-        master.gain.exponentialRampToValueAtTime(0.38,now+0.42);
-        master.gain.exponentialRampToValueAtTime(0.46,now+1.8);
-
-      } else if (sound === "doompluckbass") {
-        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(2400,now); f.frequency.exponentialRampToValueAtTime(800,now+0.45); f.Q.setValueAtTime(1.35,now); f.connect(master);
-        addOsc("triangle",frequency/2,-4,0.17,f);
-        addOsc("triangle",frequency/2,4,0.17,f);
-        addOsc("sine",frequency/4,0,0.20,f);
-        addOsc("sine",frequency/8,0,0.08,f);
-        addOsc("sawtooth",frequency,0,0.03,f);
-        master.gain.exponentialRampToValueAtTime(0.84,now+0.007);
-        master.gain.exponentialRampToValueAtTime(0.41,now+0.39);
-        master.gain.exponentialRampToValueAtTime(0.50,now+1.9);
-
-      } else if (sound === "doompluckwide") {
-        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(3400,now); f.frequency.exponentialRampToValueAtTime(1000,now+0.42); f.Q.setValueAtTime(1.4,now); f.connect(master);
-        addOsc("sawtooth",frequency/2,-9,0.12,f);
-        addOsc("sawtooth",frequency/2,9,0.12,f);
-        addOsc("triangle",frequency/2,-2,0.12,f);
-        addOsc("triangle",frequency/2,2,0.12,f);
-        addOsc("sine",frequency/4,0,0.11,f);
-        master.gain.exponentialRampToValueAtTime(0.82,now+0.006);
-        master.gain.exponentialRampToValueAtTime(0.35,now+0.36);
-        master.gain.exponentialRampToValueAtTime(0.43,now+1.7);
-
-      } else if (sound === "doompluckwarm") {
-        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(2700,now); f.frequency.exponentialRampToValueAtTime(900,now+0.55); f.Q.setValueAtTime(0.85,now); f.connect(master);
-        addOsc("triangle",frequency/2,-5,0.18,f);
-        addOsc("triangle",frequency/2,5,0.18,f);
-        addOsc("sine",frequency/2,0,0.12,f);
-        addOsc("sine",frequency/4,0,0.13,f);
-        addOsc("sawtooth",frequency,0,0.02,f);
-        master.gain.exponentialRampToValueAtTime(0.76,now+0.010);
-        master.gain.exponentialRampToValueAtTime(0.40,now+0.50);
-        master.gain.exponentialRampToValueAtTime(0.49,now+2.0);
-
-      } else if (sound === "doompluck") {
-        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(4200,now); f.frequency.exponentialRampToValueAtTime(850,now+0.32); f.Q.setValueAtTime(3.8,now); f.connect(master);
-        addOsc("sawtooth",frequency/2,-10,0.13,f); addOsc("sawtooth",frequency/2,10,0.13,f); addOsc("sine",frequency/4,0,0.15,f);
-        master.gain.exponentialRampToValueAtTime(0.90,now+0.004); master.gain.exponentialRampToValueAtTime(0.25,now+0.28); master.gain.exponentialRampToValueAtTime(0.32,now+1.3);
-
-      } else if (sound === "blackhollow") {
-        const f=ctx.createBiquadFilter(); f.type="bandpass"; f.frequency.setValueAtTime(1750,now); f.Q.setValueAtTime(0.9,now); f.connect(master);
-        addOsc("triangle",frequency/2,-12,0.16,f); addOsc("triangle",frequency/2,12,0.16,f); addOsc("sine",frequency/2,0,0.12,f); addOsc("sine",frequency/4,0,0.11,f);
-        master.gain.exponentialRampToValueAtTime(0.70,now+0.015); master.gain.exponentialRampToValueAtTime(0.40,now+0.65); master.gain.exponentialRampToValueAtTime(0.51,now+2.0);
-
-      } else if (sound === "cryptbass") {
-        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(1350,now); f.Q.setValueAtTime(1.4,now); f.connect(master);
-        addOsc("sine",frequency/4,0,0.24,f); addOsc("triangle",frequency/2,-5,0.17,f); addOsc("triangle",frequency/2,5,0.17,f); addOsc("sawtooth",frequency,0,0.035,f);
-        master.gain.exponentialRampToValueAtTime(0.80,now+0.010); master.gain.exponentialRampToValueAtTime(0.47,now+0.50); master.gain.exponentialRampToValueAtTime(0.58,now+2.1);
-
-      } else if (sound === "abysspulse") {
-        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(1850,now); f.Q.setValueAtTime(2.8,now); f.connect(master);
-        addOsc("triangle",frequency/2,-7,0.25,f); addOsc("triangle",frequency/2,7,0.25,f); addOsc("sawtooth",frequency,0,0.10,f); addOsc("sine",frequency/4,0,0.18,f);
-        master.gain.exponentialRampToValueAtTime(0.98,now+0.006); master.gain.exponentialRampToValueAtTime(0.47,now+0.38); master.gain.exponentialRampToValueAtTime(0.57,now+1.9);
-
-      } else if (sound === "dreadbass") {
-        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(2400,now); f.frequency.exponentialRampToValueAtTime(1050,now+0.48); f.Q.setValueAtTime(3.5,now); f.connect(master);
-        addOsc("sawtooth",frequency/2,-11,0.19,f); addOsc("sawtooth",frequency/2,11,0.19,f); addOsc("square",frequency/2,0,0.11,f); addOsc("sine",frequency/4,0,0.20,f);
-        master.gain.exponentialRampToValueAtTime(1.0,now+0.005); master.gain.exponentialRampToValueAtTime(0.49,now+0.34); master.gain.exponentialRampToValueAtTime(0.60,now+1.8);
-
-      } else if (sound === "beastpulse") {
-        const f=ctx.createBiquadFilter(); f.type="bandpass"; f.frequency.setValueAtTime(1350,now); f.Q.setValueAtTime(2.1,now); f.connect(master);
-        addOsc("sawtooth",frequency/2,-18,0.20,f); addOsc("sawtooth",frequency/2,18,0.20,f); addOsc("triangle",frequency/2,0,0.20,f); addOsc("sine",frequency/4,0,0.17,f);
-        master.gain.exponentialRampToValueAtTime(0.99,now+0.004); master.gain.exponentialRampToValueAtTime(0.43,now+0.28); master.gain.exponentialRampToValueAtTime(0.55,now+1.7);
-
-      } else if (sound === "blackengine") {
-        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(2900,now); f.Q.setValueAtTime(4.2,now); f.connect(master);
-        addOsc("square",frequency/2,-5,0.14,f); addOsc("square",frequency/2,5,0.14,f); addOsc("sawtooth",frequency/2,0,0.18,f); addOsc("sine",frequency/4,0,0.19,f);
-        master.gain.exponentialRampToValueAtTime(1.0,now+0.003); master.gain.exponentialRampToValueAtTime(0.52,now+0.24); master.gain.exponentialRampToValueAtTime(0.61,now+1.8);
-
-      } else if (sound === "voidgrowl") {
-        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(3200,now); f.frequency.exponentialRampToValueAtTime(760,now+0.62); f.Q.setValueAtTime(6.5,now); f.connect(master);
-        addOsc("sawtooth",frequency/2,-15,0.18,f); addOsc("sawtooth",frequency/2,15,0.18,f); addOsc("triangle",frequency,0,0.10,f); addOsc("sine",frequency/4,0,0.17,f);
-        master.gain.exponentialRampToValueAtTime(0.98,now+0.006); master.gain.exponentialRampToValueAtTime(0.40,now+0.42); master.gain.exponentialRampToValueAtTime(0.53,now+2.0);
-
-      } else if (sound === "doompulse") {
-        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(1650,now); f.Q.setValueAtTime(1.7,now); f.connect(master);
-        addOsc("triangle",frequency/2,-4,0.27,f); addOsc("triangle",frequency/2,4,0.27,f); addOsc("square",frequency,0,0.075,f); addOsc("sine",frequency/4,0,0.23,f);
-        master.gain.exponentialRampToValueAtTime(0.94,now+0.009); master.gain.exponentialRampToValueAtTime(0.55,now+0.55); master.gain.exponentialRampToValueAtTime(0.67,now+2.2);
-
-      } else if (sound === "deepbeast") {
-        const f=ctx.createBiquadFilter(); f.type="bandpass"; f.frequency.setValueAtTime(980,now); f.Q.setValueAtTime(1.4,now); f.connect(master);
-        addOsc("triangle",frequency/2,-10,0.26,f); addOsc("triangle",frequency/2,10,0.26,f); addOsc("sawtooth",frequency/2,0,0.12,f); addOsc("sine",frequency/4,0,0.24,f);
-        master.gain.exponentialRampToValueAtTime(0.97,now+0.008); master.gain.exponentialRampToValueAtTime(0.51,now+0.46); master.gain.exponentialRampToValueAtTime(0.65,now+2.1);
-
-      } else if (sound === "darkthrob") {
-        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.setValueAtTime(2250,now); f.Q.setValueAtTime(3.0,now); f.connect(master);
-        addOsc("sawtooth",frequency/2,-8,0.16,f); addOsc("sawtooth",frequency/2,8,0.16,f); addOsc("triangle",frequency/2,0,0.22,f); addOsc("sine",frequency/4,0,0.20,f);
-        master.gain.exponentialRampToValueAtTime(0.96,now+0.007); master.gain.exponentialRampToValueAtTime(0.46,now+0.32); master.gain.exponentialRampToValueAtTime(0.59,now+1.9);
-
-      } else if (sound === "blackpulse") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(1450, now);
-        filter.Q.setValueAtTime(8.0, now);
-        filter.connect(master);
-        addOsc("square", frequency / 2, -6, 0.18, filter);
-        addOsc("square", frequency / 2, 6, 0.18, filter);
-        addOsc("sawtooth", frequency, -13, 0.12, filter);
-        addOsc("sawtooth", frequency, 13, 0.12, filter);
-        master.gain.exponentialRampToValueAtTime(0.97, now + 0.006);
-        master.gain.exponentialRampToValueAtTime(0.61, now + 0.07);
-        master.gain.exponentialRampToValueAtTime(0.89, now + 1.4);
-
-      } else if (sound === "overlord") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(2300, now);
-        filter.Q.setValueAtTime(4.2, now);
-        filter.connect(master);
-        [-28, -14, 0, 14, 28].forEach(detune => addOsc("sawtooth", frequency / 2, detune, 0.105, filter));
-        addOsc("square", frequency, -9, 0.09, filter);
-        addOsc("square", frequency, 9, 0.09, filter);
-        addOsc("sine", frequency / 4, 0, 0.14, filter);
-        addOsc("sawtooth", frequency * 2, 0, 0.04, filter);
-        master.gain.exponentialRampToValueAtTime(1.0, now + 0.006);
-        master.gain.exponentialRampToValueAtTime(0.76, now + 0.13);
-        master.gain.exponentialRampToValueAtTime(0.95, now + 1.8);
-
-      } else if (sound === "pluckystrings") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(7600, now);
-        filter.frequency.exponentialRampToValueAtTime(2200, now + 0.42);
-        filter.Q.setValueAtTime(1.35, now);
-        filter.connect(master);
-
-        addOsc("sawtooth", frequency, -7, 0.14, filter);
-        addOsc("sawtooth", frequency, 7, 0.14, filter);
-        addOsc("triangle", frequency, 0, 0.16, filter);
-        addOsc("sine", frequency * 2, 0, 0.055, filter);
-
-        master.gain.exponentialRampToValueAtTime(0.92, now + 0.006);
-        master.gain.exponentialRampToValueAtTime(0.44, now + 0.12);
-        master.gain.exponentialRampToValueAtTime(0.24, now + 0.65);
-        master.gain.exponentialRampToValueAtTime(0.31, now + 1.8);
-
-      } else if (sound === "pluck") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(6200, now);
-        filter.frequency.exponentialRampToValueAtTime(1500, now + 1.2);
-        filter.connect(master);
-
-        addOsc("sawtooth", frequency, -5, 0.12, filter);
-        addOsc("triangle", frequency, 0, 0.32, filter);
-        addOsc("sawtooth", frequency, 5, 0.12, filter);
-
-        master.gain.exponentialRampToValueAtTime(0.82, now + 0.008);
-        master.gain.exponentialRampToValueAtTime(0.28, now + 0.55);
-        master.gain.exponentialRampToValueAtTime(0.42, now + 2.0);
+      grit.curve=curve;
+      grit.oversample="4x";
+      filter.connect(grit);grit.connect(master);
+      const oscillators=[];
+      for(const spec of recipe.oscillators){
+        const osc=ctx.createOscillator(),gain=ctx.createGain();
+        osc.type=spec.type;
+        const base=Math.max(20,frequency*spec.ratio);
+        osc.frequency.setValueAtTime(Math.max(20,base*Math.pow(2,(recipe.pitchSweep||0)/1200)),start);
+        if(recipe.pitchSweep)osc.frequency.exponentialRampToValueAtTime(base,start+Math.max(0.01,recipe.pitchSweepTime||0.06));
+        osc.detune.setValueAtTime(spec.detune,start);
+        gain.gain.setValueAtTime(spec.volume,start);osc.connect(gain);gain.connect(filter);
+        osc.start(start);oscillators.push(osc);
       }
-
-      return { master, oscillators, stopped: false };
+      const attack=start+Math.max(0.001,recipe.attack),decay=attack+Math.max(0.01,recipe.decay);
+      master.gain.exponentialRampToValueAtTime(Math.max(0.001,recipe.peak),attack);
+      master.gain.exponentialRampToValueAtTime(Math.max(0.001,recipe.peak*recipe.sustain),decay);
+      if(end!==null){
+        const releaseStart=Math.max(start+0.002,end);
+        const held = envelopeValueAt(recipe, start, releaseStart);
+        master.gain.cancelScheduledValues(releaseStart);
+        master.gain.setValueAtTime(held,releaseStart);
+        const releaseEnd=releaseStart+Math.max(0.025,recipe.release);
+        master.gain.exponentialRampToValueAtTime(0.0001,releaseEnd);
+        oscillators.forEach(o=>o.stop(releaseEnd+0.05));
+      }
+      return {master,oscillators,stopped:false,recipe,start};
+    }
+    function buildVoice(frequency,sound=soundSelect.value,swell=true) {
+      const ctx=getAudioContext();
+      return makeSynthNodes(ctx,getSynthOutput(ctx).input,synthPitchFrequency(frequency),sound,ctx.currentTime);
     }
 
     function releaseVoice(voice, release = null) {
@@ -3490,7 +2253,7 @@
 
       const ctx = getAudioContext();
       const now = ctx.currentTime;
-      const current = Math.max(voice.master.gain.value, 0.0001);
+      const current = Math.max(0.0001, envelopeValueAt(voice.recipe,voice.start,now));
 
       voice.master.gain.cancelScheduledValues(now);
       voice.master.gain.setValueAtTime(current, now);
@@ -3592,6 +2355,12 @@
       }
     });
 
+    document.getElementById("tweak-sound-button").addEventListener("click",tweakRandomSynth);
+    document.getElementById("synth-volume").addEventListener("input",updateSynthVolume);
+    document.getElementById("synth-pitch").addEventListener("input",()=>{
+      const n=Number(document.getElementById("synth-pitch").value);
+      document.getElementById("synth-pitch-value").textContent=(n>0?"+":"")+n+" st";
+    });
     rerollSoundButton.addEventListener("click", () => {
       rerollRandomSynth();
       rerollSoundButton.animate(
@@ -4220,708 +2989,8 @@
       fn(ctx, start, master, addOsc, frequency, false);
     }
 
-    function offlineAddVoice(ctx, destination, frequency, sound, start, duration) {
-      const master = ctx.createGain();
-      const end = start + duration;
-      const offlineRandomRecipe = sound === "wander"
-        ? WANDER_SYNTH_RECIPE
-        : sound === "gbc"
-          ? GBC_SYNTH_RECIPE
-          : (sound === "random" || sound.startsWith("saved-random:"))
-          ? (sound === "random"
-              ? ensureRandomSynthRecipe()
-              : (savedRandomSoundPresets[sound.slice("saved-random:".length)] || ensureRandomSynthRecipe()))
-          : null;
-      const releaseEnd = end + (offlineRandomRecipe ? offlineRandomRecipe.release : 0.45);
-
-      master.gain.setValueAtTime(0.0001, start);
-      master.connect(destination);
-
-      const oscillators = [];
-
-      function addOsc(type, freq, detune, volume, target = master) {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = type;
-        osc.frequency.setValueAtTime(freq, start);
-        osc.detune.setValueAtTime(detune, start);
-        gain.gain.setValueAtTime(volume, start);
-        osc.connect(gain);
-        gain.connect(target);
-        osc.start(start);
-        osc.stop(releaseEnd + 0.05);
-        oscillators.push(osc);
-      }
-
-      if (sound.startsWith("saved-source:")) {
-        const name = sound.slice("saved-source:".length);
-        const source = savedCustomSourcePresets[name];
-        if (!source) throw new Error(`Missing saved synth source: ${name}`);
-        runOfflineSavedSourcePreset(source, ctx, start, master, addOsc, frequency);
-      } else if (sound === "wander" || sound === "gbc" || sound === "random" || sound.startsWith("saved-random:")) {
-        const recipe = offlineRandomRecipe;
-        const filter = ctx.createBiquadFilter();
-        filter.type = recipe.filterType;
-        filter.frequency.setValueAtTime(Math.max(20, recipe.filterStart), start);
-        filter.Q.setValueAtTime(recipe.filterQ, start);
-        filter.frequency.exponentialRampToValueAtTime(
-          Math.max(20, recipe.filterEnd),
-          Math.min(end, start + Math.max(0.08, recipe.decay + 0.25))
-        );
-        filter.connect(master);
-
-        recipe.oscillators.forEach(spec => {
-          const osc = addOsc(spec.type, Math.max(20, frequency * spec.ratio), spec.detune, spec.volume, filter);
-          if (recipe.pitchSweep && osc?.frequency) {
-            const base = Math.max(20, frequency * spec.ratio);
-            const startFreq = Math.max(20, base * Math.pow(2, recipe.pitchSweep / 1200));
-            osc.frequency.cancelScheduledValues(start);
-            osc.frequency.setValueAtTime(startFreq, start);
-            osc.frequency.exponentialRampToValueAtTime(
-              base,
-              Math.min(end, start + recipe.pitchSweepTime)
-            );
-          }
-        });
-
-        const attackEnd = Math.min(end, start + recipe.attack);
-        const decayEnd = Math.min(end, attackEnd + recipe.decay);
-        master.gain.exponentialRampToValueAtTime(recipe.peak, attackEnd);
-        if (decayEnd > attackEnd) {
-          master.gain.exponentialRampToValueAtTime(
-            Math.max(0.0001, recipe.peak * recipe.sustain),
-            decayEnd
-          );
-        }
-        master.gain.setValueAtTime(
-          Math.max(0.0001, recipe.peak * recipe.sustain),
-          end
-        );
-        master.gain.exponentialRampToValueAtTime(0.0001, end + recipe.release);
-      } else if (sound === "pad") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(3600, start);
-        filter.Q.setValueAtTime(0.6, start);
-        filter.connect(master);
-
-        [-18, -9, 0, 9, 18].forEach((detune, i) => {
-          addOsc(i % 2 === 0 ? "sine" : "triangle", frequency, detune, i === 2 ? 0.24 : 0.14, filter);
-        });
-
-        master.gain.exponentialRampToValueAtTime(0.32, start + Math.min(0.12, duration * 0.3));
-        master.gain.setValueAtTime(0.42, end);
-      } else if (sound === "electric") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(5000, start);
-        filter.Q.setValueAtTime(0.8, start);
-        filter.connect(master);
-
-        addOsc("triangle", frequency, -7, 0.30, filter);
-        addOsc("triangle", frequency, 7, 0.30, filter);
-        addOsc("sine", frequency * 2, -3, 0.14, filter);
-        addOsc("sine", frequency * 2.01, 3, 0.11, filter);
-        addOsc("sine", frequency * 3, 0, 0.06, filter);
-
-        master.gain.exponentialRampToValueAtTime(0.60, start + 0.03);
-        master.gain.setValueAtTime(0.62, end);
-      } else if (sound === "bell") {
-        [[1.00, 0.48], [2.01, 0.22], [3.90, 0.14], [5.40, 0.08]].forEach(([ratio, volume]) => {
-          addOsc("sine", frequency * ratio, 0, volume);
-        });
-
-        master.gain.exponentialRampToValueAtTime(0.74, start + 0.01);
-        master.gain.exponentialRampToValueAtTime(0.35, end);
-      } else if (sound === "organ") {
-        addOsc("sine", frequency, 0, 0.34);
-        addOsc("sine", frequency * 2, 0, 0.20);
-        addOsc("triangle", frequency * 3, 0, 0.12);
-        addOsc("sine", frequency * 4, 0, 0.08);
-
-        master.gain.exponentialRampToValueAtTime(0.52, start + 0.04);
-        master.gain.setValueAtTime(0.58, end);
-      } else if (sound === "gbpulse") {
-        addOsc("square", frequency, -8, 0.20);
-        addOsc("square", frequency, 8, 0.16);
-        addOsc("square", frequency * 2, 0, 0.055);
-        master.gain.exponentialRampToValueAtTime(0.48, start + 0.008);
-        master.gain.setValueAtTime(0.52, end);
-
-      } else if (sound === "gbsquare") {
-        addOsc("square", frequency, 0, 0.30);
-        addOsc("square", frequency * 2, 0, 0.055);
-        master.gain.exponentialRampToValueAtTime(0.46, start + 0.006);
-        master.gain.setValueAtTime(0.50, end);
-
-      } else if (sound === "gbsoft") {
-        addOsc("square", frequency, -4, 0.17);
-        addOsc("square", frequency, 4, 0.17);
-        addOsc("triangle", frequency / 2, 0, 0.12);
-        master.gain.exponentialRampToValueAtTime(0.50, start + 0.012);
-        master.gain.setValueAtTime(0.55, end);
-
-      } else if (sound === "gbbass") {
-        addOsc("square", frequency / 2, 0, 0.25);
-        addOsc("triangle", frequency / 2, 0, 0.22);
-        addOsc("square", frequency, 0, 0.08);
-        master.gain.exponentialRampToValueAtTime(0.58, start + 0.008);
-        master.gain.setValueAtTime(0.60, end);
-
-      } else if (sound === "wiipluck") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(5400, start);
-        filter.frequency.exponentialRampToValueAtTime(1800, Math.min(end, start + 1.4));
-        filter.connect(master);
-        addOsc("triangle", frequency, -5, 0.28, filter);
-        addOsc("triangle", frequency, 5, 0.28, filter);
-        addOsc("sine", frequency * 2, 0, 0.10, filter);
-        master.gain.exponentialRampToValueAtTime(0.66, start + 0.012);
-        master.gain.setValueAtTime(0.40, end);
-
-      } else if (sound === "wiibell") {
-        addOsc("sine", frequency, 0, 0.34);
-        addOsc("sine", frequency * 2.01, 0, 0.15);
-        addOsc("sine", frequency * 3.02, 0, 0.07);
-        addOsc("sine", frequency * 4.08, 0, 0.035);
-        master.gain.exponentialRampToValueAtTime(0.62, start + 0.008);
-        master.gain.setValueAtTime(0.32, end);
-
-      } else if (sound === "wiimarimba") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(3900, start);
-        filter.connect(master);
-        addOsc("sine", frequency, 0, 0.42, filter);
-        addOsc("triangle", frequency * 2, 0, 0.11, filter);
-        addOsc("sine", frequency * 3, 0, 0.045, filter);
-        master.gain.exponentialRampToValueAtTime(0.72, start + 0.006);
-        master.gain.setValueAtTime(0.28, end);
-
-      } else if (sound === "wiibubble") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(4600, start);
-        filter.connect(master);
-        addOsc("sine", frequency, -11, 0.25, filter);
-        addOsc("sine", frequency, 11, 0.25, filter);
-        addOsc("triangle", frequency * 2, 0, 0.08, filter);
-        addOsc("sine", frequency / 2, 0, 0.08, filter);
-        master.gain.exponentialRampToValueAtTime(0.48, start + 0.045);
-        master.gain.setValueAtTime(0.55, end);
-
-      } else if (sound === "wiiair") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(3300, start);
-        filter.connect(master);
-        [-13, -6, 0, 6, 13].forEach((detune, i) => {
-          addOsc(i === 2 ? "triangle" : "sine", frequency, detune, i === 2 ? 0.20 : 0.11, filter);
-        });
-        addOsc("sine", frequency * 2, 3, 0.055, filter);
-        master.gain.exponentialRampToValueAtTime(0.28, start + 0.18);
-        master.gain.setValueAtTime(0.52, end);
-
-      } else if (sound === "wiichime") {
-        addOsc("sine", frequency, -3, 0.28);
-        addOsc("sine", frequency, 3, 0.28);
-        addOsc("sine", frequency * 2.5, 0, 0.09);
-        addOsc("sine", frequency * 4.0, 0, 0.045);
-        addOsc("sine", frequency * 5.05, 0, 0.025);
-        master.gain.exponentialRampToValueAtTime(0.60, start + 0.012);
-        master.gain.setValueAtTime(0.34, end);
-
-      } else if (sound === "rsflute") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(2900, start);
-        filter.connect(master);
-        addOsc("sine", frequency, -4, 0.30, filter);
-        addOsc("sine", frequency, 4, 0.24, filter);
-        addOsc("triangle", frequency * 2, 0, 0.07, filter);
-        master.gain.exponentialRampToValueAtTime(0.36, start + 0.07);
-        master.gain.setValueAtTime(0.48, end);
-
-      } else if (sound === "rslute") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(4300, start);
-        filter.frequency.exponentialRampToValueAtTime(1300, Math.min(end, start + 1.3));
-        filter.connect(master);
-        addOsc("triangle", frequency, -6, 0.27, filter);
-        addOsc("triangle", frequency, 6, 0.27, filter);
-        addOsc("sine", frequency * 2, 0, 0.10, filter);
-        addOsc("sine", frequency * 3, 0, 0.04, filter);
-        master.gain.exponentialRampToValueAtTime(0.72, start + 0.008);
-        master.gain.setValueAtTime(0.28, end);
-
-      } else if (sound === "rshorn") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(2100, start);
-        filter.connect(master);
-        addOsc("sawtooth", frequency, -5, 0.12, filter);
-        addOsc("triangle", frequency, 5, 0.25, filter);
-        addOsc("sine", frequency / 2, 0, 0.13, filter);
-        addOsc("sine", frequency * 2, 0, 0.06, filter);
-        master.gain.exponentialRampToValueAtTime(0.34, start + 0.09);
-        master.gain.setValueAtTime(0.52, end);
-
-      } else if (sound === "rsharps") {
-        addOsc("sine", frequency, 0, 0.34);
-        addOsc("sine", frequency * 2, 2, 0.16);
-        addOsc("sine", frequency * 3, -2, 0.07);
-        addOsc("sine", frequency * 4, 0, 0.035);
-        master.gain.exponentialRampToValueAtTime(0.68, start + 0.006);
-        master.gain.setValueAtTime(0.25, end);
-
-      } else if (sound === "rsmystic") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(2500, start);
-        filter.connect(master);
-        addOsc("sine", frequency, -13, 0.22, filter);
-        addOsc("sine", frequency, 13, 0.22, filter);
-        addOsc("triangle", frequency / 2, 0, 0.15, filter);
-        addOsc("sine", frequency * 2.01, 0, 0.06, filter);
-        master.gain.exponentialRampToValueAtTime(0.22, start + 0.18);
-        master.gain.setValueAtTime(0.50, end);
-
-      } else if (sound === "rswood") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(3400, start);
-        filter.connect(master);
-        addOsc("triangle", frequency, -3, 0.28, filter);
-        addOsc("sine", frequency, 3, 0.24, filter);
-        addOsc("sine", frequency * 2, 0, 0.065, filter);
-        addOsc("sine", frequency * 3, 0, 0.025, filter);
-        master.gain.exponentialRampToValueAtTime(0.40, start + 0.045);
-        master.gain.setValueAtTime(0.48, end);
-
-      } else if (sound === "spookydrone") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(1700, start);
-        filter.connect(master);
-        addOsc("sine", frequency / 2, -9, 0.23, filter);
-        addOsc("triangle", frequency / 2, 9, 0.20, filter);
-        addOsc("sine", frequency, -14, 0.13, filter);
-        addOsc("sine", frequency, 14, 0.13, filter);
-        master.gain.exponentialRampToValueAtTime(0.18, start + 0.25);
-        master.gain.setValueAtTime(0.56, end);
-
-      } else if (sound === "spookyorgan") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(2400, start);
-        filter.connect(master);
-        addOsc("sine", frequency / 2, 0, 0.18, filter);
-        addOsc("square", frequency, -5, 0.11, filter);
-        addOsc("square", frequency, 5, 0.11, filter);
-        addOsc("sine", frequency * 2, 0, 0.09, filter);
-        master.gain.exponentialRampToValueAtTime(0.42, start + 0.10);
-        master.gain.setValueAtTime(0.56, end);
-
-      } else if (sound === "spookybells") {
-        addOsc("sine", frequency, 0, 0.28);
-        addOsc("sine", frequency * 1.49, 0, 0.12);
-        addOsc("sine", frequency * 2.03, 0, 0.15);
-        addOsc("sine", frequency * 3.11, 0, 0.075);
-        addOsc("sine", frequency * 4.73, 0, 0.035);
-        master.gain.exponentialRampToValueAtTime(0.72, start + 0.006);
-        master.gain.setValueAtTime(0.25, end);
-
-      } else if (sound === "spookylute") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(3300, start);
-        filter.frequency.exponentialRampToValueAtTime(900, Math.min(end, start + 1.5));
-        filter.connect(master);
-        addOsc("triangle", frequency, -8, 0.25, filter);
-        addOsc("triangle", frequency, 8, 0.25, filter);
-        addOsc("sine", frequency * 2, -4, 0.085, filter);
-        master.gain.exponentialRampToValueAtTime(0.70, start + 0.007);
-        master.gain.setValueAtTime(0.24, end);
-
-      } else if (sound === "spookychoir") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "bandpass";
-        filter.frequency.setValueAtTime(1050, start);
-        filter.Q.setValueAtTime(0.65, start);
-        filter.connect(master);
-        [-18, -9, 0, 9, 18].forEach((detune, i) => {
-          addOsc(i === 2 ? "triangle" : "sine", frequency, detune, i === 2 ? 0.20 : 0.13, filter);
-        });
-        addOsc("sine", frequency / 2, 0, 0.11, filter);
-        master.gain.exponentialRampToValueAtTime(0.15, start + 0.28);
-        master.gain.setValueAtTime(0.54, end);
-
-      } else if (sound === "spookyhurdy") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(2600, start);
-        filter.connect(master);
-        addOsc("sawtooth", frequency, -7, 0.12, filter);
-        addOsc("sawtooth", frequency, 7, 0.12, filter);
-        addOsc("triangle", frequency, 0, 0.18, filter);
-        addOsc("sine", frequency / 2, 0, 0.16, filter);
-        master.gain.exponentialRampToValueAtTime(0.38, start + 0.12);
-        master.gain.setValueAtTime(0.60, end);
-
-      } else if (sound === "spookypipes") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(3000, start);
-        filter.connect(master);
-        addOsc("triangle", frequency, -12, 0.23, filter);
-        addOsc("sine", frequency, 12, 0.20, filter);
-        addOsc("sine", frequency * 2, 0, 0.065, filter);
-        addOsc("sine", frequency / 2, 0, 0.07, filter);
-        master.gain.exponentialRampToValueAtTime(0.31, start + 0.09);
-        master.gain.setValueAtTime(0.51, end);
-
-      } else if (sound === "screamghost") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "bandpass";
-        filter.frequency.setValueAtTime(1150, start);
-        filter.Q.setValueAtTime(4.5, start);
-        filter.connect(master);
-        addOsc("sawtooth", frequency * 2.2, -22, 0.10, filter);
-        addOsc("sawtooth", frequency * 2.2, 22, 0.10, filter);
-        addOsc("sine", frequency * 3.3, -12, 0.15, filter);
-        master.gain.exponentialRampToValueAtTime(0.18, start + 0.12);
-        master.gain.setValueAtTime(0.66, end);
-
-      } else if (sound === "screamdemon") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "bandpass";
-        filter.frequency.setValueAtTime(850, start);
-        filter.Q.setValueAtTime(3.2, start);
-        filter.connect(master);
-        addOsc("sawtooth", frequency / 2, -18, 0.16, filter);
-        addOsc("square", frequency, 14, 0.10, filter);
-        addOsc("sawtooth", frequency * 1.48, -9, 0.11, filter);
-        master.gain.exponentialRampToValueAtTime(0.28, start + 0.08);
-        master.gain.setValueAtTime(0.70, end);
-
-      } else if (sound === "screamchoir") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "bandpass";
-        filter.frequency.setValueAtTime(1300, start);
-        filter.Q.setValueAtTime(2.1, start);
-        filter.connect(master);
-        [-30, -15, 0, 15, 30].forEach((detune, i) => {
-          addOsc(i === 2 ? "sawtooth" : "sine", frequency * 2, detune, i === 2 ? 0.11 : 0.10, filter);
-        });
-        master.gain.exponentialRampToValueAtTime(0.14, start + 0.25);
-        master.gain.setValueAtTime(0.64, end);
-
-      } else if (sound === "screambanshee") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "bandpass";
-        filter.frequency.setValueAtTime(1750, start);
-        filter.Q.setValueAtTime(5.5, start);
-        filter.connect(master);
-        addOsc("sawtooth", frequency * 3, -28, 0.085, filter);
-        addOsc("sawtooth", frequency * 3, 28, 0.085, filter);
-        addOsc("square", frequency * 4.02, 0, 0.045, filter);
-        master.gain.exponentialRampToValueAtTime(0.12, start + 0.10);
-        master.gain.setValueAtTime(0.74, end);
-
-      } else if (sound === "screammonster") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(1250, start);
-        filter.Q.setValueAtTime(2.8, start);
-        filter.connect(master);
-        addOsc("sawtooth", frequency / 2, -24, 0.19, filter);
-        addOsc("sawtooth", frequency / 2, 24, 0.19, filter);
-        addOsc("square", frequency * 0.75, -8, 0.08, filter);
-        addOsc("triangle", frequency, 11, 0.11, filter);
-        master.gain.exponentialRampToValueAtTime(0.88, start + 0.012);
-        master.gain.exponentialRampToValueAtTime(0.62, start + 0.16);
-        master.gain.setValueAtTime(0.74, end);
-
-      } else if (sound === "musicbox") {
-        addOsc("sine", frequency, 0, 0.30);
-        addOsc("sine", frequency * 2, 2, 0.16);
-        addOsc("sine", frequency * 4.01, -2, 0.07);
-        master.gain.exponentialRampToValueAtTime(0.78, start + 0.004);
-        master.gain.setValueAtTime(0.23, end);
-
-      } else if (sound === "dulcimer") {
-        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(4800, start); filter.connect(master);
-        addOsc("triangle", frequency, -9, 0.24, filter); addOsc("triangle", frequency, 9, 0.24, filter); addOsc("sine", frequency * 2, -4, 0.12, filter);
-        master.gain.exponentialRampToValueAtTime(0.76, start + 0.006); master.gain.setValueAtTime(0.28, end);
-
-      } else if (sound === "celesta") {
-        addOsc("sine", frequency, -3, 0.27); addOsc("sine", frequency, 3, 0.27); addOsc("sine", frequency * 2.01, 0, 0.13);
-        master.gain.exponentialRampToValueAtTime(0.64, start + 0.01); master.gain.setValueAtTime(0.32, end);
-
-      } else if (sound === "ocarina") {
-        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(2600, start); filter.connect(master);
-        addOsc("sine", frequency, -5, 0.34, filter); addOsc("sine", frequency, 5, 0.27, filter); addOsc("triangle", frequency * 2, 0, 0.045, filter);
-        master.gain.exponentialRampToValueAtTime(0.30, start + 0.09); master.gain.setValueAtTime(0.50, end);
-
-      } else if (sound === "reed") {
-        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(2200, start); filter.connect(master);
-        addOsc("square", frequency, -6, 0.10, filter); addOsc("square", frequency, 6, 0.10, filter); addOsc("triangle", frequency, 0, 0.22, filter);
-        master.gain.exponentialRampToValueAtTime(0.37, start + 0.08); master.gain.setValueAtTime(0.54, end);
-
-      } else if (sound === "crystal") {
-        addOsc("sine", frequency, -7, 0.22); addOsc("sine", frequency, 7, 0.22); addOsc("sine", frequency * 2.51, 0, 0.11); addOsc("sine", frequency * 4.03, 0, 0.06);
-        master.gain.exponentialRampToValueAtTime(0.58, start + 0.015); master.gain.setValueAtTime(0.37, end);
-
-      } else if (sound === "copper") {
-        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(3800, start); filter.connect(master);
-        addOsc("sawtooth", frequency, -10, 0.10, filter); addOsc("triangle", frequency, 10, 0.24, filter); addOsc("sine", frequency / 2, 0, 0.10, filter);
-        master.gain.exponentialRampToValueAtTime(0.55, start + 0.025); master.gain.setValueAtTime(0.60, end);
-
-      } else if (sound === "deepbell") {
-        addOsc("sine", frequency / 2, 0, 0.28); addOsc("sine", frequency, 0, 0.20); addOsc("sine", frequency * 1.49, 0, 0.12); addOsc("sine", frequency * 2.73, 0, 0.07);
-        master.gain.exponentialRampToValueAtTime(0.82, start + 0.008); master.gain.setValueAtTime(0.31, end);
-
-      } else if (sound === "frost") {
-        const filter = ctx.createBiquadFilter(); filter.type = "highpass"; filter.frequency.setValueAtTime(420, start); filter.connect(master);
-        [-20,-10,0,10,20].forEach((detune, i) => addOsc(i === 2 ? "triangle" : "sine", frequency * (i === 4 ? 2 : 1), detune, i === 2 ? 0.18 : 0.09, filter));
-        master.gain.exponentialRampToValueAtTime(0.18, start + 0.22); master.gain.setValueAtTime(0.52, end);
-
-      } else if (sound === "arcade") {
-        addOsc("square", frequency, -10, 0.16); addOsc("square", frequency, 10, 0.16); addOsc("triangle", frequency * 2, 0, 0.10);
-        master.gain.exponentialRampToValueAtTime(0.68, start + 0.006); master.gain.setValueAtTime(0.68, end);
-
-      } else if (sound === "machine") {
-        const filter = ctx.createBiquadFilter(); filter.type = "bandpass"; filter.frequency.setValueAtTime(980, start); filter.Q.setValueAtTime(3.4, start); filter.connect(master);
-        addOsc("sawtooth", frequency / 2, -17, 0.15, filter); addOsc("square", frequency, 17, 0.10, filter); addOsc("sawtooth", frequency * 1.5, -8, 0.09, filter);
-        master.gain.exponentialRampToValueAtTime(0.72, start + 0.018); master.gain.setValueAtTime(0.62, end);
-
-      } else if (sound === "goblin") {
-        const filter = ctx.createBiquadFilter(); filter.type = "bandpass"; filter.frequency.setValueAtTime(1900, start); filter.Q.setValueAtTime(2.2, start); filter.connect(master);
-        addOsc("square", frequency * 2, -16, 0.09, filter); addOsc("triangle", frequency * 2, 16, 0.19, filter); addOsc("sine", frequency * 3.03, 0, 0.075, filter);
-        master.gain.exponentialRampToValueAtTime(0.51, start + 0.025); master.gain.setValueAtTime(0.56, end);
-
-      } else if (sound === "hellsaw") {
-        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(2600, start); filter.Q.setValueAtTime(5.5, start); filter.connect(master);
-        [-24,-12,0,12,24].forEach(detune => addOsc("sawtooth", frequency, detune, 0.105, filter)); addOsc("square", frequency / 2, 0, 0.10, filter);
-        master.gain.exponentialRampToValueAtTime(0.92, start + 0.008); master.gain.setValueAtTime(0.76, end);
-
-      } else if (sound === "doomstack") {
-        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(1850, start); filter.Q.setValueAtTime(3.0, start); filter.connect(master);
-        addOsc("sawtooth", frequency / 2, -15, 0.19, filter); addOsc("sawtooth", frequency / 2, 15, 0.19, filter); addOsc("square", frequency, -8, 0.11, filter); addOsc("square", frequency, 8, 0.11, filter); addOsc("sine", frequency / 4, 0, 0.12, filter);
-        master.gain.exponentialRampToValueAtTime(0.94, start + 0.012); master.gain.setValueAtTime(0.82, end);
-
-      } else if (sound === "ironfang") {
-        const filter = ctx.createBiquadFilter(); filter.type = "bandpass"; filter.frequency.setValueAtTime(1500, start); filter.Q.setValueAtTime(7.0, start); filter.connect(master);
-        addOsc("square", frequency, -18, 0.16, filter); addOsc("sawtooth", frequency, 18, 0.16, filter); addOsc("sawtooth", frequency * 2.01, -7, 0.08, filter);
-        master.gain.exponentialRampToValueAtTime(0.98, start + 0.005); master.gain.setValueAtTime(0.72, end);
-
-      } else if (sound === "voidbass") {
-        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(1050, start); filter.Q.setValueAtTime(6.0, start); filter.connect(master);
-        addOsc("sawtooth", frequency / 2, -10, 0.22, filter); addOsc("square", frequency / 2, 10, 0.15, filter); addOsc("sine", frequency / 4, 0, 0.20, filter); addOsc("sawtooth", frequency, 0, 0.08, filter);
-        master.gain.exponentialRampToValueAtTime(0.96, start + 0.01); master.gain.setValueAtTime(0.80, end);
-
-      } else if (sound === "razorlead") {
-        const filter = ctx.createBiquadFilter(); filter.type = "highpass"; filter.frequency.setValueAtTime(650, start); filter.Q.setValueAtTime(2.6, start); filter.connect(master);
-        [-20,-7,7,20].forEach(detune => addOsc("sawtooth", frequency * 2, detune, 0.115, filter)); addOsc("square", frequency, 0, 0.12, filter);
-        master.gain.exponentialRampToValueAtTime(0.95, start + 0.004); master.gain.setValueAtTime(0.75, end);
-
-      } else if (sound === "warengine") {
-        const filter = ctx.createBiquadFilter(); filter.type = "bandpass"; filter.frequency.setValueAtTime(920, start); filter.Q.setValueAtTime(4.8, start); filter.connect(master);
-        addOsc("sawtooth", frequency / 2, -30, 0.18, filter); addOsc("sawtooth", frequency / 2, 30, 0.18, filter); addOsc("square", frequency * 0.75, -12, 0.12, filter); addOsc("square", frequency * 1.5, 12, 0.08, filter); addOsc("sine", frequency / 4, 0, 0.13, filter);
-        master.gain.exponentialRampToValueAtTime(0.99, start + 0.007); master.gain.setValueAtTime(0.83, end);
-
-      } else if (sound === "blackpulse") {
-        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(1450, start); filter.Q.setValueAtTime(8.0, start); filter.connect(master);
-        addOsc("square", frequency / 2, -6, 0.18, filter); addOsc("square", frequency / 2, 6, 0.18, filter); addOsc("sawtooth", frequency, -13, 0.12, filter); addOsc("sawtooth", frequency, 13, 0.12, filter);
-        master.gain.exponentialRampToValueAtTime(0.97, start + 0.006); master.gain.setValueAtTime(0.77, end);
-
-      } else if (sound === "overlord") {
-        const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.setValueAtTime(2300, start); filter.Q.setValueAtTime(4.2, start); filter.connect(master);
-        [-28,-14,0,14,28].forEach(detune => addOsc("sawtooth", frequency / 2, detune, 0.105, filter)); addOsc("square", frequency, -9, 0.09, filter); addOsc("square", frequency, 9, 0.09, filter); addOsc("sine", frequency / 4, 0, 0.14, filter);
-        master.gain.exponentialRampToValueAtTime(1.0, start + 0.006); master.gain.setValueAtTime(0.86, end);
-
-      } else if (sound === "pluckystrings") {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(7600, start);
-        filter.frequency.exponentialRampToValueAtTime(2200, Math.min(end, start + 0.42));
-        filter.Q.setValueAtTime(1.35, start);
-        filter.connect(master);
-
-        addOsc("sawtooth", frequency, -7, 0.14, filter);
-        addOsc("sawtooth", frequency, 7, 0.14, filter);
-        addOsc("triangle", frequency, 0, 0.16, filter);
-        addOsc("sine", frequency * 2, 0, 0.055, filter);
-
-        master.gain.exponentialRampToValueAtTime(0.92, start + 0.006);
-        master.gain.exponentialRampToValueAtTime(0.44, Math.min(end, start + 0.12));
-        if (end > start + 0.12) {
-          master.gain.setValueAtTime(0.28, end);
-        }
-
-
-      } else if (["velvetpulse","nylonpulse","woodpulse","deepulse","warmbass","softpluck","hollowstring"].includes(sound)) {
-        const filter = ctx.createBiquadFilter();
-        filter.connect(master);
-
-        if (sound === "velvetpulse") {
-          filter.type="lowpass"; filter.frequency.setValueAtTime(3300,start);
-          addOsc("triangle",frequency,-5,0.24,filter); addOsc("triangle",frequency,5,0.24,filter); addOsc("sine",frequency/2,0,0.10,filter);
-          master.gain.exponentialRampToValueAtTime(0.58,start+0.018); master.gain.setValueAtTime(0.34,end);
-        } else if (sound === "nylonpulse") {
-          filter.type="lowpass"; filter.frequency.setValueAtTime(5200,start); filter.frequency.exponentialRampToValueAtTime(1900,Math.min(end,start+0.65));
-          addOsc("triangle",frequency,0,0.31,filter); addOsc("sine",frequency*2,0,0.09,filter); addOsc("sine",frequency*3,0,0.035,filter);
-          master.gain.exponentialRampToValueAtTime(0.72,start+0.007); master.gain.setValueAtTime(0.27,end);
-        } else if (sound === "woodpulse") {
-          filter.type="bandpass"; filter.frequency.setValueAtTime(1450,start); filter.Q.setValueAtTime(1.15,start);
-          addOsc("triangle",frequency,-3,0.28,filter); addOsc("sine",frequency,3,0.18,filter); addOsc("sine",frequency*2.01,0,0.07,filter);
-          master.gain.exponentialRampToValueAtTime(0.76,start+0.009); master.gain.setValueAtTime(0.30,end);
-        } else if (sound === "deepulse") {
-          filter.type="lowpass"; filter.frequency.setValueAtTime(2600,start);
-          addOsc("triangle",frequency/2,-6,0.24,filter); addOsc("triangle",frequency/2,6,0.24,filter); addOsc("sawtooth",frequency,0,0.09,filter); addOsc("sine",frequency/4,0,0.11,filter);
-          master.gain.exponentialRampToValueAtTime(0.82,start+0.012); master.gain.setValueAtTime(0.46,end);
-        } else if (sound === "warmbass") {
-          filter.type="lowpass"; filter.frequency.setValueAtTime(1800,start);
-          addOsc("sine",frequency/2,0,0.30,filter); addOsc("triangle",frequency/2,0,0.24,filter); addOsc("triangle",frequency,0,0.10,filter);
-          master.gain.exponentialRampToValueAtTime(0.88,start+0.014); master.gain.setValueAtTime(0.52,end);
-        } else if (sound === "softpluck") {
-          filter.type="lowpass"; filter.frequency.setValueAtTime(4300,start); filter.frequency.exponentialRampToValueAtTime(1300,Math.min(end,start+0.9));
-          addOsc("triangle",frequency,-4,0.24,filter); addOsc("triangle",frequency,4,0.24,filter); addOsc("sine",frequency*2,0,0.05,filter);
-          master.gain.exponentialRampToValueAtTime(0.66,start+0.01); master.gain.setValueAtTime(0.21,end);
-        } else {
-          filter.type="bandpass"; filter.frequency.setValueAtTime(2100,start);
-          addOsc("triangle",frequency,-8,0.20,filter); addOsc("triangle",frequency,8,0.20,filter); addOsc("sine",frequency/2,0,0.12,filter); addOsc("sine",frequency*2,0,0.055,filter);
-          master.gain.exponentialRampToValueAtTime(0.62,start+0.02); master.gain.setValueAtTime(0.39,end);
-        }
-
-      } else if (["subterror","warehouse","darklaser","voidstab","underground","ironbass","nightdrive","blackacid"].includes(sound)) {
-        const filter = ctx.createBiquadFilter(); filter.connect(master);
-
-        if (sound === "subterror") {
-          filter.type="lowpass"; filter.frequency.setValueAtTime(1450,start); filter.Q.setValueAtTime(2.4,start);
-          addOsc("sine",frequency/2,0,0.34,filter); addOsc("triangle",frequency/2,-9,0.23,filter); addOsc("triangle",frequency/2,9,0.23,filter); addOsc("sawtooth",frequency,0,0.07,filter);
-          master.gain.exponentialRampToValueAtTime(0.98,start+0.012); master.gain.setValueAtTime(0.58,end);
-        } else if (sound === "warehouse") {
-          filter.type="lowpass"; filter.frequency.setValueAtTime(3100,start); filter.frequency.exponentialRampToValueAtTime(1050,Math.min(end,start+0.55)); filter.Q.setValueAtTime(4.8,start);
-          [-18,0,18].forEach(d=>addOsc("sawtooth",frequency/2,d,0.17,filter)); addOsc("square",frequency,0,0.075,filter); addOsc("sine",frequency/4,0,0.13,filter);
-          master.gain.exponentialRampToValueAtTime(0.94,start+0.008); master.gain.setValueAtTime(0.48,end);
-        } else if (sound === "darklaser") {
-          filter.type="bandpass"; filter.frequency.setValueAtTime(2600,start); filter.frequency.exponentialRampToValueAtTime(620,Math.min(end,start+0.38)); filter.Q.setValueAtTime(6,start);
-          addOsc("sawtooth",frequency,-14,0.18,filter); addOsc("sawtooth",frequency,14,0.18,filter); addOsc("square",frequency/2,0,0.13,filter);
-          master.gain.exponentialRampToValueAtTime(0.92,start+0.006); master.gain.setValueAtTime(0.34,end);
-        } else if (sound === "voidstab") {
-          filter.type="lowpass"; filter.frequency.setValueAtTime(4800,start); filter.frequency.exponentialRampToValueAtTime(720,Math.min(end,start+0.26)); filter.Q.setValueAtTime(5.2,start);
-          [-23,-7,7,23].forEach(d=>addOsc("sawtooth",frequency/2,d,0.13,filter)); addOsc("sine",frequency/4,0,0.16,filter);
-          master.gain.exponentialRampToValueAtTime(1,start+0.004); master.gain.setValueAtTime(0.28,end);
-        } else if (sound === "underground") {
-          filter.type="lowpass"; filter.frequency.setValueAtTime(2100,start); filter.Q.setValueAtTime(1.8,start);
-          addOsc("triangle",frequency/2,-12,0.22,filter); addOsc("triangle",frequency/2,12,0.22,filter); addOsc("sine",frequency/4,0,0.21,filter); addOsc("sawtooth",frequency,0,0.055,filter);
-          master.gain.exponentialRampToValueAtTime(0.72,start+0.035); master.gain.setValueAtTime(0.58,end);
-        } else if (sound === "ironbass") {
-          filter.type="lowpass"; filter.frequency.setValueAtTime(2350,start); filter.Q.setValueAtTime(3.6,start);
-          addOsc("square",frequency/2,-6,0.17,filter); addOsc("square",frequency/2,6,0.17,filter); addOsc("sawtooth",frequency/2,0,0.15,filter); addOsc("sine",frequency/4,0,0.19,filter);
-          master.gain.exponentialRampToValueAtTime(0.98,start+0.007); master.gain.setValueAtTime(0.55,end);
-        } else if (sound === "nightdrive") {
-          filter.type="lowpass"; filter.frequency.setValueAtTime(3600,start); filter.Q.setValueAtTime(1.2,start);
-          addOsc("sawtooth",frequency/2,-16,0.13,filter); addOsc("sawtooth",frequency/2,16,0.13,filter); addOsc("triangle",frequency,0,0.16,filter); addOsc("sine",frequency/4,0,0.12,filter);
-          master.gain.exponentialRampToValueAtTime(0.76,start+0.018); master.gain.setValueAtTime(0.47,end);
-        } else {
-          filter.type="lowpass"; filter.frequency.setValueAtTime(5200,start); filter.frequency.exponentialRampToValueAtTime(850,Math.min(end,start+0.46)); filter.Q.setValueAtTime(10,start);
-          addOsc("sawtooth",frequency/2,-8,0.18,filter); addOsc("sawtooth",frequency/2,8,0.18,filter); addOsc("square",frequency/2,0,0.09,filter); addOsc("sine",frequency/4,0,0.14,filter);
-          master.gain.exponentialRampToValueAtTime(0.94,start+0.006); master.gain.setValueAtTime(0.39,end);
-        }
-
-      } else if (["doompluckfull","doompluckround","doompluckbass","doompluckwide","doompluckwarm"].includes(sound)) {
-        const f=ctx.createBiquadFilter(); f.type="lowpass"; f.connect(master);
-
-        if (sound==="doompluckfull") {
-          f.frequency.setValueAtTime(3600,start); f.frequency.exponentialRampToValueAtTime(1100,Math.min(end,start+0.40)); f.Q.setValueAtTime(1.6,start);
-          addOsc("sawtooth",frequency/2,-4,0.16,f); addOsc("sawtooth",frequency/2,4,0.16,f); addOsc("triangle",frequency/2,0,0.16,f); addOsc("sine",frequency/4,0,0.13,f); addOsc("sine",frequency,0,0.045,f);
-          master.gain.exponentialRampToValueAtTime(0.88,start+0.006); master.gain.setValueAtTime(0.40,end);
-        } else if (sound==="doompluckround") {
-          f.frequency.setValueAtTime(2900,start); f.frequency.exponentialRampToValueAtTime(950,Math.min(end,start+0.48)); f.Q.setValueAtTime(1.1,start);
-          addOsc("triangle",frequency/2,-3,0.20,f); addOsc("triangle",frequency/2,3,0.20,f); addOsc("sine",frequency/2,0,0.13,f); addOsc("sine",frequency/4,0,0.12,f); addOsc("sawtooth",frequency,0,0.025,f);
-          master.gain.exponentialRampToValueAtTime(0.80,start+0.008); master.gain.setValueAtTime(0.42,end);
-        } else if (sound==="doompluckbass") {
-          f.frequency.setValueAtTime(2400,start); f.frequency.exponentialRampToValueAtTime(800,Math.min(end,start+0.45)); f.Q.setValueAtTime(1.35,start);
-          addOsc("triangle",frequency/2,-4,0.17,f); addOsc("triangle",frequency/2,4,0.17,f); addOsc("sine",frequency/4,0,0.20,f); addOsc("sine",frequency/8,0,0.08,f); addOsc("sawtooth",frequency,0,0.03,f);
-          master.gain.exponentialRampToValueAtTime(0.84,start+0.007); master.gain.setValueAtTime(0.46,end);
-        } else if (sound==="doompluckwide") {
-          f.frequency.setValueAtTime(3400,start); f.frequency.exponentialRampToValueAtTime(1000,Math.min(end,start+0.42)); f.Q.setValueAtTime(1.4,start);
-          addOsc("sawtooth",frequency/2,-9,0.12,f); addOsc("sawtooth",frequency/2,9,0.12,f); addOsc("triangle",frequency/2,-2,0.12,f); addOsc("triangle",frequency/2,2,0.12,f); addOsc("sine",frequency/4,0,0.11,f);
-          master.gain.exponentialRampToValueAtTime(0.82,start+0.006); master.gain.setValueAtTime(0.39,end);
-        } else {
-          f.frequency.setValueAtTime(2700,start); f.frequency.exponentialRampToValueAtTime(900,Math.min(end,start+0.55)); f.Q.setValueAtTime(0.85,start);
-          addOsc("triangle",frequency/2,-5,0.18,f); addOsc("triangle",frequency/2,5,0.18,f); addOsc("sine",frequency/2,0,0.12,f); addOsc("sine",frequency/4,0,0.13,f); addOsc("sawtooth",frequency,0,0.02,f);
-          master.gain.exponentialRampToValueAtTime(0.76,start+0.010); master.gain.setValueAtTime(0.44,end);
-        }
-
-      } else if (["gravepulse","nightbeast","subfang","doompluck","blackhollow","cryptbass"].includes(sound)) {
-        const f=ctx.createBiquadFilter(); f.connect(master);
-
-        if (sound==="gravepulse") {
-          f.type="lowpass"; f.frequency.setValueAtTime(2000,start); f.Q.setValueAtTime(2.2,start);
-          addOsc("triangle",frequency/2,-8,0.18,f); addOsc("triangle",frequency/2,8,0.18,f); addOsc("sine",frequency/4,0,0.16,f); addOsc("sawtooth",frequency,0,0.045,f);
-          master.gain.exponentialRampToValueAtTime(0.78,start+0.008); master.gain.setValueAtTime(0.48,end);
-        } else if (sound==="nightbeast") {
-          f.type="bandpass"; f.frequency.setValueAtTime(1200,start); f.Q.setValueAtTime(2.5,start);
-          addOsc("sawtooth",frequency/2,-16,0.15,f); addOsc("sawtooth",frequency/2,16,0.15,f); addOsc("triangle",frequency/2,0,0.17,f); addOsc("sine",frequency/4,0,0.15,f);
-          master.gain.exponentialRampToValueAtTime(0.84,start+0.006); master.gain.setValueAtTime(0.45,end);
-        } else if (sound==="subfang") {
-          f.type="lowpass"; f.frequency.setValueAtTime(1550,start); f.Q.setValueAtTime(3.1,start);
-          addOsc("square",frequency/2,-6,0.12,f); addOsc("square",frequency/2,6,0.12,f); addOsc("sine",frequency/4,0,0.20,f); addOsc("triangle",frequency/2,0,0.14,f);
-          master.gain.exponentialRampToValueAtTime(0.86,start+0.005); master.gain.setValueAtTime(0.50,end);
-        } else if (sound==="doompluck") {
-          f.type="lowpass"; f.frequency.setValueAtTime(4200,start); f.frequency.exponentialRampToValueAtTime(850,Math.min(end,start+0.32)); f.Q.setValueAtTime(3.8,start);
-          addOsc("sawtooth",frequency/2,-10,0.13,f); addOsc("sawtooth",frequency/2,10,0.13,f); addOsc("sine",frequency/4,0,0.15,f);
-          master.gain.exponentialRampToValueAtTime(0.90,start+0.004); master.gain.setValueAtTime(0.30,end);
-        } else if (sound==="blackhollow") {
-          f.type="bandpass"; f.frequency.setValueAtTime(1750,start); f.Q.setValueAtTime(0.9,start);
-          addOsc("triangle",frequency/2,-12,0.16,f); addOsc("triangle",frequency/2,12,0.16,f); addOsc("sine",frequency/2,0,0.12,f); addOsc("sine",frequency/4,0,0.11,f);
-          master.gain.exponentialRampToValueAtTime(0.70,start+0.015); master.gain.setValueAtTime(0.47,end);
-        } else {
-          f.type="lowpass"; f.frequency.setValueAtTime(1350,start); f.Q.setValueAtTime(1.4,start);
-          addOsc("sine",frequency/4,0,0.24,f); addOsc("triangle",frequency/2,-5,0.17,f); addOsc("triangle",frequency/2,5,0.17,f); addOsc("sawtooth",frequency,0,0.035,f);
-          master.gain.exponentialRampToValueAtTime(0.80,start+0.010); master.gain.setValueAtTime(0.53,end);
-        }
-
-      } else if (["abysspulse","dreadbass","beastpulse","blackengine","voidgrowl","doompulse","deepbeast","darkthrob"].includes(sound)) {
-        const f=ctx.createBiquadFilter(); f.connect(master);
-        const cfg={
-          abysspulse:["lowpass",1850,2.8,"triangle",0.25,0.18],
-          dreadbass:["lowpass",2400,3.5,"sawtooth",0.19,0.20],
-          beastpulse:["bandpass",1350,2.1,"sawtooth",0.20,0.17],
-          blackengine:["lowpass",2900,4.2,"square",0.14,0.19],
-          voidgrowl:["lowpass",3200,6.5,"sawtooth",0.18,0.17],
-          doompulse:["lowpass",1650,1.7,"triangle",0.27,0.23],
-          deepbeast:["bandpass",980,1.4,"triangle",0.26,0.24],
-          darkthrob:["lowpass",2250,3.0,"sawtooth",0.16,0.20]
-        }[sound];
-        f.type=cfg[0]; f.frequency.setValueAtTime(cfg[1],start); f.Q.setValueAtTime(cfg[2],start);
-        addOsc(cfg[3],frequency/2,-9,cfg[4],f); addOsc(cfg[3],frequency/2,9,cfg[4],f);
-        addOsc("triangle",frequency/2,0,0.12,f); addOsc("sine",frequency/4,0,cfg[5],f);
-        master.gain.exponentialRampToValueAtTime(0.98,start+0.007); master.gain.setValueAtTime(0.56,end);
-
-      } else {
-        const filter = ctx.createBiquadFilter();
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(6200, start);
-        filter.frequency.exponentialRampToValueAtTime(1500, Math.min(end, start + 1.2));
-        filter.connect(master);
-
-        addOsc("sawtooth", frequency, -5, 0.12, filter);
-        addOsc("triangle", frequency, 0, 0.32, filter);
-        addOsc("sawtooth", frequency, 5, 0.12, filter);
-
-        master.gain.exponentialRampToValueAtTime(0.82, start + 0.008);
-        master.gain.exponentialRampToValueAtTime(0.28, end);
-      }
-
-      master.gain.cancelScheduledValues(end);
-      master.gain.setValueAtTime(Math.max(master.gain.value || 0.35, 0.08), end);
-      master.gain.exponentialRampToValueAtTime(0.0001, releaseEnd);
+    function offlineAddVoice(ctx,destination,frequency,sound,start,duration) {
+      makeSynthNodes(ctx,destination,synthPitchFrequency(frequency),sound,start,start+duration);
     }
 
     function audioBufferToWavBlob(buffer) {
@@ -5003,13 +3072,9 @@
           sampleRate
         );
 
-        const limiter = offline.createDynamicsCompressor();
-        limiter.threshold.setValueAtTime(-5, 0);
-        limiter.knee.setValueAtTime(10, 0);
-        limiter.ratio.setValueAtTime(8, 0);
-        limiter.attack.setValueAtTime(0.003, 0);
-        limiter.release.setValueAtTime(0.18, 0);
-        limiter.connect(offline.destination);
+        // Exact same master chain and volume setting as browser playback.
+        const volume=Number(document.getElementById("synth-volume").value)/100;
+        const offlineMaster=createMasterChain(offline,offline.destination,volume);
 
         for (let step = 0; step < playbackEndStep; step++) {
           const start = step * stepSeconds;
@@ -5018,11 +3083,11 @@
             const lengthSteps = Number(pattern[keyIndex][step]) || 0;
             if (lengthSteps <= 0) continue;
 
-            const noteDuration = Math.max(0.16, lengthSteps * stepSeconds * 0.96);
+            const noteDuration = Math.max(0.02, lengthSteps * stepSeconds * 0.96);
 
             offlineAddVoice(
               offline,
-              limiter,
+              offlineMaster.input,
               Number(keys[keyIndex].dataset.note),
               soundSelect.value,
               start,
@@ -5032,6 +3097,15 @@
         }
 
         const rendered = await offline.startRendering();
+        // No second mastering pass: exported WAV is the same mastered signal
+        // as live playback. Only guard against rare sample overshoots.
+        let peak=0;
+        const channels=Array.from({length:rendered.numberOfChannels},(_,ch)=>rendered.getChannelData(ch));
+        for(const data of channels)for(let i=0;i<data.length;i++)peak=Math.max(peak,Math.abs(data[i]));
+        if(peak>0.98){
+          const trim=0.98/peak;
+          for(const data of channels)for(let i=0;i<data.length;i++)data[i]*=trim;
+        }
 
         // Browsers do not provide a native MP3 encoder. If a compatible
         // lamejs encoder is already available, use it; otherwise export WAV.
@@ -5169,6 +3243,21 @@
     }
 
     function stopSequence() {
+      if(sequencerScheduler!==null){clearInterval(sequencerScheduler);sequencerScheduler=null;}
+      // Cancel any pre-scheduled future oscillators without abruptly cutting
+      // currently audible ones; release active ones with a short fade.
+      if(scheduledVoices.length){
+        const ctx=getAudioContext();
+        for(const {voice} of scheduledVoices){
+          const now=ctx.currentTime;
+          try {
+            voice.master.gain.cancelScheduledValues(now);
+            voice.master.gain.setTargetAtTime(0.0001,now,0.008);
+            voice.oscillators.forEach(o=>o.stop(now+0.06));
+          }catch(e){}
+        }
+        scheduledVoices=[];
+      }
       sequencePlaying = false;
       resetSequencerSymbolState();
       if (playTimer) {
@@ -5189,11 +3278,12 @@
     function playStep(step) {
       const durationMs = getStepDurationMs();
 
+      // Audio is scheduled independently on the Web Audio clock.
       // Release sustained notes whose blocks end on this step.
       const stillPlaying = [];
       sequenceVoices.forEach(entry => {
         if (entry.endStep <= step) {
-          releaseSequenceVoice(entry, 0.12);
+          entry.key?.classList.remove("active");
         } else {
           stillPlaying.push(entry);
         }
@@ -5215,7 +3305,7 @@
 
         // Start only when this step is the explicit start of this note object.
         if (soundingNote.startStep === step) {
-          const voice = buildVoice(Number(key.dataset.note), soundSelect.value, true);
+          const voice = null; // Audio already scheduled by scheduleSequenceAudio().
 
           sequenceVoices.push({
             voice,
@@ -5254,43 +3344,59 @@
         displaySequencerRest();
       }
 
-      playTimer = setTimeout(() => {
-        if (!sequencePlaying) return;
-
-        const nextStep = step + 1;
-        const playbackEndStep = getPlaybackEndStep();
-
-        if (nextStep >= playbackEndStep) {
-          if (loopEnabled) {
-            sequenceVoices.forEach(entry => releaseSequenceVoice(entry, 0.10));
-            sequenceVoices = [];
-            currentStep = 0;
-            resetSequencerSymbolState();
-            playStep(0);
-          } else {
-            stopSequence();
-          }
-        } else {
-          currentStep = nextStep;
-          playStep(nextStep);
-        }
-      }, durationMs);
     }
 
+    // Audio-clock scheduler: timers only enqueue future audio and repaint UI;
+    // timer jitter cannot move note onset or release times.
+    let sequencerScheduler=null, nextAudioStep=0, sequenceOrigin=0;
+    let visualStepIndex=-1, scheduledVoices=[];
+    function scheduleSequenceAudio() {
+      if(!sequencePlaying)return;
+      const ctx=getAudioContext();
+      const stepSeconds=getStepDurationMs()/1000;
+      const endStep=getPlaybackEndStep();
+      const horizon=ctx.currentTime+0.20;
+      while(sequenceOrigin+nextAudioStep*stepSeconds<horizon){
+        const absoluteStep=nextAudioStep;
+        if(!loopEnabled && absoluteStep>=endStep)break;
+        const step=absoluteStep%endStep;
+        const when=sequenceOrigin+absoluteStep*stepSeconds;
+        for(let k=0;k<keys.length;k++){
+          const length=Number(pattern[k][step])||0;
+          if(length<=0)continue;
+          const duration=Math.max(0.02,length*stepSeconds*0.96);
+          const voice=makeSynthNodes(ctx,getSynthOutput(ctx).input,
+            synthPitchFrequency(Number(keys[k].dataset.note)),soundSelect.value,
+            when,when+duration);
+          scheduledVoices.push({voice,end:when+duration+Math.max(0.025,voice.recipe.release)+0.06});
+        }
+        nextAudioStep++;
+      }
+      scheduledVoices=scheduledVoices.filter(v=>v.end>ctx.currentTime);
+      const elapsed=Math.max(0,Math.floor((ctx.currentTime-sequenceOrigin)/stepSeconds));
+      if(!loopEnabled && elapsed>=endStep){stopSequence();return;}
+      if(elapsed!==visualStepIndex){
+        visualStepIndex=elapsed;
+        currentStep=elapsed%endStep;
+        playStep(currentStep);
+      }
+    }
     function startSequence() {
       stopActiveVoice();
-      if (sequencePlaying) {
-        stopSequence();
-        return;
-      }
-
-      sequencePlaying = true;
-      currentStep = 0;
+      if(sequencePlaying){stopSequence();return;}
+      const ctx=getAudioContext();
+      sequencePlaying=true;
+      currentStep=0;
+      nextAudioStep=0;
+      visualStepIndex=-1;
+      scheduledVoices=[];
+      sequenceOrigin=ctx.currentTime+0.065;
       playButton.classList.add("active");
-      playButton.title = "Stop sequence";
+      playButton.title="Stop sequence";
       renderRoll();
       resetSequencerSymbolState();
-      playStep(0);
+      scheduleSequenceAudio();
+      sequencerScheduler=setInterval(scheduleSequenceAudio,25);
     }
 
     playButton.addEventListener("click", startSequence);
