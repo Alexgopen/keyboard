@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Rainbow Piano</title>
+  <title>Rainbow Piano — Smooth Voice Transitions</title>
   <style>
     * { box-sizing: border-box; }
 
@@ -1005,6 +1005,7 @@
       <button id="import-random-sounds-button" type="button" title="Import synth from text" aria-label="Import synth from text">📥</button>
       <button id="delete-random-sound-button" type="button" title="Delete selected saved synth" aria-label="Delete selected saved synth">🗑️</button>
       <label class="synth-control">Vol <input id="synth-volume" type="range" min="0" max="150" value="100"><output id="synth-volume-value">100%</output></label>
+      <label class="synth-control">Release <input id="synth-release" type="range" min="5" max="2000" step="5" value="200" aria-label="Synth release in milliseconds"><output id="synth-release-value">200 ms</output></label>
       <label class="synth-control">Pitch <input id="synth-pitch" type="range" min="-24" max="12" step="1" value="-12"><output id="synth-pitch-value">-12 st</output></label>
     </div>
 
@@ -2114,10 +2115,12 @@
       randomSynthRecipe=recipe;
       soundSelect.value="random";
       updateRandomSoundControls();
+      syncReleaseSlider();
     }
 
     function rerollRandomSynth() {
       randomSynthRecipe = makeRandomSynthRecipe();
+      syncReleaseSlider();
       if (soundSelect.value === "random" && dragging && activeKey) {
         startVoice(Number(activeKey.dataset.note), activeKey.dataset.color, activeKey);
       }
@@ -2126,6 +2129,30 @@
     function ensureRandomSynthRecipe() {
       if (!randomSynthRecipe) randomSynthRecipe = makeRandomSynthRecipe();
       return randomSynthRecipe;
+    }
+
+    // Release is an editable parameter of the actual synth recipe, not an
+    // independent gate override. Saved presets remain unchanged until saved again.
+    function syncReleaseSlider() {
+      const recipe = selectedRandomRecipe();
+      if (!recipe) return;
+      const ms = Math.round(Math.max(5, Math.min(2000, recipe.release * 1000)) / 5) * 5;
+      document.getElementById("synth-release").value = ms;
+      document.getElementById("synth-release-value").textContent = ms + " ms";
+    }
+
+    function editSynthRelease() {
+      const ms = Number(document.getElementById("synth-release").value);
+      const selected = selectedRandomRecipe();
+      if (!selected) return;
+      if (soundSelect.value !== "random") {
+        // Make an editable copy instead of silently modifying a saved preset.
+        randomSynthRecipe = cloneRandomSynthRecipe(selected);
+        soundSelect.value = "random";
+        updateRandomSoundControls();
+      }
+      ensureRandomSynthRecipe().release = ms / 1000;
+      document.getElementById("synth-release-value").textContent = ms + " ms";
     }
 
     function updateRandomSoundControls() {
@@ -2157,24 +2184,40 @@
     let synthOutput = null;
     function createMasterChain(ctx, destination, volume=1) {
       const input=ctx.createGain();
-      input.gain.value=volume;
+      // Leave room for coincident oscillators/chords BEFORE dynamics processing.
+      // Recover perceived loudness AFTER the transient is under control.
+      input.gain.value=volume * 0.48;
       const compressor=ctx.createDynamicsCompressor();
-      compressor.threshold.value=-14;
-      compressor.knee.value=8;
-      compressor.ratio.value=2.4;
-      compressor.attack.value=0.008;
-      compressor.release.value=0.14;
+      compressor.threshold.value=-18;
+      compressor.knee.value=14;
+      compressor.ratio.value=1.7;
+      compressor.attack.value=0.014;
+      compressor.release.value=0.19;
       const limiter=ctx.createDynamicsCompressor();
-      limiter.threshold.value=-2;
-      limiter.knee.value=0;
-      limiter.ratio.value=12;
-      limiter.attack.value=0.003;
-      limiter.release.value=0.08;
+      limiter.threshold.value=-3;
+      limiter.knee.value=3;
+      limiter.ratio.value=18;
+      limiter.attack.value=0.002;
+      limiter.release.value=0.11;
+      // Never amplify AFTER the limiter: the old 1.55x post-gain was
+      // undoing its peak protection and hard-clipping the live output.
+      // A smooth ceiling catches coincident chord peaks without flat tops.
       const output=ctx.createGain();
-      output.gain.value=0.92;
+      output.gain.value=1.0;
+      const peakCeiling=ctx.createWaveShaper();
+      const curve=new Float32Array(65537);
+      const knee=0.72, ceiling=0.94;
+      for(let i=0;i<curve.length;i++){
+        const x=2*i/(curve.length-1)-1;
+        const a=Math.abs(x);
+        const y=a<=knee ? a : knee+(ceiling-knee)*(1-Math.exp(-(a-knee)/(ceiling-knee)));
+        curve[i]=Math.sign(x)*y;
+      }
+      peakCeiling.curve=curve;
+      peakCeiling.oversample='4x';
       input.connect(compressor);compressor.connect(limiter);
-      limiter.connect(output);output.connect(destination);
-      return {input,output,compressor,limiter};
+      limiter.connect(output);output.connect(peakCeiling);peakCeiling.connect(destination);
+      return {input,output,compressor,limiter,peakCeiling};
     }
     function getSynthOutput(ctx) {
       if(synthOutput && synthOutput.context===ctx)return synthOutput;
@@ -2185,19 +2228,87 @@
     function updateSynthVolume() {
       const volume=Number(document.getElementById("synth-volume").value)/100;
       document.getElementById("synth-volume-value").textContent=Math.round(volume*100)+"%";
-      if(synthOutput)synthOutput.input.gain.setTargetAtTime(volume,synthOutput.context.currentTime,0.015);
+      if(synthOutput)synthOutput.input.gain.setTargetAtTime(volume * 0.48,synthOutput.context.currentTime,0.025);
+    }
+    // One envelope definition for live keyboard, scheduled sequencer and offline WAV.
+    // Each segment is scheduled only if it occurs before the note's gate end.
+    // No future cancelScheduledValues/setValueAtTime jumps at note-off.
+    function envelopeSegments(recipe,start){
+      const attack=Math.max(0.001,Number(recipe.attack)||0.001);
+      const decay=Math.max(0.01,Number(recipe.decay)||0.01);
+      const peak=Math.max(0.001,Number(recipe.peak)||0.001);
+      const sustain=Math.max(0.000001,peak*Math.max(0,Number(recipe.sustain)||0));
+      const fade=Math.min(0.012,Math.max(0.005,attack));
+      // The peak must not be skipped when attack < the anti-click fade.
+      const peakAt=start+Math.max(attack,fade);
+      const fadeAt=start+Math.min(fade,(peakAt-start)*0.5);
+      const fadeLevel=peak*Math.min(1,(fadeAt-start)/(peakAt-start));
+      return [{t:start,v:0},{t:fadeAt,v:fadeLevel},
+              {t:peakAt,v:peak},{t:peakAt+decay,v:sustain}];
     }
     function envelopeValueAt(recipe,start,t){
-      const a=Math.max(0.001,recipe.attack),d=Math.max(0.01,recipe.decay);
-      const peak=Math.max(0.001,recipe.peak),sus=Math.max(0.001,recipe.peak*recipe.sustain);
-      const elapsed=Math.max(0,t-start);
-      if(elapsed<a) return 0.0001*Math.pow(peak/0.0001,elapsed/a);
-      if(elapsed<a+d) return peak*Math.pow(sus/peak,(elapsed-a)/d);
-      return sus;
+      const points=envelopeSegments(recipe,start);
+      if(t<=start)return 0;
+      for(let i=1;i<points.length;i++){
+        const p=points[i-1],q=points[i];
+        if(t<=q.t){
+          const f=Math.max(0,Math.min(1,(t-p.t)/(q.t-p.t)));
+          return p.v+(q.v-p.v)*f;
+        }
+      }
+      return points[points.length-1].v;
     }
-    function makeSynthNodes(ctx,destination,frequency,sound,start,end=null) {
+    function scheduleEnvelope(param,recipe,start,gateEnd=null){
+      const points=envelopeSegments(recipe,start);
+      param.setValueAtTime(0,start);
+      for(let i=1;i<points.length;i++){
+        const p=points[i];
+        if(gateEnd!==null && p.t>=gateEnd)break;
+        param.linearRampToValueAtTime(p.v,p.t);
+      }
+      if(gateEnd!==null){
+        const held=envelopeValueAt(recipe,start,gateEnd);
+        // If gate cuts a ramp short, this ramp ends that ramp exactly at
+        // its mathematically continuous value. Never reset gain at gate end.
+        param.linearRampToValueAtTime(held,gateEnd);
+      }
+    }
+    function holdVoiceGain(voice,at){
+      const param=voice.master.gain;
+      if(typeof param.cancelAndHoldAtTime==='function'){
+        try {param.cancelAndHoldAtTime(at);return envelopeValueAt(voice.recipe,voice.start,at);}catch(e){}
+      }
+      // Fallback matches the exact piecewise-linear automation above.
+      const value=envelopeValueAt(voice.recipe,voice.start,at);
+      param.cancelScheduledValues(at);
+      param.setValueAtTime(value,at);
+      return value;
+    }
+    function scheduleClicklessRelease(param,start,level,seconds){
+      const duration=Math.max(0.005,Number(seconds)||0.005);
+      const values=new Float32Array(65);
+      for(let i=0;i<values.length;i++){
+        const phase=i/(values.length-1);
+        values[i]=Math.max(0,level)*0.5*(1+Math.cos(Math.PI*phase));
+      }
+      // The curve begins at exactly the value held by the prior automation.
+      param.setValueCurveAtTime(values,start,duration);
+      return start+duration;
+    }
+    function makeSynthNodes(ctx,destination,frequency,sound,start,end=null,voiceLevel=1) {
       const recipe=getSynthRecipe(sound);
-      const master=ctx.createGain();master.gain.setValueAtTime(0.0001,start);master.connect(destination);
+      const master=ctx.createGain();master.gain.setValueAtTime(0,start);
+      // Remove DC/subsonic energy generated by nonlinear waveshaping. This
+      // prevents release-edge pressure steps without attenuating musical bass.
+      const dcBlock=ctx.createBiquadFilter();
+      dcBlock.type="highpass";dcBlock.frequency.value=18;dcBlock.Q.value=0.707;
+      master.connect(dcBlock);
+      // Polyphony-aware headroom is applied per voice, ahead of the shared bus.
+      // Chord gains are constant throughout each note, avoiding pumping and
+      // discontinuities when the number of sounding notes changes.
+      const polyGain=ctx.createGain();
+      polyGain.gain.setValueAtTime(Math.max(0.08, Math.min(1, voiceLevel)),start);
+      dcBlock.connect(polyGain);polyGain.connect(destination);
       const filter=ctx.createBiquadFilter();filter.type=recipe.filterType;
       filter.Q.setValueAtTime(Math.max(0.1,recipe.filterQ),start);
       filter.frequency.setValueAtTime(Math.max(20,recipe.filterStart),start);
@@ -2224,17 +2335,12 @@
         gain.gain.setValueAtTime(spec.volume,start);osc.connect(gain);gain.connect(filter);
         osc.start(start);oscillators.push(osc);
       }
-      const attack=start+Math.max(0.001,recipe.attack),decay=attack+Math.max(0.01,recipe.decay);
-      master.gain.exponentialRampToValueAtTime(Math.max(0.001,recipe.peak),attack);
-      master.gain.exponentialRampToValueAtTime(Math.max(0.001,recipe.peak*recipe.sustain),decay);
-      if(end!==null){
-        const releaseStart=Math.max(start+0.002,end);
-        const held = envelopeValueAt(recipe, start, releaseStart);
-        master.gain.cancelScheduledValues(releaseStart);
-        master.gain.setValueAtTime(held,releaseStart);
-        const releaseEnd=releaseStart+Math.max(0.025,recipe.release);
-        master.gain.exponentialRampToValueAtTime(0.0001,releaseEnd);
-        oscillators.forEach(o=>o.stop(releaseEnd+0.05));
+      const releaseStart=end===null?null:Math.max(start+0.002,end);
+      scheduleEnvelope(master.gain,recipe,start,releaseStart);
+      if(releaseStart!==null){
+        const held=envelopeValueAt(recipe,start,releaseStart);
+        const releaseEnd=scheduleClicklessRelease(master.gain,releaseStart,held,recipe.release);
+        oscillators.forEach(o=>o.stop(releaseEnd+0.015));
       }
       return {master,oscillators,stopped:false,recipe,start};
     }
@@ -2243,25 +2349,17 @@
       return makeSynthNodes(ctx,getSynthOutput(ctx).input,synthPitchFrequency(frequency),sound,ctx.currentTime);
     }
 
-    function releaseVoice(voice, release = null) {
-      if (!voice || voice.stopped) return;
-      if (release == null) {
-        const recipe = selectedRandomRecipe();
-        release = recipe ? recipe.release : 0.55;
-      }
-      voice.stopped = true;
-
-      const ctx = getAudioContext();
-      const now = ctx.currentTime;
-      const current = Math.max(0.0001, envelopeValueAt(voice.recipe,voice.start,now));
-
-      voice.master.gain.cancelScheduledValues(now);
-      voice.master.gain.setValueAtTime(current, now);
-      voice.master.gain.exponentialRampToValueAtTime(0.0001, now + release);
-
-      voice.oscillators.forEach(osc => {
-        try { osc.stop(now + release + 0.05); } catch {}
-      });
+    function releaseVoice(voice,release=null){
+      if(!voice||voice.stopped)return;
+      if(release==null)release=voice.recipe.release;
+      voice.stopped=true;
+      const ctx=voice.master.context;
+      const now=Math.max(ctx.currentTime,voice.start);
+      // For scheduled voices already gated, leave their preprogrammed
+      // release untouched; only manual voices need a new note-off event.
+      const held=holdVoiceGain(voice,now);
+      const fadeEnd=scheduleClicklessRelease(voice.master.gain,now,held,release);
+      voice.oscillators.forEach(osc=>{try{osc.stop(fadeEnd+0.015);}catch(e){}});
     }
 
     function startVoice(frequency, color, key) {
@@ -2292,7 +2390,7 @@
 
     function stopActiveVoice() {
       if (!activeVoice) return;
-      releaseVoice(activeVoice, 0.65);
+      releaseVoice(activeVoice);
       activeVoice.key?.classList.remove("active");
       activeVoice = null;
     }
@@ -2348,6 +2446,7 @@
 
     soundSelect.addEventListener("change", () => {
       updateRandomSoundControls();
+      syncReleaseSlider();
       if (soundSelect.value === "random") ensureRandomSynthRecipe();
 
       if (dragging && activeKey) {
@@ -2357,6 +2456,7 @@
 
     document.getElementById("tweak-sound-button").addEventListener("click",tweakRandomSynth);
     document.getElementById("synth-volume").addEventListener("input",updateSynthVolume);
+    document.getElementById("synth-release").addEventListener("input",editSynthRelease);
     document.getElementById("synth-pitch").addEventListener("input",()=>{
       const n=Number(document.getElementById("synth-pitch").value);
       document.getElementById("synth-pitch-value").textContent=(n>0?"+":"")+n+" st";
@@ -2403,6 +2503,7 @@
       rebuildSavedSoundOptions(`saved-random:${name}`);
       soundSaveDialog.close();
       updateRandomSoundControls();
+      syncReleaseSlider();
     });
 
     exportRandomSoundsButton.addEventListener("click", async () => {
@@ -2463,6 +2564,7 @@
         }
         soundImportDialog.close();
         updateRandomSoundControls();
+        syncReleaseSlider();
       } catch (error) {
         console.error(error);
         soundImportStatus.textContent = `Import failed: ${error.message}`;
@@ -2517,6 +2619,7 @@
     readCustomSourcePresets();
     rebuildSavedSoundOptions();
     updateRandomSoundControls();
+    syncReleaseSlider();
 
     function previewRollNote(keyIndex) {
       const key = keys[keyIndex];
@@ -2544,7 +2647,7 @@
       displaySymbolsForKeys([key]);
 
       setTimeout(() => {
-        releaseVoice(voice, 0.18);
+        releaseVoice(voice);
         key.classList.remove("active");
       }, 180);
     }
@@ -2989,8 +3092,8 @@
       fn(ctx, start, master, addOsc, frequency, false);
     }
 
-    function offlineAddVoice(ctx,destination,frequency,sound,start,duration) {
-      makeSynthNodes(ctx,destination,synthPitchFrequency(frequency),sound,start,start+duration);
+    function offlineAddVoice(ctx,destination,frequency,sound,start,duration,voiceLevel=1) {
+      makeSynthNodes(ctx,destination,synthPitchFrequency(frequency),sound,start,start+duration,voiceLevel);
     }
 
     function audioBufferToWavBlob(buffer) {
@@ -3078,6 +3181,9 @@
 
         for (let step = 0; step < playbackEndStep; step++) {
           const start = step * stepSeconds;
+          let simultaneous=0;
+          for(let k=0;k<keys.length;k++) if(findNoteAtCell(k,step)) simultaneous++;
+          const chordLevel=1/Math.sqrt(Math.max(1,simultaneous));
 
           for (let keyIndex = 0; keyIndex < keys.length; keyIndex++) {
             const lengthSteps = Number(pattern[keyIndex][step]) || 0;
@@ -3091,7 +3197,8 @@
               Number(keys[keyIndex].dataset.note),
               soundSelect.value,
               start,
-              noteDuration
+              noteDuration,
+              chordLevel
             );
           }
         }
@@ -3237,24 +3344,31 @@
       document.querySelectorAll(".roll-cell.playing").forEach(cell => cell.classList.remove("playing"));
     }
 
-    function releaseSequenceVoice(entry, release = 0.16) {
+    function releaseSequenceVoice(entry, release = null) {
       releaseVoice(entry.voice, release);
       entry.key?.classList.remove("active");
     }
 
     function stopSequence() {
       if(sequencerScheduler!==null){clearInterval(sequencerScheduler);sequencerScheduler=null;}
-      // Cancel any pre-scheduled future oscillators without abruptly cutting
-      // currently audible ones; release active ones with a short fade.
+      // Cancel queued voices while respecting each synth's release envelope.
       if(scheduledVoices.length){
         const ctx=getAudioContext();
         for(const {voice} of scheduledVoices){
           const now=ctx.currentTime;
-          try {
-            voice.master.gain.cancelScheduledValues(now);
-            voice.master.gain.setTargetAtTime(0.0001,now,0.008);
-            voice.oscillators.forEach(o=>o.stop(now+0.06));
-          }catch(e){}
+          if(now<voice.start){
+            // Not yet audible: cancel its entire future gain envelope.
+            voice.master.gain.cancelScheduledValues(voice.start);
+            voice.master.gain.setValueAtTime(0,voice.start);
+            voice.oscillators.forEach(o=>{try{o.stop(voice.start+0.002);}catch(e){}});
+          }else{
+            // An already scheduled gate may be in its release; preserve
+            // existing tail when stopping playback rather than retriggering.
+            const at=now;
+            const held=holdVoiceGain(voice,at);
+            const releaseEnd=scheduleClicklessRelease(voice.master.gain,at,held,voice.recipe.release);
+            voice.oscillators.forEach(o=>{try{o.stop(releaseEnd+0.015);}catch(e){}});
+          }
         }
         scheduledVoices=[];
       }
@@ -3265,7 +3379,7 @@
         playTimer = null;
       }
 
-      sequenceVoices.forEach(entry => releaseSequenceVoice(entry, 0.18));
+      sequenceVoices.forEach(entry => releaseSequenceVoice(entry));
       sequenceVoices = [];
       clearPlayHighlight();
       playButton.classList.remove("active");
@@ -3361,14 +3475,22 @@
         if(!loopEnabled && absoluteStep>=endStep)break;
         const step=absoluteStep%endStep;
         const when=sequenceOrigin+absoluteStep*stepSeconds;
+        // Include notes sustained from earlier steps in the headroom estimate.
+        // Count distinct pitches sounding across this transition, including
+        // tails from the preceding step. No gain is automated mid-note.
+        let simultaneous=0;
+        for(let k=0;k<keys.length;k++){
+          if(findNoteAtCell(k,step)) simultaneous++;
+        }
+        const chordLevel=1/Math.sqrt(Math.max(1,simultaneous));
         for(let k=0;k<keys.length;k++){
           const length=Number(pattern[k][step])||0;
           if(length<=0)continue;
           const duration=Math.max(0.02,length*stepSeconds*0.96);
           const voice=makeSynthNodes(ctx,getSynthOutput(ctx).input,
             synthPitchFrequency(Number(keys[k].dataset.note)),soundSelect.value,
-            when,when+duration);
-          scheduledVoices.push({voice,end:when+duration+Math.max(0.025,voice.recipe.release)+0.06});
+            when,when+duration,chordLevel);
+          scheduledVoices.push({voice,end:when+duration+Math.max(0.005,voice.recipe.release)+0.02});
         }
         nextAudioStep++;
       }
