@@ -4104,33 +4104,44 @@
       if (contents.trim() === "~") return { notes: [], continuationOnly: true };
 
       const symbolEntries = getEmojiSymbolEntries();
-      const notes = [];
-      let position = 0;
+      const memo = new Map();
 
-      while (position < contents.length) {
-        const match = symbolEntries.find(entry => contents.startsWith(entry.symbol, position));
-        if (!match) throw new Error(`Unknown note symbol near “${contents.slice(position)}”`);
-        if (notes.some(note => note.keyIndex === match.keyIndex)) {
-          throw new Error(`Duplicate symbol “${match.symbol}” in one step`);
-        }
+      // Some symbols overlap across note boundaries: 🧀 + brat begins with
+      // 🧀b, which is itself the B-flat symbol. A greedy longest-prefix
+      // tokenizer incorrectly consumes 🧀b and then rejects the leftover rat.
+      // Backtrack when necessary, requiring a valid parse of the WHOLE step.
+      function parseFrom(position, usedKeys) {
+        if (position === contents.length) return [];
+        const memoKey = `${position}:${[...usedKeys].sort((a, b) => a - b).join(',')}`;
+        if (memo.has(memoKey)) return memo.get(memoKey);
 
-        position += match.symbol.length;
-        let duration = 1;
-
-        if (contents[position] === "x" || contents[position] === "X") {
-          position++;
-          const durationMatch = contents.slice(position).match(/^\d+/);
-          if (!durationMatch) throw new Error(`Expected a duration number after x near “${contents.slice(position)}”`);
-          duration = Number(durationMatch[0]);
-          if (!Number.isSafeInteger(duration) || duration < 2) {
-            throw new Error("Sustain multipliers must be x2 or greater.");
+        for (const entry of symbolEntries) {
+          if (!contents.startsWith(entry.symbol, position) || usedKeys.has(entry.keyIndex)) continue;
+          let next = position + entry.symbol.length;
+          let duration = 1;
+          if (contents[next] === "x" || contents[next] === "X") {
+            next++;
+            const match = contents.slice(next).match(/^\d+/);
+            if (!match) continue;
+            duration = Number(match[0]);
+            if (!Number.isSafeInteger(duration) || duration < 2) continue;
+            next += match[0].length;
           }
-          position += durationMatch[0].length;
+          const rest = parseFrom(next, new Set([...usedKeys, entry.keyIndex]));
+          if (rest !== null) {
+            const result = [{ keyIndex: entry.keyIndex, duration }, ...rest];
+            memo.set(memoKey, result);
+            return result;
+          }
         }
-
-        notes.push({ keyIndex: match.keyIndex, duration });
+        memo.set(memoKey, null);
+        return null;
       }
 
+      const notes = parseFrom(0, new Set());
+      if (notes === null) {
+        throw new Error(`Invalid or ambiguous note sequence “${contents}” (unknown symbol, duplicate note, or invalid duration)`);
+      }
       return { notes: notes.sort((a, b) => a.keyIndex - b.keyIndex), continuationOnly: false };
     }
 
